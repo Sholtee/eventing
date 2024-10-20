@@ -35,7 +35,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Interceptor_ShouldDispatchEvents()
         {
-            Mock<IUntypedViewRepository> mockEventRepo = new(MockBehavior.Strict);
+            Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
 
             View impl = new()
             {
@@ -54,7 +54,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Interceptor_ShouldIgnoreNotAnnotatedMethods()
         {
-            Mock<IUntypedViewRepository> mockEventRepo = new(MockBehavior.Strict);
+            Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
 
             View impl = new()
             {

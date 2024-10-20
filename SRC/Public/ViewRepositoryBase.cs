@@ -80,70 +80,81 @@ namespace Solti.Utils.Eventing
             );
         }
 
-        object IUntypedViewRepository.Materialize(string flowId) => Materialize(flowId);
-
         /// <inheritdoc/>
-        public IView Materialize(string flowId)
+        public IDisposable Materialize(string flowId, out IView view)
         {
-            TView view;
+            TView concreteView;
 
             if (flowId is null)
                 throw new ArgumentNullException(nameof(flowId));
 
-            using IDisposable _ = Lock.Lock(flowId);
-
             //
-            // Check if we can grab the view from the cache
+            // Lock the flow
             //
 
-            string? cached = Cache.GetString(flowId);
-            if (cached is not null)
+            IDisposable @lock = Lock.Acquire(flowId);
+            try
             {
-                Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
+                //
+                // Check if we can grab the view from the cache
+                //
 
-                try
+                string? cached = Cache.GetString(flowId);
+                if (cached is not null)
                 {
-                    view = JsonSerializer.Deserialize<TView>(cached, SerializerOptions)!;
-                    view.OwnerRepository = this;
+                    Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
 
-                    return Intercept(view, Logger);
+                    try
+                    {
+                        concreteView = JsonSerializer.Deserialize<TView>(cached, SerializerOptions)!;
+                        concreteView.OwnerRepository = this;
+
+                        view = CreateInterceptor();
+                        return @lock;
+                    }
+                    catch (JsonException) { }
+
+                    Logger?.LogWarning(new EventId(300, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
                 }
-                catch (JsonException) { }
 
-                Logger?.LogWarning(new EventId(300, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
+                //
+                // Materialize the view by replaying the events
+                //
+
+                Logger?.LogInformation(new EventId(501, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
+
+                IList<Event> events = EventStore.QueryEvents(flowId);
+                if (events.Count is 0)
+                    throw new ArgumentException(string.Format(INVALID_FLOW_ID, flowId), nameof(flowId));
+
+                concreteView = new()
+                {
+                    FlowId = flowId,
+                    OwnerRepository = this
+                };
+
+                foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
+                {
+                    if (!FEventProcessors.TryGetValue(evt.EventId, out Action<TView, string, JsonSerializerOptions> processor))
+                        throw new InvalidOperationException(string.Format(INVALID_EVENT_ID, evt.EventId));
+
+                    processor(concreteView, evt.Arguments, SerializerOptions);
+                }
+
+                view = CreateInterceptor();
+                return @lock;
             }
-
-            //
-            // Materialize the view by replaying the events
-            //
-
-            Logger?.LogInformation(new EventId(501, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
-
-            IList<Event> events = EventStore.QueryEvents(flowId);
-            if (events.Count is 0)
-                throw new ArgumentException(string.Format(INVALID_FLOW_ID, flowId), nameof(flowId));
-
-            view = new()
+            catch
             {
-                FlowId = flowId,
-                OwnerRepository = this
-            };
-
-            foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
-            {
-                if (!FEventProcessors.TryGetValue(evt.EventId, out Action<TView, string, JsonSerializerOptions> processor))
-                    throw new InvalidOperationException(string.Format(INVALID_EVENT_ID, evt.EventId));
-
-                processor(view, evt.Arguments, SerializerOptions);
+                @lock.Dispose();
+                throw;
             }
-
-            return Intercept(view, Logger);
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static IView Intercept(TView view, ILogger? logger)
+            IView CreateInterceptor()
             {
-                logger?.LogInformation(new EventId(502, "CREATE_INTERCEPTOR"), LOG_CREATE_INTERCEPTOR, view.FlowId);
-                return FInterceptorFactory(view);
+                Logger?.LogInformation(new EventId(502, "CREATE_INTERCEPTOR"), LOG_CREATE_INTERCEPTOR, concreteView.FlowId);
+                return FInterceptorFactory(concreteView);
             }
         }
     }

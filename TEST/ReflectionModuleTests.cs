@@ -39,7 +39,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void CreateInterceptorFactory_ShouldCreateAFactoryFunction()
         {
-            Mock<IUntypedViewRepository> mockEventRepo = new(MockBehavior.Strict);
+            Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
 
             View impl = new()
             {

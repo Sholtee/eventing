@@ -18,9 +18,9 @@ namespace Solti.Utils.Eventing.Abstractions
         public string FlowId { get; internal set; } = null!;
 
         /// <summary>
-        /// The <see cref="IUntypedViewRepository"/> that owns this view.
+        /// The <see cref="IViewRepositoryWriter"/> that owns this view.
         /// </summary>
         [JsonIgnore]
-        public IUntypedViewRepository OwnerRepository { get; internal set; } = null!;
+        public IViewRepositoryWriter OwnerRepository { get; internal set; } = null!;
     }
 }

@@ -3,26 +3,27 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
+
 namespace Solti.Utils.Eventing.Abstractions
 {
-    public interface IUntypedViewRepository
+    public interface IViewRepositoryWriter
     {
-        /// <summary>
-        /// Materializes the given view.
-        /// </summary>
-        object Materialize(string flowId);
-
         /// <summary>
         /// Persits the given <see cref="Event"/>
         /// </summary>
         void Persist(ViewBase view, string eventId, object?[] args);
     }
 
-    public interface IViewRepository<IView> : IUntypedViewRepository where IView: class
+    public interface IViewRepositoryWriterReader<IView> where IView: class
     {
         /// <summary>
         /// Materializes the given view.
         /// </summary>
-        new IView Materialize(string flowId);
+        IDisposable Materialize(string flowId, out IView view);
+    }
+
+    public interface IViewRepository<IView> : IViewRepositoryWriter, IViewRepositoryWriterReader<IView> where IView: class
+    {
     }
 }

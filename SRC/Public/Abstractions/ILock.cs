@@ -15,6 +15,6 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// Creates a global lock over the given <paramref name="key"/>.
         /// </summary>
-        IDisposable Lock(string key);
+        IDisposable Acquire(string key);
     }
 }
