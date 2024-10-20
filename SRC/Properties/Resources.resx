@@ -144,4 +144,10 @@
   <data name="DUPLICATE_EVENT_ID" xml:space="preserve">
     <value>Duplicate event id: {0}</value>
   </data>
+  <data name="LOG_INSERT_EVENT" xml:space="preserve">
+    <value>Inserting new event ({0}) for view: {1}</value>
+  </data>
+  <data name="LOG_UPDATE_CACHE" xml:space="preserve">
+    <value>Updating cache item for view: {0}</value>
+  </data>
 </root>

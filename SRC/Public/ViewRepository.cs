@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -30,29 +31,18 @@ namespace Solti.Utils.Eventing
     {
         private static readonly IReadOnlyDictionary<string, Action<TView, string>> FEventProcessors = CreateEventProcessorsDict();
 
-        private static readonly Func<object?[], IView> FInterceptorFactory = CreateInterceptorFactory();
+        private static readonly Func<TView, IView> FInterceptorFactory = CreateInterceptorFactory();
 
-        private static Func<object?[], IView> CreateInterceptorFactory()
+        private static Func<TView, IView> CreateInterceptorFactory()
         {
             ConstructorInfo ctor = ProxyGenerator<IView, ViewInterceptor<TView, IView>>.GetGeneratedType().GetConstructors().Single();
 
-            ParameterExpression args = Expression.Parameter(typeof(object?[]), nameof(args));
+            ParameterExpression view = Expression.Parameter(typeof(TView), nameof(view));
 
-            return Expression.Lambda<Func<object?[], IView>>
+            return Expression.Lambda<Func<TView, IView>>
             (
-                Expression.New
-                (
-                    ctor,
-                    ctor.GetParameters().Select
-                    (
-                        (p, i) => Expression.Convert
-                        (
-                            Expression.ArrayAccess(args, Expression.Constant(i)),
-                            p.ParameterType
-                        )
-                    )
-                ),
-                args
+                Expression.New(ctor, view),
+                view
             ).Compile();
         }
 
@@ -158,18 +148,8 @@ namespace Solti.Utils.Eventing
             UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow
         };
 
-        /// <summary>
-        /// Applies the <see cref="InterceptorType"/> against the given <paramref name="view"/>
-        /// </summary>
-        protected virtual IView Intercept(TView view)
-        {
-            Logger?.LogInformation(new EventId(502, "CREATE_INTERCEPTOR"), LOG_CREATE_INTERCEPTOR, view.FlowId);
-
-            return FInterceptorFactory([view]);
-        }
-
         /// <inheritdoc/>
-        public virtual void Persist(ViewBase view, string eventId, object?[] args)
+        public void Persist(ViewBase view, string eventId, object?[] args)
         {
             if (view is null)
                 throw new ArgumentNullException(nameof(view));
@@ -179,6 +159,8 @@ namespace Solti.Utils.Eventing
 
             if (args is null)
                 throw new ArgumentNullException(nameof(args));
+
+            Logger?.LogInformation(new EventId(503, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
 
             EventStore.SetEvent
             (
@@ -190,6 +172,8 @@ namespace Solti.Utils.Eventing
                     JsonSerializer.Serialize(args)
                 )
             );
+
+            Logger?.LogInformation(new EventId(504, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
 
             Cache.SetString
             (
@@ -205,7 +189,7 @@ namespace Solti.Utils.Eventing
         object IUntypedViewRepository.Materialize(string flowId) => Materialize(flowId);
 
         /// <inheritdoc/>
-        public virtual IView Materialize(string flowId)
+        public IView Materialize(string flowId)
         {
             TView view;
 
@@ -228,7 +212,7 @@ namespace Solti.Utils.Eventing
                     view = JsonSerializer.Deserialize<TView>(cached, SerializerOptions)!;
                     view.OwnerRepository = this;
 
-                    return Intercept(view);
+                    return Intercept(view, Logger);
                 }
                 catch (JsonException) { }
 
@@ -259,7 +243,14 @@ namespace Solti.Utils.Eventing
                 processor(view, evt.Arguments);
             }
 
-            return Intercept(view);
+            return Intercept(view, Logger);
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            static IView Intercept(TView view, ILogger? logger)
+            {
+                logger?.LogInformation(new EventId(502, "CREATE_INTERCEPTOR"), LOG_CREATE_INTERCEPTOR, view.FlowId);
+                return FInterceptorFactory(view);
+            }
         }
     }
 }

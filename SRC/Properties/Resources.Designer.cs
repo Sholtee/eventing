@@ -115,6 +115,15 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inserting new event ({0}) for view: {1}.
+        /// </summary>
+        internal static string LOG_INSERT_EVENT {
+            get {
+                return ResourceManager.GetString("LOG_INSERT_EVENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View layout changed since the last update. Skip retrieving view from cache.
         /// </summary>
         internal static string LOG_LAYOUT_MISMATCH {
@@ -129,6 +138,15 @@ namespace Solti.Utils.Eventing.Properties {
         internal static string LOG_REPLAY_EVENTS {
             get {
                 return ResourceManager.GetString("LOG_REPLAY_EVENTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating cache item for view: {0}.
+        /// </summary>
+        internal static string LOG_UPDATE_CACHE {
+            get {
+                return ResourceManager.GetString("LOG_UPDATE_CACHE", resourceCulture);
             }
         }
         
