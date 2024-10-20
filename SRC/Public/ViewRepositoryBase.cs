@@ -13,6 +13,8 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 
+using static System.String;
+
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
@@ -123,7 +125,7 @@ namespace Solti.Utils.Eventing
 
                 IList<Event> events = EventStore.QueryEvents(flowId);
                 if (events.Count is 0)
-                    throw new ArgumentException(string.Format(INVALID_FLOW_ID, flowId), nameof(flowId));
+                    throw new ArgumentException(Format(INVALID_FLOW_ID, flowId), nameof(flowId));
 
                 concreteView = new()
                 {
@@ -134,7 +136,7 @@ namespace Solti.Utils.Eventing
                 foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
                 {
                     if (!FEventProcessors.TryGetValue(evt.EventId, out Action<TView, string, JsonSerializerOptions> processor))
-                        throw new InvalidOperationException(string.Format(INVALID_EVENT_ID, evt.EventId));
+                        throw new InvalidOperationException(Format(INVALID_EVENT_ID, evt.EventId));
 
                     processor(concreteView, evt.Arguments, SerializerOptions);
                 }

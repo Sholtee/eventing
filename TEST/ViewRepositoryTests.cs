@@ -11,10 +11,13 @@ using Microsoft.Extensions.Caching.Distributed;
 using Moq;
 using NUnit.Framework;
 
+using static System.String;
+
 namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions;
-    using Properties;
+
+    using static Properties.Resources;
 
     [TestFixture]
     public class ViewRepositoryTests
@@ -160,7 +163,7 @@ namespace Solti.Utils.Eventing.Tests
             IViewRepository<IView> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
 
             ArgumentException ex = Assert.Throws<ArgumentException>(() => repo.Materialize("flowId", out IView view))!;
-            Assert.That(ex.Message, Does.StartWith(string.Format(Resources.INVALID_FLOW_ID, "flowId")));
+            Assert.That(ex.Message, Does.StartWith(Format(INVALID_FLOW_ID, "flowId")));
 
             mockCache.Verify(c => c.Get("flowId"), Times.Once);
             mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);
@@ -195,7 +198,6 @@ namespace Solti.Utils.Eventing.Tests
             mockDisposable.Verify(d => d.Dispose(), Times.Never);
         }
 
-
         [Test]
         public void Materialize_ShouldRevertTheLock()
         {
@@ -223,6 +225,45 @@ namespace Solti.Utils.Eventing.Tests
 
             mockLock.Verify(l => l.Acquire("flowId"), Times.Once);
             mockDisposable.Verify(d => d.Dispose(), Times.Once);
+        }
+
+        [Test]
+        public void Materialize_ShouldThrowOnInvalidEventId()
+        {
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .Setup(s => s.QueryEvents("flowId"))
+                .Returns([new Event("flowId", "invalid", DateTime.UtcNow, "[1986]")]);
+
+            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
+            mockCache
+                .Setup(c => c.Get("flowId"))
+                .Returns((byte[]) null!);
+
+            Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
+            mockDisposable.Setup(d => d.Dispose());
+
+            Mock<ILock> mockLock = new(MockBehavior.Strict);
+            mockLock
+                .Setup(l => l.Acquire("flowId"))
+                .Returns(mockDisposable.Object);
+
+            IViewRepository<IView> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => repo.Materialize("flowId", out IView view))!;
+            Assert.That(ex.Message, Is.EqualTo(Format(INVALID_EVENT_ID, "invalid")));
+        }
+
+        [Test]
+        public void Materialize_ShouldThrowOnNullFlowId()
+        {
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
+            Mock<ILock> mockLock = new(MockBehavior.Strict);
+
+            IViewRepository<IView> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+
+            Assert.Throws<ArgumentNullException>(() => repo.Materialize(null!, out IView view));
         }
     }
 }
