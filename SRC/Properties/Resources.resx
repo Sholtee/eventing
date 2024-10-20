@@ -124,30 +124,30 @@
     <value>Malformed array</value>
   </data>
   <data name="INVALID_EVENT_ID" xml:space="preserve">
-    <value>Invalid event id provided: {0}</value>
+    <value>Invalid event id provided: "{0}"</value>
   </data>
   <data name="INVALID_FLOW_ID" xml:space="preserve">
-    <value>Invalid flow id provided: {0}</value>
+    <value>Invalid flow id provided: "{0}"</value>
   </data>
   <data name="LOG_CREATE_INTERCEPTOR" xml:space="preserve">
-    <value>Creating interceptor for view: {0}</value>
+    <value>Creating interceptor for view: "{0}"</value>
   </data>
   <data name="LOG_CACHE_ENTRY_FOUND" xml:space="preserve">
-    <value>Found cache entry for view: {0}</value>
+    <value>Found cache entry for view: "{0}"</value>
   </data>
   <data name="LOG_LAYOUT_MISMATCH" xml:space="preserve">
     <value>View layout changed since the last update. Skip retrieving view from cache</value>
   </data>
   <data name="LOG_REPLAY_EVENTS" xml:space="preserve">
-    <value>Replaying events for view: {0}</value>
+    <value>Replaying events for view: "{0}"</value>
   </data>
   <data name="DUPLICATE_EVENT_ID" xml:space="preserve">
-    <value>Duplicate event id: {0}</value>
+    <value>Duplicate event id: "{0}"</value>
   </data>
   <data name="LOG_INSERT_EVENT" xml:space="preserve">
-    <value>Inserting new event ({0}) for view: {1}</value>
+    <value>Inserting new event ("{0}") for view: "{1}"</value>
   </data>
   <data name="LOG_UPDATE_CACHE" xml:space="preserve">
-    <value>Updating cache item for view: {0}</value>
+    <value>Updating cache item for view: "{0}"</value>
   </data>
 </root>

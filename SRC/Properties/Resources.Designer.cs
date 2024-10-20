@@ -70,7 +70,7 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplicate event id: {0}.
+        ///   Looks up a localized string similar to Duplicate event id: &quot;{0}&quot;.
         /// </summary>
         internal static string DUPLICATE_EVENT_ID {
             get {
@@ -79,7 +79,7 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid event id provided: {0}.
+        ///   Looks up a localized string similar to Invalid event id provided: &quot;{0}&quot;.
         /// </summary>
         internal static string INVALID_EVENT_ID {
             get {
@@ -88,7 +88,7 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid flow id provided: {0}.
+        ///   Looks up a localized string similar to Invalid flow id provided: &quot;{0}&quot;.
         /// </summary>
         internal static string INVALID_FLOW_ID {
             get {
@@ -97,7 +97,7 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Found cache entry for view: {0}.
+        ///   Looks up a localized string similar to Found cache entry for view: &quot;{0}&quot;.
         /// </summary>
         internal static string LOG_CACHE_ENTRY_FOUND {
             get {
@@ -106,7 +106,7 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creating interceptor for view: {0}.
+        ///   Looks up a localized string similar to Creating interceptor for view: &quot;{0}&quot;.
         /// </summary>
         internal static string LOG_CREATE_INTERCEPTOR {
             get {
@@ -115,7 +115,7 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inserting new event ({0}) for view: {1}.
+        ///   Looks up a localized string similar to Inserting new event (&quot;{0}&quot;) for view: &quot;{1}&quot;.
         /// </summary>
         internal static string LOG_INSERT_EVENT {
             get {
@@ -133,7 +133,7 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replaying events for view: {0}.
+        ///   Looks up a localized string similar to Replaying events for view: &quot;{0}&quot;.
         /// </summary>
         internal static string LOG_REPLAY_EVENTS {
             get {
@@ -142,7 +142,7 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updating cache item for view: {0}.
+        ///   Looks up a localized string similar to Updating cache item for view: &quot;{0}&quot;.
         /// </summary>
         internal static string LOG_UPDATE_CACHE {
             get {

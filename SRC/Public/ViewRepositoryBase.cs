@@ -104,15 +104,13 @@ namespace Solti.Utils.Eventing
                 {
                     Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
 
-                    try
+                    concreteView = JsonSerializer.Deserialize<TView>(cached, SerializerOptions)!;
+                    if (concreteView.IsValid)
                     {
-                        concreteView = JsonSerializer.Deserialize<TView>(cached, SerializerOptions)!;
                         concreteView.OwnerRepository = this;
-
                         view = CreateInterceptor();
                         return @lock;
                     }
-                    catch (JsonException) { }
 
                     Logger?.LogWarning(new EventId(300, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
                 }

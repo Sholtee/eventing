@@ -15,6 +15,7 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// The unique id if this view.
         /// </summary>
+        [JsonInclude]
         public string FlowId { get; internal set; } = null!;
 
         /// <summary>
@@ -22,5 +23,11 @@ namespace Solti.Utils.Eventing.Abstractions
         /// </summary>
         [JsonIgnore]
         public IViewRepositoryWriter OwnerRepository { get; internal set; } = null!;
+
+        /// <summary>
+        /// Determines if the current view is valid
+        /// </summary>
+        [JsonIgnore]
+        public virtual bool IsValid => !string.IsNullOrWhiteSpace(FlowId);
     }
 }
