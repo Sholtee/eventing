@@ -3,7 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Solti.Utils.Eventing.Abstractions
 {
@@ -15,22 +15,12 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// The unique id if this view.
         /// </summary>
-        public required string FlowId { get; init; }
+        public string FlowId { get; internal set; } = null!;
 
         /// <summary>
         /// The <see cref="IUntypedViewRepository"/> that owns this view.
         /// </summary>
-        public required IUntypedViewRepository OwnerRepository { get; init; }
-
-        /// <summary>
-        /// When implemented, converts this instance to a dictionary.
-        /// </summary>
-        public abstract IDictionary<string, object?> AsDict();
-
-        /// <summary>
-        /// When implemented sets the state of this view according to the given <paramref name="dict"/>.
-        /// </summary>
-        /// <returns>Returns true if the conversation was successful, false otherwise</returns>
-        public abstract bool FromDict(IDictionary<string, object?> dict);
+        [JsonIgnore]
+        public IUntypedViewRepository OwnerRepository { get; internal set; } = null!;
     }
 }

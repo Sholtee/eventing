@@ -6,7 +6,7 @@
 using System;
 using System.Reflection;
 
-namespace Solti.Utils.Eventing
+namespace Solti.Utils.Eventing.Internals
 {
     using Abstractions;
     using Proxy;
@@ -20,9 +20,9 @@ namespace Solti.Utils.Eventing
         {
             object? result = base.Invoke(context);
 
-            EventAttribute? eventAttribute = context.TargetMethod.GetCustomAttribute<EventAttribute>();
-            if (eventAttribute is not null)
-                view.OwnerRepository.Persist(view, eventAttribute.Name, context.Args);
+            EventAttribute? evtAttr = context.TargetMethod.GetCustomAttribute<EventAttribute>();
+            if (evtAttr is not null)
+                view.OwnerRepository.Persist(view, evtAttr.Name, context.Args);
 
             return result;
         }
