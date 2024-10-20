@@ -43,7 +43,7 @@ namespace Solti.Utils.Eventing.Internals
         /// <summary>
         /// Creates the event processor dictionary for the given <typeparamref name="TView"/>
         /// </summary>
-        public virtual IReadOnlyDictionary<string, Action<TView, string, JsonSerializerOptions>> CreateEventProcessorsDict<TView>() where TView : ViewBase
+        public virtual IReadOnlyDictionary<string, Action<TView, string, JsonSerializerOptions>> CreateEventProcessorsDict<TView>() where TView: ViewBase
         {
             Dictionary<string, FutureDelegate<Action<TView, string, JsonSerializerOptions>>> processors = [];
 

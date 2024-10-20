@@ -33,7 +33,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void InterceptorShouldDispatchEvents()
+        public void Interceptor_ShouldDispatchEvents()
         {
             Mock<IUntypedViewRepository> mockEventRepo = new(MockBehavior.Strict);
 
@@ -52,7 +52,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void InterceptorShouldIgnoreNotAnnotatedMethods()
+        public void Interceptor_ShouldIgnoreNotAnnotatedMethods()
         {
             Mock<IUntypedViewRepository> mockEventRepo = new(MockBehavior.Strict);
 
