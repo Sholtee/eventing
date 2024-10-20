@@ -16,6 +16,7 @@ namespace Solti.Utils.Eventing.Internals
     /// </summary>
     public class ViewInterceptor<TView, IView>(TView view) : InterfaceInterceptor<IView, TView>(view ?? throw new ArgumentNullException(nameof(view))) where TView : ViewBase, IView, new() where IView : class
     {
+        /// <inheritdoc/>
         public override object? Invoke(InvocationContext context)
         {
             object? result = base.Invoke(context);

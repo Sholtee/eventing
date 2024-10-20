@@ -1,0 +1,150 @@
+/********************************************************************************
+* ViewRepositoryBase.cs                                                         *
+*                                                                               *
+* Author: Denes Solti                                                           *
+********************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
+
+namespace Solti.Utils.Eventing
+{
+    using Abstractions;
+    using Internals;
+
+    using static Properties.Resources;
+
+    /// <summary>
+    /// View repository base
+    /// </summary>
+    public class ViewRepositoryBase<TView, IView, TReflectionModule>(IEventStore EventStore, IDistributedCache Cache, ILock Lock, ILogger? Logger) : IViewRepository<IView> where TView: ViewBase, IView, new() where IView: class where TReflectionModule: ReflectionModule, new()
+    {
+        private static readonly IReadOnlyDictionary<string, Action<TView, string, JsonSerializerOptions>> FEventProcessors = new TReflectionModule().CreateEventProcessorsDict<TView>();
+
+        private static readonly Func<TView, IView> FInterceptorFactory = new TReflectionModule().CreateInterceptorFactory<TView, IView>();
+
+        /// <summary>
+        /// Gets or sets the cache expiraton.
+        /// </summary>
+        public static TimeSpan CacheEntryExpiration { get; set; } = TimeSpan.FromHours(24);
+
+        /// <summary>
+        /// Gets or sets the JSON serializer options.
+        /// </summary>
+        public static JsonSerializerOptions SerializerOptions { get; set; } = new()
+        {
+            UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow
+        };
+
+        /// <inheritdoc/>
+        public void Persist(ViewBase view, string eventId, object?[] args)
+        {
+            if (view is null)
+                throw new ArgumentNullException(nameof(view));
+
+            if (eventId is null)
+                throw new ArgumentNullException(nameof(eventId));
+
+            if (args is null)
+                throw new ArgumentNullException(nameof(args));
+
+            Logger?.LogInformation(new EventId(503, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
+
+            EventStore.SetEvent
+            (
+                new Event
+                (
+                    view.FlowId,
+                    eventId,
+                    DateTime.UtcNow,
+                    JsonSerializer.Serialize(args)
+                )
+            );
+
+            Logger?.LogInformation(new EventId(504, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
+
+            Cache.SetString
+            (
+                view.FlowId,
+                JsonSerializer.Serialize(view, SerializerOptions),
+                new DistributedCacheEntryOptions
+                {
+                    SlidingExpiration = CacheEntryExpiration
+                }
+            );
+        }
+
+        object IUntypedViewRepository.Materialize(string flowId) => Materialize(flowId);
+
+        /// <inheritdoc/>
+        public IView Materialize(string flowId)
+        {
+            TView view;
+
+            if (flowId is null)
+                throw new ArgumentNullException(nameof(flowId));
+
+            using IDisposable _ = Lock.Lock(flowId);
+
+            //
+            // Check if we can grab the view from the cache
+            //
+
+            string? cached = Cache.GetString(flowId);
+            if (cached is not null)
+            {
+                Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
+
+                try
+                {
+                    view = JsonSerializer.Deserialize<TView>(cached, SerializerOptions)!;
+                    view.OwnerRepository = this;
+
+                    return Intercept(view, Logger);
+                }
+                catch (JsonException) { }
+
+                Logger?.LogWarning(new EventId(300, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
+            }
+
+            //
+            // Materialize the view by replaying the events
+            //
+
+            Logger?.LogInformation(new EventId(501, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
+
+            IList<Event> events = EventStore.QueryEvents(flowId);
+            if (events.Count is 0)
+                throw new ArgumentException(string.Format(INVALID_FLOW_ID, flowId), nameof(flowId));
+
+            view = new()
+            {
+                FlowId = flowId,
+                OwnerRepository = this
+            };
+
+            foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
+            {
+                if (!FEventProcessors.TryGetValue(evt.EventId, out Action<TView, string, JsonSerializerOptions> processor))
+                    throw new InvalidOperationException(string.Format(INVALID_EVENT_ID, evt.EventId));
+
+                processor(view, evt.Arguments, SerializerOptions);
+            }
+
+            return Intercept(view, Logger);
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            static IView Intercept(TView view, ILogger? logger)
+            {
+                logger?.LogInformation(new EventId(502, "CREATE_INTERCEPTOR"), LOG_CREATE_INTERCEPTOR, view.FlowId);
+                return FInterceptorFactory(view);
+            }
+        }
+    }
+}
