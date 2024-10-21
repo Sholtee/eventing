@@ -22,6 +22,7 @@ namespace Solti.Utils.Eventing
             EventStore ?? throw new ArgumentNullException(nameof(EventStore)),
             Cache ?? throw new ArgumentNullException(nameof(Cache)),
             Lock ?? throw new ArgumentNullException(nameof(Lock)),
+            JsonSerializer.Instance,
             Logger
         )
         where TView : ViewBase, IView, new() where IView : class {}

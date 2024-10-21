@@ -3,7 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-using System.Text.Json.Serialization;
+using System.Runtime.Serialization;
 
 namespace Solti.Utils.Eventing.Abstractions
 {
@@ -15,19 +15,17 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// The unique id if this view.
         /// </summary>
-        [JsonInclude]
-        public string FlowId { get; internal set; } = null!;
+        public string FlowId { get; init; } = null!;
 
         /// <summary>
         /// The <see cref="IViewRepositoryWriter"/> that owns this view.
         /// </summary>
-        [JsonIgnore]
+        [IgnoreDataMember] // do not use [JsonIgnore] here as we want a generic way to ignore properties
         public IViewRepositoryWriter OwnerRepository { get; internal set; } = null!;
 
         /// <summary>
         /// Determines if the current view is valid
         /// </summary>
-        [JsonIgnore]
-        public virtual bool IsValid => !string.IsNullOrWhiteSpace(FlowId);
+        public virtual bool IsValid() => !string.IsNullOrWhiteSpace(FlowId);
     }
 }

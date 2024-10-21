@@ -84,7 +84,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
                 .Setup(c => c.Get("flowId"))
-                .Returns(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new View { FlowId = "flowId", Param = 1986 })));
+                .Returns(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(new View { FlowId = "flowId", Param = 1986 })));
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -117,7 +117,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
                 .Setup(c => c.Get("flowId"))
-                .Returns(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new object())));
+                .Returns(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(new object())));
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());

@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -25,9 +23,9 @@ namespace Solti.Utils.Eventing
     /// <summary>
     /// View repository base
     /// </summary>
-    public class ViewRepositoryBase<TView, IView, TReflectionModule>(IEventStore EventStore, IDistributedCache Cache, IDistributedLock Lock, ILogger? Logger) : IViewRepository<IView> where TView: ViewBase, IView, new() where IView: class where TReflectionModule: ReflectionModule, new()
+    public class ViewRepositoryBase<TView, IView, TReflectionModule>(IEventStore EventStore, IDistributedCache Cache, IDistributedLock Lock, ISerializer Serializer, ILogger? Logger) : IViewRepository<IView> where TView: ViewBase, IView, new() where IView: class where TReflectionModule: ReflectionModule, new()
     {
-        private static readonly IReadOnlyDictionary<string, Action<TView, string, JsonSerializerOptions>> FEventProcessors = new TReflectionModule().CreateEventProcessorsDict<TView>();
+        private static readonly IReadOnlyDictionary<string, Action<TView, string, ISerializer>> FEventProcessors = new TReflectionModule().CreateEventProcessorsDict<TView>();
 
         private static readonly Func<TView, IView> FInterceptorFactory = new TReflectionModule().CreateInterceptorFactory<TView, IView>();
 
@@ -37,14 +35,6 @@ namespace Solti.Utils.Eventing
         /// Gets or sets the cache expiraton.
         /// </summary>
         public static TimeSpan CacheEntryExpiration { get; set; } = TimeSpan.FromHours(24);
-
-        /// <summary>
-        /// Gets or sets the JSON serializer options.
-        /// </summary>
-        public static JsonSerializerOptions SerializerOptions { get; set; } = new()
-        {
-            UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow
-        };
 
         /// <inheritdoc/>
         public void Persist(ViewBase view, string eventId, object?[] args)
@@ -70,7 +60,7 @@ namespace Solti.Utils.Eventing
                     view.FlowId,
                     eventId,
                     DateTime.UtcNow,
-                    JsonSerializer.Serialize(args, SerializerOptions)
+                    Serializer.Serialize(args)
                 )
             );
 
@@ -79,7 +69,7 @@ namespace Solti.Utils.Eventing
             Cache.SetString
             (
                 view.FlowId,
-                JsonSerializer.Serialize(view, SerializerOptions),
+                Serializer.Serialize(view),
                 new DistributedCacheEntryOptions
                 {
                     SlidingExpiration = CacheEntryExpiration
@@ -106,13 +96,13 @@ namespace Solti.Utils.Eventing
                 // Check if we can grab the view from the cache
                 //
 
-                byte[]? cached = Cache.Get(flowId);
+                string? cached = Cache.GetString(flowId);
                 if (cached is not null)
                 {
                     Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
 
-                    concreteView = JsonSerializer.Deserialize<TView>(cached, SerializerOptions)!;
-                    if (concreteView.IsValid)
+                    concreteView = Serializer.Deserialize<TView>(cached)!;
+                    if (concreteView.IsValid())
                     {
                         concreteView.OwnerRepository = this;
                         view = CreateInterceptor();
@@ -140,10 +130,10 @@ namespace Solti.Utils.Eventing
 
                 foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
                 {
-                    if (!FEventProcessors.TryGetValue(evt.EventId, out Action<TView, string, JsonSerializerOptions> processor))
+                    if (!FEventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
                         throw new InvalidOperationException(Format(INVALID_EVENT_ID, evt.EventId));
 
-                    processor(concreteView, evt.Arguments, SerializerOptions);
+                    processor(concreteView, evt.Arguments, Serializer);
                 }
 
                 view = CreateInterceptor();

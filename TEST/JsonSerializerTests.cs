@@ -1,31 +1,22 @@
 /********************************************************************************
-* MultiTypeArrayConverterTests.cs                                               *
+* JsonSerializerTests.cs                                                        *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text.Json;
 
 using NUnit.Framework;
 
 namespace Solti.Utils.Eventing.Tests
 {
-    using Internals;
-
     using static Properties.Resources;
 
     [TestFixture]
-    public class MultiTypeArrayConverterTests
+    public class JsonSerializerTests
     {
-        private static object?[] Deserialize(string str, params Type[] types)
-        {
-            JsonSerializerOptions options = new();
-            options.Converters.Add(new MultiTypeArrayConverter(types));
-
-            return JsonSerializer.Deserialize<object?[]>(str, options)!;
-        }
-
         public static IEnumerable<object[]> TestConvertParamz
         {
             get
@@ -36,13 +27,13 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(TestConvertParamz))]
-        public void TestConverter(string str, Type[] types, object[] expected) =>
-            Assert.That(Deserialize(str, types), Is.EquivalentTo(expected));
+        public void Deserialize_ShouldDeserializeMultitypeArrays(string str, Type[] types, object[] expected) =>
+            Assert.That(JsonSerializer.Instance.Deserialize(str, types), Is.EquivalentTo(expected));
 
         [Test]
-        public void TestConverterNestedAnonArray()
+        public void Deserialize_ShouldDeserializeMultitypeArrayContainingAnonArray()
         {
-            object?[] ret = Deserialize("[[1]]", typeof(object[]));
+            object?[] ret = JsonSerializer.Instance.Deserialize("[[1]]", [typeof(object[])]);
 
             Assert.That(ret.Length, Is.EqualTo(1));
             
@@ -65,10 +56,22 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(TestConvertterInvalidArrayParamz))]
-        public void TestConverterInvalidArray(string str, Type[] types, string err)
+        public void Deserialize_ShouldThrowOnInvalidMultitypeArrays(string str, Type[] types, string err)
         {
-            JsonException ex = Assert.Throws<JsonException>(() => Deserialize(str, types))!;
+            JsonException ex = Assert.Throws<JsonException>(() => JsonSerializer.Instance.Deserialize(str, types))!;
             Assert.That(ex.Message, Is.EqualTo(err));
         }
+
+        private sealed class MyClassHavingIgnoredMember
+        {
+            public int NonIgnored { get; init; }
+
+            [IgnoreDataMember]
+            public string Ignored { get; init; } = null!;
+        }
+
+        [Test]
+        public void Serialize_ShouldTakeIgnoreDataMemberAttributeIntoAccount() =>
+            Assert.That(JsonSerializer.Instance.Serialize(new MyClassHavingIgnoredMember { Ignored = "cica", NonIgnored = 1986 }), Is.EqualTo(JsonSerializer.Instance.Serialize(new { NonIgnored = 1986 })));
     }
 }

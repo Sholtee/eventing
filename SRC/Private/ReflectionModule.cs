@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text.Json;
 
 namespace Solti.Utils.Eventing.Internals
 {
@@ -23,6 +22,8 @@ namespace Solti.Utils.Eventing.Internals
     /// </summary>
     public class ReflectionModule
     {
+        private static readonly MethodInfo FDeserializeMultiTypeArray = MethodInfoExtractor.Extract<ISerializer>(static s => s.Deserialize(null!, null!));
+
         /// <summary>
         /// Creates the factory function that is responsible for creating proxy instances around the given <typeparamref name="TView"/>
         /// </summary>
@@ -43,9 +44,9 @@ namespace Solti.Utils.Eventing.Internals
         /// <summary>
         /// Creates the event processor dictionary for the given <typeparamref name="TView"/>
         /// </summary>
-        public virtual IReadOnlyDictionary<string, Action<TView, string, JsonSerializerOptions>> CreateEventProcessorsDict<TView>() where TView: ViewBase
+        public virtual IReadOnlyDictionary<string, Action<TView, string, ISerializer>> CreateEventProcessorsDict<TView>() where TView: ViewBase
         {
-            Dictionary<string, FutureDelegate<Action<TView, string, JsonSerializerOptions>>> processors = [];
+            Dictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> processors = [];
 
             DelegateCompiler compiler = new();
 
@@ -63,12 +64,10 @@ namespace Solti.Utils.Eventing.Internals
                     .Select(static p => p.ParameterType)
                     .ToList();
 
-                MultiTypeArrayConverter multiTypeArrayConverter = new(argTypes);
-
                 ParameterExpression
                     self = Expression.Parameter(typeof(TView), nameof(self)),
                     args = Expression.Parameter(typeof(string), nameof(args)),
-                    opts = Expression.Parameter(typeof(JsonSerializerOptions), nameof(opts)),
+                    serializer = Expression.Parameter(typeof(ISerializer), nameof(serializer)),
                     argsArray = Expression.Variable(typeof(object?[]), nameof(argsArray));
 
                 processors.Add
@@ -77,14 +76,14 @@ namespace Solti.Utils.Eventing.Internals
                     compiler.Register
                     (
                         //
-                        // (view, args) =>
+                        // (view, args, serializer) =>
                         // {
-                        //     object[] argsAr = DeserializeMultiTypeArray(args);
+                        //     object[] argsAr = serializer.DeserializeMultiTypeArray(args);
                         //     view.Method((T1) argsAr[0], (T2) argsAr[1]);
                         // }
                         //
 
-                        Expression.Lambda<Action<TView, string, JsonSerializerOptions>>
+                        Expression.Lambda<Action<TView, string, ISerializer>>
                         (
                             Expression.Block
                             (
@@ -92,15 +91,7 @@ namespace Solti.Utils.Eventing.Internals
                                 Expression.Assign
                                 (
                                     argsArray,
-                                    Expression.Invoke
-                                    (
-                                        Expression.Constant
-                                        (
-                                            (Func<string, JsonSerializerOptions, object?[]>) DeserializeMultiTypeArray
-                                        ),
-                                        args,
-                                        opts
-                                    )
+                                    Expression.Call(serializer, FDeserializeMultiTypeArray, args, Expression.Constant(argTypes))
                                 ),
                                 Expression.Call
                                 (
@@ -116,18 +107,10 @@ namespace Solti.Utils.Eventing.Internals
                                     )
                                 )
                             ),
-                            parameters: [self, args, opts]
+                            parameters: [self, args, serializer]
                         )
                     )
                 );
-
-                object?[] DeserializeMultiTypeArray(string s, JsonSerializerOptions opts)
-                {
-                    opts = new(opts);
-                    opts.Converters.Add(multiTypeArrayConverter);
-
-                    return JsonSerializer.Deserialize<object?[]>(s, opts)!;
-                }
             }
 
             compiler.Compile();

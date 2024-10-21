@@ -5,7 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
+using System.Text;
 
 using Moq;
 using NUnit.Framework;
@@ -63,12 +63,12 @@ namespace Solti.Utils.Eventing.Tests
             Mock<View> mockView = new(MockBehavior.Strict);
             mockView.Setup(v => v.Annotated(1986));
 
-            IReadOnlyDictionary<string, Action<View, string, JsonSerializerOptions>> dict = ReflectionModule.CreateEventProcessorsDict<View>();
+            IReadOnlyDictionary<string, Action<View, string, ISerializer>> dict = ReflectionModule.CreateEventProcessorsDict<View>();
 
             Assert.That(dict.Count, Is.EqualTo(1));
             Assert.That(dict, Does.ContainKey("some-event"));
 
-            dict["some-event"](mockView.Object, "[1986]", JsonSerializerOptions.Default);
+            dict["some-event"](mockView.Object, "[1986]", JsonSerializer.Instance);
 
             mockView.Verify(v => v.Annotated(1986), Times.Once);
         }
