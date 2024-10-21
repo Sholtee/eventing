@@ -150,4 +150,7 @@
   <data name="LOG_UPDATE_CACHE" xml:space="preserve">
     <value>Updating cache item for view: "{0}"</value>
   </data>
+  <data name="NO_LOCK" xml:space="preserve">
+    <value>Lock must be held before make changes to the repository</value>
+  </data>
 </root>

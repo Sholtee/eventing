@@ -49,7 +49,7 @@ namespace Solti.Utils.Eventing.Tests
             ret = (ret[0] as object?[])!;
             Assert.NotNull(ret);
             Assert.That(ret.Length, Is.EqualTo(1));
-            Assert.That(ret[0]!.ToString(), Is.EqualTo(JsonSerializer.Deserialize<object>("1")!.ToString()));
+            Assert.That(((JsonElement) ret[0]!).GetInt32(), Is.EqualTo(1));
         }
 
         public static IEnumerable<object[]> TestConvertterInvalidArrayParamz

@@ -25,11 +25,13 @@ namespace Solti.Utils.Eventing
     /// <summary>
     /// View repository base
     /// </summary>
-    public class ViewRepositoryBase<TView, IView, TReflectionModule>(IEventStore EventStore, IDistributedCache Cache, ILock Lock, ILogger? Logger) : IViewRepository<IView> where TView: ViewBase, IView, new() where IView: class where TReflectionModule: ReflectionModule, new()
+    public class ViewRepositoryBase<TView, IView, TReflectionModule>(IEventStore EventStore, IDistributedCache Cache, IDistributedLock Lock, ILogger? Logger) : IViewRepository<IView> where TView: ViewBase, IView, new() where IView: class where TReflectionModule: ReflectionModule, new()
     {
         private static readonly IReadOnlyDictionary<string, Action<TView, string, JsonSerializerOptions>> FEventProcessors = new TReflectionModule().CreateEventProcessorsDict<TView>();
 
         private static readonly Func<TView, IView> FInterceptorFactory = new TReflectionModule().CreateInterceptorFactory<TView, IView>();
+
+        private readonly string FRepoId = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Gets or sets the cache expiraton.
@@ -56,6 +58,9 @@ namespace Solti.Utils.Eventing
             if (args is null)
                 throw new ArgumentNullException(nameof(args));
 
+            if (!Lock.IsHeld(view.FlowId, FRepoId))
+                throw new InvalidOperationException(NO_LOCK);
+
             Logger?.LogInformation(new EventId(503, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
 
             EventStore.SetEvent
@@ -65,7 +70,7 @@ namespace Solti.Utils.Eventing
                     view.FlowId,
                     eventId,
                     DateTime.UtcNow,
-                    JsonSerializer.Serialize(args)
+                    JsonSerializer.Serialize(args, SerializerOptions)
                 )
             );
 
@@ -94,14 +99,14 @@ namespace Solti.Utils.Eventing
             // Lock the flow
             //
 
-            IDisposable @lock = Lock.Acquire(flowId);
+            IDisposable @lock = Lock.Acquire(flowId, FRepoId);
             try
             {
                 //
                 // Check if we can grab the view from the cache
                 //
 
-                string? cached = Cache.GetString(flowId);
+                byte[]? cached = Cache.Get(flowId);
                 if (cached is not null)
                 {
                     Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
