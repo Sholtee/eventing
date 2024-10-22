@@ -55,20 +55,7 @@ namespace Solti.Utils.Eventing
             if (!@lock.IsHeld(view.FlowId, FRepoId))
                 throw new InvalidOperationException(NO_LOCK);
 
-            logger?.LogInformation(new EventId(503, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
-
-            eventStore.SetEvent
-            (
-                new Event
-                (
-                    view.FlowId,
-                    eventId,
-                    DateTime.UtcNow,
-                    serializer.Serialize(args)
-                )
-            );
-
-            logger?.LogInformation(new EventId(504, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
+            logger?.LogInformation(new EventId(503, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
 
             cache?.SetString
             (
@@ -79,6 +66,31 @@ namespace Solti.Utils.Eventing
                     SlidingExpiration = CacheEntryExpiration
                 }
             );
+
+            logger?.LogInformation(new EventId(504, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
+
+            try
+            {
+                eventStore.SetEvent
+                (
+                    new Event
+                    (
+                        view.FlowId,
+                        eventId,
+                        DateTime.UtcNow,
+                        serializer.Serialize(args)
+                    )
+                );
+            }
+            catch
+            {
+                //
+                // Drop the cache to prevent inconsistent state
+                //
+
+                cache?.Remove(view.FlowId);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -121,7 +133,6 @@ namespace Solti.Utils.Eventing
                     throw new ArgumentException(Format(INVALID_FLOW_ID, flowId), nameof(flowId));
 
                 view = CreateRawView();
-                view.FlowId = flowId;
 
                 foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
                 {
@@ -142,8 +153,7 @@ namespace Solti.Utils.Eventing
 
             TView CreateRawView()
             {
-                TView view = reflectionModule.CreateRawView();
-                view.OwnerRepository = this;
+                TView view = reflectionModule.CreateRawView(flowId, this);
 
                 //
                 // Disable interceptors while deserializing or replying the events

@@ -114,7 +114,8 @@ namespace Solti.Utils.Eventing
             TypeInfoResolver = new DefaultJsonTypeInfoResolver
             {
                 Modifiers = { DetectIgnoreDataMemberAttribute }
-            }
+            },
+            IgnoreReadOnlyProperties = true
         };
     }
 }

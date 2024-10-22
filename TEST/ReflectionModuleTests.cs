@@ -31,12 +31,9 @@ namespace Solti.Utils.Eventing.Tests
         {
             Mock<IViewRepository<View>> mockEventRepo = new(MockBehavior.Strict);
 
-            View view = ReflectionModule<View>.Instance.CreateRawView();
+            View view = ReflectionModule<View>.Instance.CreateRawView("id", mockEventRepo.Object);
 
             mockEventRepo.Setup(r => r.Persist(view, "some-event", new object[] { 1 }));
-
-            view.OwnerRepository = mockEventRepo.Object;
-            view.FlowId = "id";
 
             Assert.That(view.Annotated(1), Is.EqualTo("cica"));
 
@@ -48,8 +45,7 @@ namespace Solti.Utils.Eventing.Tests
         {
             Mock<IViewRepository<View>> mockEventRepo = new(MockBehavior.Strict);
 
-            View view = ReflectionModule<View>.Instance.CreateRawView();
-            view.OwnerRepository = mockEventRepo.Object;
+            View view = ReflectionModule<View>.Instance.CreateRawView(null!, mockEventRepo.Object);
 
             view.DisableInterception = true;
             view.Annotated(1);

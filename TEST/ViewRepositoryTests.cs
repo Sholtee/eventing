@@ -4,8 +4,8 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Linq;
 using System.Text;
-using System.Text.Json;
 
 using Microsoft.Extensions.Caching.Distributed;
 using Moq;
@@ -30,6 +30,8 @@ namespace Solti.Utils.Eventing.Tests
             public virtual void Annotated(int param) => Param = param;
 
             public void NotAnnotated(string param) { }
+
+            public override bool IsValid => base.IsValid && Param > 0;
         }
 
         [Test]
@@ -67,7 +69,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
                 .Setup(c => c.Get("flowId"))
-                .Returns(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(new View { FlowId = "flowId", Param = 1986 })));
+                .Returns(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(new View { FlowId = "flowId", OwnerRepository = null!, Param = 1986 })));
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -245,7 +247,7 @@ namespace Solti.Utils.Eventing.Tests
 
             IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
 
-            Assert.Throws<InvalidOperationException>(() => repo.Persist(new View(), "event", []));
+            Assert.Throws<InvalidOperationException>(() => repo.Persist(new View { FlowId = null!, OwnerRepository = null! }, "event", []));
         }
 
         [Test]
@@ -257,8 +259,93 @@ namespace Solti.Utils.Eventing.Tests
             IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
 
             Assert.Throws<ArgumentNullException>(() => repo.Persist(null!, "event", []));
-            Assert.Throws<ArgumentNullException>(() => repo.Persist(new View(), null!, []));
-            Assert.Throws<ArgumentNullException>(() => repo.Persist(new View(), "event", null!));
+            Assert.Throws<ArgumentNullException>(() => repo.Persist(new View { FlowId = null!, OwnerRepository = null! }, null!, []));
+            Assert.Throws<ArgumentNullException>(() => repo.Persist(new View { FlowId = null!, OwnerRepository = null! }, "event", null!));
+        }
+
+        [Test]
+        public void Persist_ShouldCacheTheActualStateAndStoreTheEvent()
+        {
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            mockLock
+                .Setup(l => l.IsHeld("flowId", It.IsAny<string>()))
+                .Returns(true);
+            
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .Setup(s => s.SetEvent(It.Is<Event>(evt => evt.EventId == "some-event" && evt.FlowId == "flowId" && evt.Arguments == "[]")));
+
+            View view = new() { FlowId = "flowId", OwnerRepository = null!, Param = 1986 };
+
+            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
+            
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
+
+            mockCache.Setup
+            (
+                c => c.Set
+                (
+                    "flowId",
+                    It.Is<byte[]>
+                    (
+                        blob => blob.SequenceEqual(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(view)))
+                    ),
+                    It.Is<DistributedCacheEntryOptions>
+                    (
+                        opt => opt.SlidingExpiration == repo.CacheEntryExpiration
+                    )
+                )
+            );
+
+            Assert.DoesNotThrow(() => repo.Persist(view, "some-event", []));
+
+            mockLock.Verify(l => l.IsHeld(It.IsAny<string>(), It.IsAny<string>()));
+            mockEventStore.Verify(s => s.SetEvent(It.IsAny<Event>()), Times.Once);
+            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()), Times.Once);
+        }
+
+        [Test]
+        public void Persist_ShouldRevertTheCacheOnDbError()
+        {
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            mockLock
+                .Setup(l => l.IsHeld("flowId", It.IsAny<string>()))
+                .Returns(true);
+
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .Setup(s => s.SetEvent(It.IsAny<Event>()))
+                .Throws(new Exception("cica"));
+
+            View view = new() { FlowId = "flowId", OwnerRepository = null!, Param = 1986 };
+
+            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
+
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
+
+            mockCache.Setup
+            (
+                c => c.Set
+                (
+                    "flowId",
+                    It.Is<byte[]>
+                    (
+                        blob => blob.SequenceEqual(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(view)))
+                    ),
+                    It.Is<DistributedCacheEntryOptions>
+                    (
+                        opt => opt.SlidingExpiration == repo.CacheEntryExpiration
+                    )
+                )
+            );
+            mockCache.Setup(c => c.Remove("flowId"));
+
+            Exception ex = Assert.Throws<Exception>(() => repo.Persist(view, "some-event", []))!;
+            Assert.That(ex.Message, Is.EqualTo("cica"));
+
+            mockEventStore.Verify(s => s.SetEvent(It.IsAny<Event>()), Times.Once);
+            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()), Times.Once);
+            mockCache.Verify(c => c.Remove("flowId"), Times.Once);
         }
     }
 }

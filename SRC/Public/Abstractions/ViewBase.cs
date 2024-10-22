@@ -15,13 +15,13 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// The unique id if this view.
         /// </summary>
-        public string FlowId { get; set; } = null!;
+        public /*required*/ string FlowId { get; init; } = null!;
 
         /// <summary>
         /// The repository that owns this view.
         /// </summary>
         [IgnoreDataMember] // do not use [JsonIgnore] here as we want a generic way to ignore properties
-        public object OwnerRepository { get; internal set; } = null!;
+        public /*required*/ object OwnerRepository { get; init; } = null!;
 
         /// <summary>
         /// If set to true, eventized methods wont be intercepted.

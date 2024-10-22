@@ -63,11 +63,6 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(ex.Message, Is.EqualTo(err));
         }
 
-        public class MyClass
-        {
-            public int Id { get; set; }
-        }
-
         [Test]
         public void Deserialize_ShouldUseTheConstructorProvided()
         {
@@ -76,22 +71,25 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(c => c.Invoke())
                 .Returns(new MyClass());
 
-            MyClass deserialized = JsonSerializer.Instance.Deserialize<MyClass>("{\"Id\": 5}", mockCtor.Object)!;
+            MyClass deserialized = JsonSerializer.Instance.Deserialize("{\"NonIgnored\": 5}", mockCtor.Object)!;
 
-            Assert.That(deserialized.Id, Is.EqualTo(5));
+            Assert.That(deserialized.NonIgnored, Is.EqualTo(5));
             mockCtor.Verify(c => c.Invoke(), Times.Once);
         }
 
-        public class MyClassHavingIgnoredMember
+        public class MyClass
         {
             public int NonIgnored { get; init; }
+        }
 
+        public class MyClassHavingIgnoredMember: MyClass
+        {
             [IgnoreDataMember]
             public string Ignored { get; init; } = null!;
         }
 
         [Test]
         public void Serialize_ShouldTakeIgnoreDataMemberAttributeIntoAccount() =>
-            Assert.That(JsonSerializer.Instance.Serialize(new MyClassHavingIgnoredMember { Ignored = "cica", NonIgnored = 1986 }), Is.EqualTo(JsonSerializer.Instance.Serialize(new { NonIgnored = 1986 })));
+            Assert.That(JsonSerializer.Instance.Serialize(new MyClassHavingIgnoredMember { Ignored = "cica", NonIgnored = 1986 }), Is.EqualTo(JsonSerializer.Instance.Serialize(new MyClass { NonIgnored = 1986 })));
     }
 }

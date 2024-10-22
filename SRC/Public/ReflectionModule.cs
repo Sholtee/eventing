@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -28,6 +29,10 @@ namespace Solti.Utils.Eventing
     {
         #region Private
         private static readonly MethodInfo FDeserializeMultiTypeArray = MethodInfoExtractor.Extract<ISerializer>(static s => s.Deserialize(null!, null!));
+
+        private static readonly PropertyInfo
+            FFlowId = PropertyInfoExtractor.Extract<TView, string>(static v => v.FlowId),
+            FOwnerRepo = PropertyInfoExtractor.Extract<TView, object>(static v => v.OwnerRepository);
 
         private sealed class ViewInterceptor : Singleton<ViewInterceptor>, IInterceptor
         {
@@ -58,22 +63,34 @@ namespace Solti.Utils.Eventing
             public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [], ProxyGenerationOptions.Default);
         }
 
-        private static FutureDelegate<Func<TView>> CreateInterceptorFactory(DelegateCompiler compiler) 
+        private static FutureDelegate<Func<string, IViewRepository<TView>, TView>> CreateInterceptorFactory(DelegateCompiler compiler) 
         {
             MyProxyGenerator proxyGenerator = new();
             Type t = proxyGenerator.CreateProxyClass<TView>();
 
             ConstructorInfo ctor = t.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, [typeof(IInterceptor[])], null);
+            Debug.Assert(ctor is not null, "View constructor not found");
+
+            ParameterExpression
+                flowId = Expression.Parameter(typeof(string), nameof(flowId)),
+                ownerRepo = Expression.Parameter(typeof(object), nameof(ownerRepo));
 
             return compiler.Register
             (
-                Expression.Lambda<Func<TView>>
+                Expression.Lambda<Func<string, IViewRepository<TView>, TView>>
                 (
-                    Expression.New
+                    Expression.MemberInit
                     (
-                        ctor,
-                        Expression.Constant(new IInterceptor[] { ViewInterceptor.Instance })
-                    )
+                        Expression.New
+                        (
+                            ctor,
+                            Expression.Constant(new IInterceptor[] { ViewInterceptor.Instance })
+                        ),
+                        Expression.Bind(FFlowId, flowId),
+                        Expression.Bind(FOwnerRepo, ownerRepo)
+                    ),
+                    flowId,
+                    ownerRepo
                 )
             );
         }
@@ -166,7 +183,7 @@ namespace Solti.Utils.Eventing
 
             IReadOnlyDictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> processors = CreateEventProcessorsDict(compiler);
 
-            FutureDelegate<Func<TView>> ctor = CreateInterceptorFactory(compiler);
+            FutureDelegate<Func<string, IViewRepository<TView>, TView>> ctor = CreateInterceptorFactory(compiler);
 
             compiler.Compile();
 
@@ -178,6 +195,6 @@ namespace Solti.Utils.Eventing
         public IReadOnlyDictionary<string, Action<TView, string, ISerializer>> EventProcessors { get; }
 
         /// <inheritdoc/>
-        public Func<TView> CreateRawView { get; }
+        public Func<string, IViewRepository<TView>, TView> CreateRawView { get; }
     }
 }

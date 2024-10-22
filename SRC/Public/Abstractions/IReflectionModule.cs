@@ -21,6 +21,6 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// Function to crate <typeparamref name="TView"/> instaces.
         /// </summary>
-        Func<TView> CreateRawView { get; }
+        Func<string, IViewRepository<TView>, TView> CreateRawView { get; }
     }
 }
