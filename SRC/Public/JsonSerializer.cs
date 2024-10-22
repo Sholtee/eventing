@@ -78,7 +78,7 @@ namespace Solti.Utils.Eventing
             public override void Write(Utf8JsonWriter writer, object?[] value, JsonSerializerOptions options) => throw new NotImplementedException();
         }
 
-        public sealed class CustomConstructorContractResolver<T>(Func<T> Constructor) : DefaultJsonTypeInfoResolver
+        private sealed class CustomConstructorContractResolver<T>(Func<T> Constructor) : DefaultJsonTypeInfoResolver
         {
             public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
             {

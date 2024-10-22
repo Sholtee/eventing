@@ -13,7 +13,7 @@ using Castle.DynamicProxy;
 
 using static System.String;
 
-namespace Solti.Utils.Eventing.Internals
+namespace Solti.Utils.Eventing
 {
     using Abstractions;
     using Primitives;
@@ -24,7 +24,7 @@ namespace Solti.Utils.Eventing.Internals
     /// <summary>
     /// Module holding the reflection related stuffs
     /// </summary>
-    public class ReflectionModule
+    public sealed class ReflectionModule<TView>: Singleton<ReflectionModule<TView>>, IReflectionModule<TView> where TView : ViewBase, new()
     {
         #region Private
         private static readonly MethodInfo FDeserializeMultiTypeArray = MethodInfoExtractor.Extract<ISerializer>(static s => s.Deserialize(null!, null!));
@@ -54,25 +54,28 @@ namespace Solti.Utils.Eventing.Internals
 
             public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [], ProxyGenerationOptions.Default);
         }
-        #endregion
 
-        /// <summary>
-        /// Creates the factory function that is responsible for creating proxy instances around the given <typeparamref name="TView"/>
-        /// </summary>
-        public virtual Func<TView> CreateInterceptorFactory<TView>() where TView : ViewBase, new()
+        private static FutureDelegate<Func<TView>> CreateInterceptorFactory(DelegateCompiler compiler) 
         {
             MyProxyGenerator proxyGenerator = new();
             Type t = proxyGenerator.CreateProxyClass<TView>();
 
             ConstructorInfo ctor = t.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, [typeof(IInterceptor[])], null);
 
-            return Expression.Lambda<Func<TView>>(Expression.New(ctor, Expression.Constant(new IInterceptor[] { ViewInterceptor.Instance }))).Compile();
+            return compiler.Register
+            (
+                Expression.Lambda<Func<TView>>
+                (
+                    Expression.New
+                    (
+                        ctor,
+                        Expression.Constant(new IInterceptor[] { ViewInterceptor.Instance })
+                    )
+                )
+            );
         }
 
-        /// <summary>
-        /// Creates the event processor dictionary for the given <typeparamref name="TView"/>
-        /// </summary>
-        public virtual IReadOnlyDictionary<string, Action<TView, string, ISerializer>> CreateEventProcessorsDict<TView>() where TView: ViewBase
+        private static IReadOnlyDictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> CreateEventProcessorsDict(DelegateCompiler compiler)
         {
             Type viewType = typeof(TView);
 
@@ -80,9 +83,7 @@ namespace Solti.Utils.Eventing.Internals
                 throw new InvalidOperationException(CANNOT_BE_INTERCEPTED);
 
             Dictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> processors = [];
-
-            DelegateCompiler compiler = new();
-
+          
             foreach (MethodInfo method in viewType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
                 EventAttribute? evtAttr = method.GetCustomAttribute<EventAttribute>();
@@ -148,9 +149,32 @@ namespace Solti.Utils.Eventing.Internals
                     )
                 );
             }
+                
+            return processors;
+        }
+        #endregion
+
+        /// <summary>
+        /// Creates a new <see cref="ReflectionModule{TView}"/> instance
+        /// </summary>
+        public ReflectionModule()
+        {
+            DelegateCompiler compiler = new();
+
+            IReadOnlyDictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> processors = CreateEventProcessorsDict(compiler);
+
+            FutureDelegate<Func<TView>> ctor = CreateInterceptorFactory(compiler);
 
             compiler.Compile();
-            return processors.ToDictionary(static kvp => kvp.Key, static kvp => kvp.Value.Value);
+
+            EventProcessors = processors.ToDictionary(static kvp => kvp.Key, static kvp => kvp.Value.Value);
+            CreateRawView = ctor.Value;
         }
+
+        /// <inheritdoc/>
+        public IReadOnlyDictionary<string, Action<TView, string, ISerializer>> EventProcessors { get; }
+
+        /// <inheritdoc/>
+        public Func<TView> CreateRawView { get; }
     }
 }

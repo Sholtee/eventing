@@ -22,23 +22,12 @@ namespace Solti.Utils.Eventing.Tests
     [TestFixture]
     public class ViewRepositoryTests
     {
-        public interface IView
-        {
-            int Param { get; }
-
-            string FlowId { get; }
-
-            void Annotated(int param);
-
-            void NotAnnotated(string param);
-        }
-
-        public class View : ViewBase, IView
+        public class View : ViewBase
         {
             public int Param { get; set; }
 
             [Event(Name = "some-event")]
-            public void Annotated(int param) => Param = param;
+            public virtual void Annotated(int param) => Param = param;
 
             public void NotAnnotated(string param) { }
         }
@@ -51,11 +40,6 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
 
-            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
-            mockCache
-                .Setup(c => c.Get("flowId"))
-                .Returns((byte[]) null!);
-
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
 
@@ -64,7 +48,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
 
             repo.Materialize("flowId", out View view);
 
@@ -72,7 +56,6 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
             Assert.That(view.Param, Is.EqualTo(1986));
 
-            mockCache.Verify(c => c.Get("flowId"), Times.Once);
             mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);
         }
 
@@ -94,7 +77,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object, mockCache.Object);
 
             repo.Materialize("flowId", out View view);
 
@@ -127,7 +110,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object, mockCache.Object);
 
             repo.Materialize("flowId", out View view);
 
@@ -160,7 +143,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object, mockCache.Object);
 
             ArgumentException ex = Assert.Throws<ArgumentException>(() => repo.Materialize("flowId", out View view))!;
             Assert.That(ex.Message, Does.StartWith(Format(INVALID_FLOW_ID, "flowId")));
@@ -177,11 +160,6 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
 
-            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
-            mockCache
-                .Setup(c => c.Get("flowId"))
-                .Returns((byte[]) null!);
-
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
 
@@ -190,7 +168,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
             
             repo.Materialize("flowId", out View view);
 
@@ -206,11 +184,6 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([]);
 
-            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
-            mockCache
-                .Setup(c => c.Get("flowId"))
-                .Returns((byte[]) null!);
-
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
 
@@ -219,7 +192,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
 
             Assert.Throws<ArgumentException>(() => repo.Materialize("flowId", out View view));
 
@@ -235,11 +208,6 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([new Event("flowId", "invalid", DateTime.UtcNow, "[1986]")]);
 
-            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
-            mockCache
-                .Setup(c => c.Get("flowId"))
-                .Returns((byte[]) null!);
-
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
 
@@ -248,7 +216,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
 
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => repo.Materialize("flowId", out View view))!;
             Assert.That(ex.Message, Is.EqualTo(Format(INVALID_EVENT_ID, "invalid")));
@@ -258,10 +226,9 @@ namespace Solti.Utils.Eventing.Tests
         public void Materialize_ShouldThrowOnNullFlowId()
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
-            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
 
-            IViewRepository<View> repo = new ViewRepository<View, IView>(mockEventStore.Object, mockCache.Object, mockLock.Object);
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
 
             Assert.Throws<ArgumentNullException>(() => repo.Materialize(null!, out View view));
         }

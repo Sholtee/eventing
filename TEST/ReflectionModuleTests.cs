@@ -12,14 +12,12 @@ using NUnit.Framework;
 namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions;
-    using Internals;
-    using Properties;
+
+    using static Properties.Resources;
 
     [TestFixture]
     public class ReflectionModuleTests
     {
-        private static ReflectionModule ReflectionModule { get; } = new ReflectionModule();
-
         public class View : ViewBase
         {
             [Event(Name = "some-event")]
@@ -32,9 +30,8 @@ namespace Solti.Utils.Eventing.Tests
         public void CreateInterceptorFactory_ShouldCreateAFactoryFunction()
         {
             Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
-            
-            Func<View> fact = ReflectionModule.CreateInterceptorFactory<View>();
-            View view = fact();
+
+            View view = ReflectionModule<View>.Instance.CreateRawView();
 
             mockEventRepo.Setup(r => r.Persist(view, "some-event", new object[] { 1 }));
 
@@ -51,8 +48,7 @@ namespace Solti.Utils.Eventing.Tests
         {
             Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
 
-            Func<View> fact = ReflectionModule.CreateInterceptorFactory<View>();
-            View view = fact();
+            View view = ReflectionModule<View>.Instance.CreateRawView();
             view.OwnerRepository = mockEventRepo.Object;
 
             view.DisableInterception = true;
@@ -65,9 +61,9 @@ namespace Solti.Utils.Eventing.Tests
         public void CreateEventProcessorsDict_ShouldCreateAProcessorFunctionForEachEvent()
         {
             Mock<View> mockView = new(MockBehavior.Strict);
-            mockView.Setup(v => v.Annotated(1986));
+            mockView.Setup(v => v.Annotated(1986)).Returns("cica");
 
-            IReadOnlyDictionary<string, Action<View, string, ISerializer>> dict = ReflectionModule.CreateEventProcessorsDict<View>();
+            IReadOnlyDictionary<string, Action<View, string, ISerializer>> dict = ReflectionModule<View>.Instance.EventProcessors;
 
             Assert.That(dict.Count, Is.EqualTo(1));
             Assert.That(dict, Does.ContainKey("some-event"));
@@ -89,8 +85,34 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void CreateEventProcessorsDict_ShouldThrowOnDuplicateEvent()
         {
-            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => ReflectionModule.CreateEventProcessorsDict<ViewHavingDuplicateEvent>())!;
-            Assert.That(ex.Message, Is.EqualTo(string.Format(Resources.DUPLICATE_EVENT_ID, "some-event")));
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => _ = ReflectionModule<ViewHavingDuplicateEvent>.Instance)!;
+            Assert.That(ex.Message, Is.EqualTo(string.Format(DUPLICATE_EVENT_ID, "some-event")));
+        }
+
+        public class ViewHavingNonVirtualEvent : ViewBase
+        {
+            [Event(Name = "some-event")]
+            public void Annotated(int param) { }
+        }
+
+        [Test]
+        public void CreateEventProcessorsDict_ShouldThrowOnNonVirtualEvent()
+        {
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => _ = ReflectionModule<ViewHavingNonVirtualEvent>.Instance)!;
+            Assert.That(ex.Message, Is.EqualTo(string.Format(NOT_VIRTUAL, nameof(ViewHavingNonVirtualEvent.Annotated))));
+        }
+
+        public sealed class SealedView : ViewBase
+        {
+            [Event(Name = "some-event")]
+            public void Annotated(int param) { }
+        }
+
+        [Test]
+        public void CreateEventProcessorsDict_ShouldThrowOnSealedView()
+        {
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => _ = ReflectionModule<SealedView>.Instance)!;
+            Assert.That(ex.Message, Is.EqualTo(CANNOT_BE_INTERCEPTED));
         }
     }
 }
