@@ -9,11 +9,15 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using Castle.DynamicProxy;
+
+using static System.String;
+
 namespace Solti.Utils.Eventing.Internals
 {
     using Abstractions;
     using Primitives;
-    using Proxy.Generators;
+    using Primitives.Patterns;
 
     using static Properties.Resources;
 
@@ -22,23 +26,47 @@ namespace Solti.Utils.Eventing.Internals
     /// </summary>
     public class ReflectionModule
     {
+        #region Private
         private static readonly MethodInfo FDeserializeMultiTypeArray = MethodInfoExtractor.Extract<ISerializer>(static s => s.Deserialize(null!, null!));
+
+        private sealed class ViewInterceptor : Singleton<ViewInterceptor>, IInterceptor
+        {
+            public void Intercept(IInvocation invocation)
+            {
+                invocation.Proceed();
+
+                ViewBase view = (ViewBase) invocation.Proxy;
+
+                if (!view.DisableInterception)
+                {
+                    EventAttribute? evtAttr = invocation.MethodInvocationTarget.GetCustomAttribute<EventAttribute>();
+                    if (evtAttr is not null)
+                        view.OwnerRepository.Persist(view, evtAttr.Name, invocation.Arguments);
+                }
+            }
+        }
+
+        private sealed class MyProxyGenerator : ProxyGenerator
+        {
+            //
+            // CreateClassProxy() uses Activator.CreateInstance() which is... uhm... slow?
+            //
+
+            public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [], ProxyGenerationOptions.Default);
+        }
+        #endregion
 
         /// <summary>
         /// Creates the factory function that is responsible for creating proxy instances around the given <typeparamref name="TView"/>
         /// </summary>
-        /// <remarks>The default implementation is using the ProxyGen.NET library</remarks>
-        public virtual Func<TView, IView> CreateInterceptorFactory<TView, IView>() where TView : ViewBase, IView, new() where IView : class
+        public virtual Func<TView> CreateInterceptorFactory<TView>() where TView : ViewBase, new()
         {
-            ConstructorInfo ctor = ProxyGenerator<IView, ViewInterceptor<TView, IView>>.GetGeneratedType().GetConstructors().Single();
+            MyProxyGenerator proxyGenerator = new();
+            Type t = proxyGenerator.CreateProxyClass<TView>();
 
-            ParameterExpression view = Expression.Parameter(typeof(TView), nameof(view));
+            ConstructorInfo ctor = t.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, [typeof(IInterceptor[])], null);
 
-            return Expression.Lambda<Func<TView, IView>>
-            (
-                Expression.New(ctor, view),
-                view
-            ).Compile();
+            return Expression.Lambda<Func<TView>>(Expression.New(ctor, Expression.Constant(new IInterceptor[] { ViewInterceptor.Instance }))).Compile();
         }
 
         /// <summary>
@@ -46,18 +74,26 @@ namespace Solti.Utils.Eventing.Internals
         /// </summary>
         public virtual IReadOnlyDictionary<string, Action<TView, string, ISerializer>> CreateEventProcessorsDict<TView>() where TView: ViewBase
         {
+            Type viewType = typeof(TView);
+
+            if (viewType.IsSealed)
+                throw new InvalidOperationException(CANNOT_BE_INTERCEPTED);
+
             Dictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> processors = [];
 
             DelegateCompiler compiler = new();
 
-            foreach (MethodInfo method in typeof(TView).GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            foreach (MethodInfo method in viewType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
                 EventAttribute? evtAttr = method.GetCustomAttribute<EventAttribute>();
                 if (evtAttr is null)
                     continue;
 
+                if (!method.IsVirtual)
+                    throw new InvalidOperationException(Format(NOT_VIRTUAL, method.Name));
+
                 if (processors.ContainsKey(evtAttr.Name))
-                    throw new InvalidOperationException(string.Format(DUPLICATE_EVENT_ID, evtAttr.Name));
+                    throw new InvalidOperationException(Format(DUPLICATE_EVENT_ID, evtAttr.Name));
 
                 IReadOnlyList<Type> argTypes = method
                     .GetParameters()
@@ -65,7 +101,7 @@ namespace Solti.Utils.Eventing.Internals
                     .ToList();
 
                 ParameterExpression
-                    self = Expression.Parameter(typeof(TView), nameof(self)),
+                    self = Expression.Parameter(viewType, nameof(self)),
                     args = Expression.Parameter(typeof(string), nameof(args)),
                     serializer = Expression.Parameter(typeof(ISerializer), nameof(serializer)),
                     argsArray = Expression.Variable(typeof(object?[]), nameof(argsArray));

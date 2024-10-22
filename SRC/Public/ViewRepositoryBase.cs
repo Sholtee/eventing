@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -23,11 +22,11 @@ namespace Solti.Utils.Eventing
     /// <summary>
     /// View repository base
     /// </summary>
-    public class ViewRepositoryBase<TView, IView, TReflectionModule>(IEventStore EventStore, IDistributedCache Cache, IDistributedLock Lock, ISerializer Serializer, ILogger? Logger) : IViewRepository<IView> where TView: ViewBase, IView, new() where IView: class where TReflectionModule: ReflectionModule, new()
+    public class ViewRepositoryBase<TView, IView, TReflectionModule>(IEventStore EventStore, IDistributedCache Cache, IDistributedLock Lock, ISerializer Serializer, ILogger? Logger) : IViewRepository<TView> where TView: ViewBase, IView, new() where IView: class where TReflectionModule: ReflectionModule, new()
     {
         private static readonly IReadOnlyDictionary<string, Action<TView, string, ISerializer>> FEventProcessors = new TReflectionModule().CreateEventProcessorsDict<TView>();
 
-        private static readonly Func<TView, IView> FInterceptorFactory = new TReflectionModule().CreateInterceptorFactory<TView, IView>();
+        private static readonly Func<TView> FInterceptorFactory = new TReflectionModule().CreateInterceptorFactory<TView>();
 
         private readonly string FRepoId = Guid.NewGuid().ToString();
 
@@ -78,9 +77,17 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public IDisposable Materialize(string flowId, out IView view)
+        public IDisposable Materialize(string flowId, out TView view)
         {
-            TView concreteView;
+            view = FInterceptorFactory();
+            view.FlowId = flowId;
+            view.OwnerRepository = this;
+
+            //
+            // Disable interceptors while deserializing or replying the events
+            //
+
+            view.DisableInterception = true;
 
             if (flowId is null)
                 throw new ArgumentNullException(nameof(flowId));
@@ -101,11 +108,11 @@ namespace Solti.Utils.Eventing
                 {
                     Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
 
-                    concreteView = Serializer.Deserialize<TView>(cached)!;
-                    if (concreteView.IsValid())
+                    TView ret = view;
+                    view = Serializer.Deserialize<TView>(cached, () => ret)!;
+                    if (view.IsValid)
                     {
-                        concreteView.OwnerRepository = this;
-                        view = CreateInterceptor();
+                        view.OwnerRepository = this;
                         return @lock;
                     }
 
@@ -122,34 +129,21 @@ namespace Solti.Utils.Eventing
                 if (events.Count is 0)
                     throw new ArgumentException(Format(INVALID_FLOW_ID, flowId), nameof(flowId));
 
-                concreteView = new()
-                {
-                    FlowId = flowId,
-                    OwnerRepository = this
-                };
-
                 foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
                 {
                     if (!FEventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
                         throw new InvalidOperationException(Format(INVALID_EVENT_ID, evt.EventId));
 
-                    processor(concreteView, evt.Arguments, Serializer);
+                    processor(view, evt.Arguments, Serializer);
                 }
 
-                view = CreateInterceptor();
+                view.DisableInterception = false;
                 return @lock;
             }
             catch
             {
                 @lock.Dispose();
                 throw;
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            IView CreateInterceptor()
-            {
-                Logger?.LogInformation(new EventId(502, "CREATE_INTERCEPTOR"), LOG_CREATE_INTERCEPTOR, concreteView.FlowId);
-                return FInterceptorFactory(concreteView);
             }
         }
     }

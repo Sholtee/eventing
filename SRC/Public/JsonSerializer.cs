@@ -23,26 +23,6 @@ namespace Solti.Utils.Eventing
 
     public sealed class JsonSerializer : Singleton<JsonSerializer>, ISerializer
     {
-        public T? Deserialize<T>(string utf8String) => SerializerCore.Deserialize<T>(utf8String, Options);
-
-        public object?[] Deserialize(string utf8String, IReadOnlyList<Type> types)
-        {
-            JsonSerializerOptions opts = new(Options);
-            opts.Converters.Add(new MultiTypeArrayConverter(types));
-
-            return SerializerCore.Deserialize<object?[]>(utf8String, opts)!;
-        }
-
-        public string Serialize<T>(T? val) => SerializerCore.Serialize(val, Options);
-
-        public JsonSerializerOptions Options { get; set; } = new JsonSerializerOptions
-        {
-            TypeInfoResolver = new DefaultJsonTypeInfoResolver
-            {
-                Modifiers = { DetectIgnoreDataMemberAttribute }
-            }
-        };
-
         #region Private
         private static void DetectIgnoreDataMemberAttribute(JsonTypeInfo typeInfo)
         {
@@ -97,6 +77,44 @@ namespace Solti.Utils.Eventing
 
             public override void Write(Utf8JsonWriter writer, object?[] value, JsonSerializerOptions options) => throw new NotImplementedException();
         }
+
+        public sealed class CustomConstructorContractResolver<T>(Func<T> Constructor) : DefaultJsonTypeInfoResolver
+        {
+            public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
+            {
+                JsonTypeInfo jsonTypeInfo = base.GetTypeInfo(type, options);
+                if (jsonTypeInfo.Type == typeof(T))
+                    jsonTypeInfo.CreateObject = () => Constructor()!;
+
+                return jsonTypeInfo;
+            }
+        }
         #endregion
+
+        public T? Deserialize<T>(string utf8String, Func<T> ctor)
+        {
+            JsonSerializerOptions opts = new(Options);
+            opts.TypeInfoResolver = new CustomConstructorContractResolver<T>(ctor);
+
+            return SerializerCore.Deserialize<T>(utf8String, opts);
+        }
+
+        public object?[] Deserialize(string utf8String, IReadOnlyList<Type> types)
+        {
+            JsonSerializerOptions opts = new(Options);
+            opts.Converters.Add(new MultiTypeArrayConverter(types));
+
+            return SerializerCore.Deserialize<object?[]>(utf8String, opts)!;
+        }
+
+        public string Serialize<T>(T? val) => SerializerCore.Serialize(val, Options);
+
+        public JsonSerializerOptions Options { get; set; } = new JsonSerializerOptions
+        {
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver
+            {
+                Modifiers = { DetectIgnoreDataMemberAttribute }
+            }
+        };
     }
 }

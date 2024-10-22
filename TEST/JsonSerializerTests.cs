@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json;
 
+using Moq;
 using NUnit.Framework;
 
 namespace Solti.Utils.Eventing.Tests
@@ -62,7 +63,26 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(ex.Message, Is.EqualTo(err));
         }
 
-        private sealed class MyClassHavingIgnoredMember
+        public class MyClass
+        {
+            public int Id { get; set; }
+        }
+
+        [Test]
+        public void Deserialize_ShouldUseTheConstructorProvided()
+        {
+            Mock<Func<MyClass>> mockCtor = new Mock<Func<MyClass>>(MockBehavior.Strict);
+            mockCtor
+                .Setup(c => c.Invoke())
+                .Returns(new MyClass());
+
+            MyClass deserialized = JsonSerializer.Instance.Deserialize<MyClass>("{\"Id\": 5}", mockCtor.Object)!;
+
+            Assert.That(deserialized.Id, Is.EqualTo(5));
+            mockCtor.Verify(c => c.Invoke(), Times.Once);
+        }
+
+        public class MyClassHavingIgnoredMember
         {
             public int NonIgnored { get; init; }
 

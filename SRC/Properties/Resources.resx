@@ -153,4 +153,10 @@
   <data name="NO_LOCK" xml:space="preserve">
     <value>Lock must be held before make changes to the repository</value>
   </data>
+  <data name="NOT_VIRTUAL" xml:space="preserve">
+    <value>EventAttribute cannot be applied on non virtual method: {0}</value>
+  </data>
+  <data name="CANNOT_BE_INTERCEPTED" xml:space="preserve">
+    <value>The given class cannot be intercepted (is it sealed?)</value>
+  </data>
 </root>

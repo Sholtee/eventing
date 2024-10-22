@@ -21,18 +21,18 @@ namespace Solti.Utils.Eventing.Abstractions
     /// <summary>
     /// Specifies the read operations against a view repository.
     /// </summary>
-    public interface IViewRepositoryWriterReader<IView> where IView: class
+    public interface IViewRepositoryWriterReader<TView> where TView : ViewBase, new()
     {
         /// <summary>
         /// Materializes the view belongs to the given <paramref name="flowId"/>.
         /// </summary>
-        IDisposable Materialize(string flowId, out IView view);
+        IDisposable Materialize(string flowId, out TView view);
     }
 
     /// <summary>
     /// Represents an abstract repository to store view instances.
     /// </summary>
-    public interface IViewRepository<IView> : IViewRepositoryWriter, IViewRepositoryWriterReader<IView> where IView: class
+    public interface IViewRepository<TView> : IViewRepositoryWriter, IViewRepositoryWriterReader<TView> where TView : ViewBase, new()
     {
     }
 }

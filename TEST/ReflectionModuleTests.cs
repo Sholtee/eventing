@@ -5,7 +5,6 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 using Moq;
 using NUnit.Framework;
@@ -21,17 +20,10 @@ namespace Solti.Utils.Eventing.Tests
     {
         private static ReflectionModule ReflectionModule { get; } = new ReflectionModule();
 
-        public interface IView
-        {
-            void Annotated(int param);
-
-            void NotAnnotated(string param);
-        }
-
-        public class View : ViewBase, IView
+        public class View : ViewBase
         {
             [Event(Name = "some-event")]
-            public virtual void Annotated(int param) { }
+            public virtual string Annotated(int param) => "cica";
 
             public virtual void NotAnnotated(string param) { }
         }
@@ -40,21 +32,33 @@ namespace Solti.Utils.Eventing.Tests
         public void CreateInterceptorFactory_ShouldCreateAFactoryFunction()
         {
             Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
+            
+            Func<View> fact = ReflectionModule.CreateInterceptorFactory<View>();
+            View view = fact();
 
-            View impl = new()
-            {
-                FlowId = "id",
-                OwnerRepository = mockEventRepo.Object
-            };
+            mockEventRepo.Setup(r => r.Persist(view, "some-event", new object[] { 1 }));
 
-            mockEventRepo.Setup(r => r.Persist(impl, "some-event", new object[] { 1 }));
+            view.OwnerRepository = mockEventRepo.Object;
+            view.FlowId = "id";
 
-            Func<View, IView> fact = ReflectionModule.CreateInterceptorFactory<View, IView>();
-            IView view = fact(impl);
+            Assert.That(view.Annotated(1), Is.EqualTo("cica"));
 
+            mockEventRepo.Verify(r => r.Persist(view, "some-event", new object[] { 1 }), Times.Once);
+        }
+
+        [Test]
+        public void Interceptor_MayBeDisabled()
+        {
+            Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
+
+            Func<View> fact = ReflectionModule.CreateInterceptorFactory<View>();
+            View view = fact();
+            view.OwnerRepository = mockEventRepo.Object;
+
+            view.DisableInterception = true;
             view.Annotated(1);
 
-            mockEventRepo.Verify(r => r.Persist(impl, "some-event", new object[] { 1 }), Times.Once);
+            mockEventRepo.Verify(r => r.Persist(It.IsAny<ViewBase>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Never);
         }
 
         [Test]
@@ -73,13 +77,13 @@ namespace Solti.Utils.Eventing.Tests
             mockView.Verify(v => v.Annotated(1986), Times.Once);
         }
 
-        public class ViewHavingDuplicateEvent : ViewBase, IView
+        public class ViewHavingDuplicateEvent : ViewBase
         {
             [Event(Name = "some-event")]
-            public void Annotated(int param) { }
+            public virtual void Annotated(int param) { }
 
             [Event(Name = "some-event")]
-            public void NotAnnotated(string param) { }
+            public virtual void NotAnnotated(string param) { }
         }
 
         [Test]

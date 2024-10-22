@@ -15,7 +15,7 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// The unique id if this view.
         /// </summary>
-        public string FlowId { get; init; } = null!;
+        public string FlowId { get; set; } = null!;
 
         /// <summary>
         /// The <see cref="IViewRepositoryWriter"/> that owns this view.
@@ -24,8 +24,15 @@ namespace Solti.Utils.Eventing.Abstractions
         public IViewRepositoryWriter OwnerRepository { get; internal set; } = null!;
 
         /// <summary>
+        /// If set to true, eventized methods wont be intercepted.
+        /// </summary>
+        [IgnoreDataMember]
+        public bool DisableInterception { get; set; }
+
+        /// <summary>
         /// Determines if the current view is valid
         /// </summary>
-        public virtual bool IsValid() => !string.IsNullOrWhiteSpace(FlowId);
+        [IgnoreDataMember]
+        public virtual bool IsValid => !string.IsNullOrWhiteSpace(FlowId);
     }
 }

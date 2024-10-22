@@ -17,6 +17,7 @@
 	</PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Castle.Core" Version="5.*" />
         <PackageReference Include="IsExternalInit" Version="1.0.*">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,7 +28,6 @@
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.*" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.*" />
-        <PackageReference Include="ProxyGen.NET" Version="9.*" />
         <PackageReference Include="RequiredMemberAttribute" Version="1.0.*">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
