@@ -16,7 +16,7 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Creates a global lock over the given <paramref name="key"/>.
         /// </summary>
         /// <remarks><paramref name="ownerId"/> is to help identify the owner the lock</remarks>
-        IDisposable Acquire(string key, string ownerId);
+        IDisposable Acquire(string key, string ownerId, TimeSpan timeout);
 
         /// <summary>
         /// Returns whether the given lock is held be the provided owner.

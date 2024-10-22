@@ -33,7 +33,12 @@ namespace Solti.Utils.Eventing
         /// <summary>
         /// Gets or sets the cache expiraton.
         /// </summary>
-        public static TimeSpan CacheEntryExpiration { get; set; } = TimeSpan.FromHours(24);
+        public TimeSpan CacheEntryExpiration { get; set; } = TimeSpan.FromHours(24);
+
+        /// <summary>
+        /// Gets or sets the lock timeout.
+        /// </summary>
+        public TimeSpan LockTimeout { get; set; } = TimeSpan.FromSeconds(60);
 
         /// <inheritdoc/>
         public void Persist(ViewBase view, string eventId, object?[] args)
@@ -86,7 +91,7 @@ namespace Solti.Utils.Eventing
             // Lock the flow
             //
 
-            IDisposable lockInst = @lock.Acquire(flowId, FRepoId);
+            IDisposable lockInst = @lock.Acquire(flowId, FRepoId, LockTimeout);
             try
             {
                 //

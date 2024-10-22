@@ -45,7 +45,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
-                .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
             IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
@@ -74,7 +74,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
-                .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
             IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object, mockCache.Object);
@@ -107,7 +107,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
-                .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
             IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object, mockCache.Object);
@@ -140,7 +140,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
-                .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
             IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object, mockCache.Object);
@@ -165,14 +165,14 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
-                .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
             
             repo.Materialize("flowId", out View view);
 
-            mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>()), Times.Once);
+            mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>(), repo.LockTimeout), Times.Once);
             mockDisposable.Verify(d => d.Dispose(), Times.Never);
         }
 
@@ -189,14 +189,14 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
-                .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
-            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
 
             Assert.Throws<ArgumentException>(() => repo.Materialize("flowId", out View view));
 
-            mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>()), Times.Once);
+            mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>(), repo.LockTimeout), Times.Once);
             mockDisposable.Verify(d => d.Dispose(), Times.Once);
         }
 
@@ -213,7 +213,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
-                .Setup(l => l.Acquire("flowId", It.IsAny<string>()))
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
             IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
