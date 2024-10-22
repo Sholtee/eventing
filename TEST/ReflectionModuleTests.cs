@@ -27,7 +27,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void CreateInterceptorFactory_ShouldCreateAFactoryFunction()
+        public void ReflectionModule_ShouldCreateAFactoryFunction()
         {
             Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
 
@@ -58,7 +58,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void CreateEventProcessorsDict_ShouldCreateAProcessorFunctionForEachEvent()
+        public void ReflectionModule_ShouldCreateAProcessorFunctionForEachEvent()
         {
             Mock<View> mockView = new(MockBehavior.Strict);
             mockView.Setup(v => v.Annotated(1986)).Returns("cica");
@@ -83,7 +83,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void CreateEventProcessorsDict_ShouldThrowOnDuplicateEvent()
+        public void ReflectionModule_ShouldThrowOnDuplicateEvent()
         {
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => _ = ReflectionModule<ViewHavingDuplicateEvent>.Instance)!;
             Assert.That(ex.Message, Is.EqualTo(string.Format(DUPLICATE_EVENT_ID, "some-event")));
@@ -96,7 +96,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void CreateEventProcessorsDict_ShouldThrowOnNonVirtualEvent()
+        public void ReflectionModule_ShouldThrowOnNonVirtualEvent()
         {
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => _ = ReflectionModule<ViewHavingNonVirtualEvent>.Instance)!;
             Assert.That(ex.Message, Is.EqualTo(string.Format(NOT_VIRTUAL, nameof(ViewHavingNonVirtualEvent.Annotated))));
@@ -109,7 +109,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void CreateEventProcessorsDict_ShouldThrowOnSealedView()
+        public void ReflectionModule_ShouldThrowOnSealedView()
         {
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => _ = ReflectionModule<SealedView>.Instance)!;
             Assert.That(ex.Message, Is.EqualTo(CANNOT_BE_INTERCEPTED));
