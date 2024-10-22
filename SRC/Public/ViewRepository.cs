@@ -23,7 +23,9 @@ namespace Solti.Utils.Eventing
     /// </summary>
     public class ViewRepository<TView>(IEventStore eventStore, IDistributedLock @lock, ISerializer serializer, IReflectionModule<TView> reflectionModule, IDistributedCache? cache, ILogger? logger) : IViewRepository<TView> where TView: ViewBase, new()
     {
-        private readonly string FRepoId = Guid.NewGuid().ToString("D");
+        private readonly string FRepoId = CreateGuid();
+
+        private static string CreateGuid() => Guid.NewGuid().ToString("D");
 
         /// <summary>
         /// Creates a new <see cref="ViewRepository{TView}"/> instance
@@ -168,7 +170,7 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public IDisposable Create(string? flowId, out TView view)
         {
-            flowId ??= Guid.NewGuid().ToString("D");
+            flowId ??= CreateGuid();
 
             //
             // Lock the flow
