@@ -18,10 +18,10 @@ namespace Solti.Utils.Eventing.Abstractions
         public string FlowId { get; set; } = null!;
 
         /// <summary>
-        /// The <see cref="IViewRepositoryWriter"/> that owns this view.
+        /// The repository that owns this view.
         /// </summary>
         [IgnoreDataMember] // do not use [JsonIgnore] here as we want a generic way to ignore properties
-        public IViewRepositoryWriter OwnerRepository { get; internal set; } = null!;
+        public object OwnerRepository { get; internal set; } = null!;
 
         /// <summary>
         /// If set to true, eventized methods wont be intercepted.

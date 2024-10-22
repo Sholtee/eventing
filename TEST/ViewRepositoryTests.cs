@@ -232,5 +232,33 @@ namespace Solti.Utils.Eventing.Tests
 
             Assert.Throws<ArgumentNullException>(() => repo.Materialize(null!, out View view));
         }
+
+        [Test]
+        public void Persist_ShouldThrowIsTheLockIsNotOwned()
+        {
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            mockLock
+                .Setup(l => l.IsHeld(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(false);
+
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
+
+            Assert.Throws<InvalidOperationException>(() => repo.Persist(new View(), "event", []));
+        }
+
+        [Test]
+        public void Persist_ShouldBeNullSafe()
+        {
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+
+            IViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
+
+            Assert.Throws<ArgumentNullException>(() => repo.Persist(null!, "event", []));
+            Assert.Throws<ArgumentNullException>(() => repo.Persist(new View(), null!, []));
+            Assert.Throws<ArgumentNullException>(() => repo.Persist(new View(), "event", null!));
+        }
     }
 }

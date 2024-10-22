@@ -41,7 +41,7 @@ namespace Solti.Utils.Eventing
         public TimeSpan LockTimeout { get; set; } = TimeSpan.FromSeconds(60);
 
         /// <inheritdoc/>
-        public void Persist(ViewBase view, string eventId, object?[] args)
+        public void Persist(TView view, string eventId, object?[] args)
         {
             if (view is null)
                 throw new ArgumentNullException(nameof(view));

@@ -35,13 +35,16 @@ namespace Solti.Utils.Eventing
             {
                 invocation.Proceed();
 
-                ViewBase view = (ViewBase) invocation.Proxy;
+                TView view = (TView) invocation.Proxy;
 
                 if (!view.DisableInterception)
                 {
                     EventAttribute? evtAttr = invocation.MethodInvocationTarget.GetCustomAttribute<EventAttribute>();
                     if (evtAttr is not null)
-                        view.OwnerRepository.Persist(view, evtAttr.Name, invocation.Arguments);
+                    {
+                        IViewRepository<TView> repo = (IViewRepository<TView>) view.OwnerRepository;
+                        repo.Persist(view, evtAttr.Name, invocation.Arguments);
+                    }
                 }
             }
         }

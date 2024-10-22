@@ -29,7 +29,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void ReflectionModule_ShouldCreateAFactoryFunction()
         {
-            Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
+            Mock<IViewRepository<View>> mockEventRepo = new(MockBehavior.Strict);
 
             View view = ReflectionModule<View>.Instance.CreateRawView();
 
@@ -46,7 +46,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Interceptor_MayBeDisabled()
         {
-            Mock<IViewRepositoryWriter> mockEventRepo = new(MockBehavior.Strict);
+            Mock<IViewRepository<View>> mockEventRepo = new(MockBehavior.Strict);
 
             View view = ReflectionModule<View>.Instance.CreateRawView();
             view.OwnerRepository = mockEventRepo.Object;
@@ -54,7 +54,7 @@ namespace Solti.Utils.Eventing.Tests
             view.DisableInterception = true;
             view.Annotated(1);
 
-            mockEventRepo.Verify(r => r.Persist(It.IsAny<ViewBase>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Never);
+            mockEventRepo.Verify(r => r.Persist(It.IsAny<View>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Never);
         }
 
         [Test]
