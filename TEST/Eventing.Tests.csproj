@@ -12,6 +12,7 @@
 		<RootNamespace>Solti.Utils.Eventing.Tests</RootNamespace>
 		<Configurations>Debug;</Configurations>
 		<Optimize>false</Optimize>
+        <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -347,5 +347,55 @@ namespace Solti.Utils.Eventing.Tests
             mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()), Times.Once);
             mockCache.Verify(c => c.Remove("flowId"), Times.Once);
         }
+
+        [Test]
+        public void Create_ShouldCreateANewView([Values(null, "a35a0d2d-b316-4240-b573-0a1d39c2daef")] string? flowId)
+        {
+            Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
+            mockDisposable.Setup(d => d.Dispose());
+
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            mockLock
+                .Setup(l => l.Acquire(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>()))
+                .Returns(mockDisposable.Object);
+
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .Setup(s => s.QueryEvents(It.IsAny<string>()))
+                .Returns([]);
+
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+
+            repo.Create(flowId, out View view);
+
+            Assert.That(view, Is.Not.Null);
+            Assert.That(view.OwnerRepository, Is.EqualTo(repo));
+            Assert.That(Guid.TryParse(view.FlowId, out _));
+
+            mockLock.Verify(l => l.Acquire(view.FlowId, It.IsAny<string>(), repo.LockTimeout));
+            mockEventStore.Verify(s => s.QueryEvents(view.FlowId));
+        }
+
+        [Test]
+        public void Create_ShouldThrowOnExistingFlowId()
+        {
+            Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
+            mockDisposable.Setup(d => d.Dispose());
+
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            mockLock
+                .Setup(l => l.Acquire(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>()))
+                .Returns(mockDisposable.Object);
+
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .Setup(s => s.QueryEvents("existing"))
+                .Returns([new Event("existing", "some-event", DateTime.UtcNow, "[]")]);
+
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+
+            ArgumentException ex = Assert.Throws<ArgumentException>(() => repo.Create("existing", out View view))!;
+            Assert.That(ex.Message, Does.StartWith(Format(FLOW_ID_ALREADY_EXISTS, "existing")));
+        }
     }
 }

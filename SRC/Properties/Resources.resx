@@ -159,4 +159,7 @@
   <data name="CANNOT_BE_INTERCEPTED" xml:space="preserve">
     <value>The given class cannot be intercepted (is it sealed?)</value>
   </data>
+  <data name="FLOW_ID_ALREADY_EXISTS" xml:space="preserve">
+    <value>The given flow id already exists: "{0}"</value>
+  </data>
 </root>

@@ -88,6 +88,15 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given flow id already exists: &quot;{0}&quot;.
+        /// </summary>
+        internal static string FLOW_ID_ALREADY_EXISTS {
+            get {
+                return ResourceManager.GetString("FLOW_ID_ALREADY_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid event id provided: &quot;{0}&quot;.
         /// </summary>
         internal static string INVALID_EVENT_ID {

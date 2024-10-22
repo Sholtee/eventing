@@ -23,7 +23,7 @@ namespace Solti.Utils.Eventing
     /// </summary>
     public class ViewRepository<TView>(IEventStore eventStore, IDistributedLock @lock, ISerializer serializer, IReflectionModule<TView> reflectionModule, IDistributedCache? cache, ILogger? logger) : IViewRepository<TView> where TView: ViewBase, new()
     {
-        private readonly string FRepoId = Guid.NewGuid().ToString();
+        private readonly string FRepoId = Guid.NewGuid().ToString("D");
 
         /// <summary>
         /// Creates a new <see cref="ViewRepository{TView}"/> instance
@@ -162,6 +162,31 @@ namespace Solti.Utils.Eventing
                 view.DisableInterception = true;
 
                 return view;
+            }
+        }
+
+        /// <inheritdoc/>
+        public IDisposable Create(string? flowId, out TView view)
+        {
+            flowId ??= Guid.NewGuid().ToString("D");
+
+            //
+            // Lock the flow
+            //
+
+            IDisposable lockInst = @lock.Acquire(flowId, FRepoId, LockTimeout);
+            try
+            {
+                if (eventStore.QueryEvents(flowId).Count > 0)
+                    throw new ArgumentException(Format(FLOW_ID_ALREADY_EXISTS, flowId), nameof(flowId));
+
+                view = reflectionModule.CreateRawView(flowId, this);
+                return lockInst;
+            }
+            catch
+            {
+                lockInst.Dispose();
+                throw;
             }
         }
     }
