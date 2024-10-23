@@ -50,15 +50,10 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Acquire_ShouldBlock()
         {
-            Mock<ISerializer> mockSerializer = new(MockBehavior.Strict);
-            mockSerializer
-                .Setup(s => s.Serialize(It.IsAny<It.IsAnyType>()))
-                .Returns<object>(JsonSerializer.Instance.Serialize);
-
             Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
-            DistributedLock @lock = new(mockCache.Object, mockSerializer.Object, mockSleep.Object);
+            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance, mockSleep.Object);
 
             int sleepCalled = 0;
 
