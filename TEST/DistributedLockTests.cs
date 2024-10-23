@@ -82,15 +82,10 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Acquire_ShouldTimeout()
         {
-            Mock<ISerializer> mockSerializer = new(MockBehavior.Strict);
-            mockSerializer
-                .Setup(s => s.Serialize(It.IsAny<It.IsAnyType>()))
-                .Returns<object>(JsonSerializer.Instance.Serialize);
-
             Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
-            DistributedLock @lock = new(mockCache.Object, mockSerializer.Object, mockSleep.Object);
+            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance, mockSleep.Object);
 
             mockSleep.Setup(s => s.Invoke(@lock.PollingInterval));
 
@@ -110,15 +105,10 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Acquire_ShouldTimeout2()
         {
-            Mock<ISerializer> mockSerializer = new(MockBehavior.Strict);
-            mockSerializer
-                .Setup(s => s.Serialize(It.IsAny<It.IsAnyType>()))
-                .Returns<object>(JsonSerializer.Instance.Serialize);
-
             Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
-            DistributedLock @lock = new(mockCache.Object, mockSerializer.Object, mockSleep.Object);
+            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance, mockSleep.Object);
 
             mockSleep.Setup(s => s.Invoke(@lock.PollingInterval));
 
@@ -133,6 +123,29 @@ namespace Solti.Utils.Eventing.Tests
 
             mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once);
             mockSleep.Verify(s => s.Invoke(It.IsAny<TimeSpan>()), Times.Never);
+        }
+
+        public static IEnumerable<object?[]> IsHeld_ShouldDetermineIfTheHoldIsOwnedByTheCurrentApp_Params
+        {
+            get
+            {
+                yield return new object?[] { null, false };
+                yield return new object?[] { JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "different" } }), false };
+                yield return new object?[] { JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } }), true };
+            }
+        }
+
+        [TestCaseSource(nameof(IsHeld_ShouldDetermineIfTheHoldIsOwnedByTheCurrentApp_Params))]
+        public void IsHeld_ShouldDetermineIfTheHoldIsOwnedByTheCurrentApp(string cacheRetVal, bool expected)
+        {
+            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
+            mockCache
+                .Setup(c => c.Get(It.IsAny<string>()))
+                .Returns(cacheRetVal);
+
+            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance);
+
+            Assert.That(@lock.IsHeld("key", "owner"), Is.EqualTo(expected));
         }
     }
 }
