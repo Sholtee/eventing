@@ -20,16 +20,66 @@ namespace Solti.Utils.Eventing
     /// <summary>
     /// View repository
     /// </summary>
-    public class ViewRepository<TView>(IEventStore eventStore, IDistributedLock @lock, ISerializer serializer, IReflectionModule<TView> reflectionModule, IDistributedCache? cache, ILogger? logger) : IViewRepository<TView> where TView: ViewBase, new()
+    public class ViewRepository<TView> : IViewRepository<TView> where TView: ViewBase, new()
     {
-        private readonly string FRepoId = CreateGuid();
-
         private static string CreateGuid() => Guid.NewGuid().ToString("D");
 
         /// <summary>
         /// Creates a new <see cref="ViewRepository{TView}"/> instance
         /// </summary>
-        public ViewRepository(IEventStore eventStore, IDistributedLock @lock, IDistributedCache? cache = null, ILogger? logger = null) : this(eventStore, @lock, JsonSerializer.Instance, ReflectionModule<TView>.Instance, cache, logger) { }
+        public ViewRepository(IEventStore eventStore, IDistributedLock @lock, ISerializer? serializer = null, IReflectionModule<TView>? reflectionModule = null, IDistributedCache? cache = null, ILogger? logger = null)
+        {
+            EventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
+            Lock = @lock ?? throw new ArgumentNullException(nameof(@lock));
+
+            Serializer = serializer ?? JsonSerializer.Instance;
+            ReflectionModule = reflectionModule ?? ReflectionModule<TView>.Instance;
+
+            Cache = cache;
+            Logger = logger;
+
+            RepoId = CreateGuid();
+
+            if (!eventStore.SchemaInitialized)
+                using (Lock.Acquire("SCHEMA_INIT_LOCK", RepoId, LockTimeout))
+                    if (!eventStore.SchemaInitialized)
+                        eventStore.InitSchema();
+        }
+
+        /// <summary>
+        /// The underlying data store.
+        /// </summary>
+        public IEventStore EventStore { get; }
+
+        /// <summary>
+        /// Global lcok to be used
+        /// </summary>
+        public IDistributedLock Lock { get; }
+
+        /// <summary>
+        /// Global cache to be used.
+        /// </summary>
+        public IDistributedCache? Cache { get; }
+
+        /// <summary>
+        /// Logger to be used
+        /// </summary>
+        public ILogger? Logger { get; }
+
+        /// <summary>
+        /// Serializer to be used.
+        /// </summary>
+        public ISerializer Serializer { get; }
+
+        /// <summary>
+        /// Module responsible for reflection related task-
+        /// </summary>
+        public IReflectionModule<TView> ReflectionModule { get; }
+
+        /// <summary>
+        /// The unique id of this repository.
+        /// </summary>
+        public string RepoId { get; }
 
         /// <summary>
         /// Gets or sets the cache expiraton.
@@ -53,31 +103,31 @@ namespace Solti.Utils.Eventing
             if (args is null)
                 throw new ArgumentNullException(nameof(args));
 
-            if (!@lock.IsHeld(view.FlowId, FRepoId))
+            if (!Lock.IsHeld(view.FlowId, RepoId))
                 throw new InvalidOperationException(NO_LOCK);
 
-            logger?.LogInformation(new EventId(503, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
+            Logger?.LogInformation(new EventId(503, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
 
-            cache?.Set
+            Cache?.Set
             (
                 view.FlowId,
-                serializer.Serialize(view),
+                Serializer.Serialize(view),
                 CacheEntryExpiration,
                 DistributedCacheInsertionFlags.AllowOverwrite
             );
 
-            logger?.LogInformation(new EventId(504, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
+            Logger?.LogInformation(new EventId(504, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
 
             try
             {
-                eventStore.SetEvent
+                EventStore.SetEvent
                 (
                     new Event
                     (
                         view.FlowId,
                         eventId,
                         DateTime.UtcNow,
-                        serializer.Serialize(args)
+                        Serializer.Serialize(args)
                     )
                 );
             }
@@ -87,7 +137,7 @@ namespace Solti.Utils.Eventing
                 // Drop the cache to prevent inconsistent state
                 //
 
-                cache?.Remove(view.FlowId);
+                Cache?.Remove(view.FlowId);
                 throw;
             }
         }
@@ -102,32 +152,32 @@ namespace Solti.Utils.Eventing
             // Lock the flow
             //
 
-            IDisposable lockInst = @lock.Acquire(flowId, FRepoId, LockTimeout);
+            IDisposable lockInst = Lock.Acquire(flowId, RepoId, LockTimeout);
             try
             {
                 //
                 // Check if we can grab the view from the cache
                 //
 
-                string? cached = cache?.Get(flowId);
+                string? cached = Cache?.Get(flowId);
                 if (cached is not null)
                 {
-                    logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
+                    Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
 
-                    view = serializer.Deserialize(cached, CreateRawView)!;
+                    view = Serializer.Deserialize(cached, CreateRawView)!;
                     if (view.IsValid)
                         return lockInst;
 
-                    logger?.LogWarning(new EventId(300, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
+                    Logger?.LogWarning(new EventId(300, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
                 }
 
                 //
                 // Materialize the view by replaying the events
                 //
 
-                logger?.LogInformation(new EventId(501, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
+                Logger?.LogInformation(new EventId(501, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
 
-                IList<Event> events = eventStore.QueryEvents(flowId);
+                IList<Event> events = EventStore.QueryEvents(flowId);
                 if (events.Count is 0)
                     throw new ArgumentException(Format(INVALID_FLOW_ID, flowId), nameof(flowId));
 
@@ -135,10 +185,10 @@ namespace Solti.Utils.Eventing
 
                 foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
                 {
-                    if (!reflectionModule.EventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
+                    if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
                         throw new InvalidOperationException(Format(INVALID_EVENT_ID, evt.EventId));
 
-                    processor(view, evt.Arguments, serializer);
+                    processor(view, evt.Arguments, Serializer);
                 }
 
                 view.DisableInterception = false;
@@ -152,7 +202,7 @@ namespace Solti.Utils.Eventing
 
             TView CreateRawView()
             {
-                TView view = reflectionModule.CreateRawView(flowId, this);
+                TView view = ReflectionModule.CreateRawView(flowId, this);
 
                 //
                 // Disable interceptors while deserializing or replying the events
@@ -173,13 +223,13 @@ namespace Solti.Utils.Eventing
             // Lock the flow
             //
 
-            IDisposable lockInst = @lock.Acquire(flowId, FRepoId, LockTimeout);
+            IDisposable lockInst = Lock.Acquire(flowId, RepoId, LockTimeout);
             try
             {
-                if (eventStore.QueryEvents(flowId).Count > 0)
+                if (EventStore.QueryEvents(flowId).Count > 0)
                     throw new ArgumentException(Format(FLOW_ID_ALREADY_EXISTS, flowId), nameof(flowId));
 
-                view = reflectionModule.CreateRawView(flowId, this);
+                view = ReflectionModule.CreateRawView(flowId, this);
                 return lockInst;
             }
             catch

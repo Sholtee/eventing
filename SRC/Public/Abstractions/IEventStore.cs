@@ -26,5 +26,10 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Initializes the schema in the underlying data store.
         /// </summary>
         void InitSchema();
+
+        /// <summary>
+        /// Determines if the underlying data schema had been initialized.
+        /// </summary>
+        bool SchemaInitialized { get; }
     }
 }
