@@ -39,7 +39,7 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(ret.Length, Is.EqualTo(1));
             
             ret = (ret[0] as object?[])!;
-            Assert.NotNull(ret);
+            Assert.That(ret, Is.Not.Null);
             Assert.That(ret.Length, Is.EqualTo(1));
             Assert.That(((JsonElement) ret[0]!).GetInt32(), Is.EqualTo(1));
         }
@@ -77,12 +77,12 @@ namespace Solti.Utils.Eventing.Tests
             mockCtor.Verify(c => c.Invoke(), Times.Once);
         }
 
-        public class MyClass
+        internal class MyClass
         {
             public int NonIgnored { get; init; }
         }
 
-        public class MyClassHavingIgnoredMember: MyClass
+        internal class MyClassHavingIgnoredMember: MyClass
         {
             [IgnoreDataMember]
             public string Ignored { get; init; } = null!;

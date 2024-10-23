@@ -18,7 +18,7 @@ namespace Solti.Utils.Eventing.Tests
     [TestFixture]
     public class ReflectionModuleTests
     {
-        public class View : ViewBase
+        internal class View : ViewBase
         {
             [Event(Name = "some-event")]
             public virtual string Annotated(int param) => "cica";
@@ -69,7 +69,7 @@ namespace Solti.Utils.Eventing.Tests
             mockView.Verify(v => v.Annotated(1986), Times.Once);
         }
 
-        public class ViewHavingDuplicateEvent : ViewBase
+        internal class ViewHavingDuplicateEvent : ViewBase
         {
             [Event(Name = "some-event")]
             public virtual void Annotated(int param) { }
@@ -85,10 +85,10 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(ex.Message, Is.EqualTo(string.Format(DUPLICATE_EVENT_ID, "some-event")));
         }
 
-        public class ViewHavingNonVirtualEvent : ViewBase
+        internal class ViewHavingNonVirtualEvent : ViewBase
         {
             [Event(Name = "some-event")]
-            public void Annotated(int param) { }
+            public void Annotated(int param) => _ = this;
         }
 
         [Test]
@@ -98,10 +98,10 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(ex.Message, Is.EqualTo(string.Format(NOT_VIRTUAL, nameof(ViewHavingNonVirtualEvent.Annotated))));
         }
 
-        public sealed class SealedView : ViewBase
+        internal sealed class SealedView : ViewBase
         {
             [Event(Name = "some-event")]
-            public void Annotated(int param) { }
+            public void Annotated(int param)  => _ = this;
         }
 
         [Test]
