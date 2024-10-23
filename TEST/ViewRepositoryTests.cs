@@ -7,7 +7,6 @@ using System;
 using System.Linq;
 using System.Text;
 
-using Microsoft.Extensions.Caching.Distributed;
 using Moq;
 using NUnit.Framework;
 
@@ -69,7 +68,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
                 .Setup(c => c.Get("flowId"))
-                .Returns(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(new View { FlowId = "flowId", OwnerRepository = null!, Param = 1986 })));
+                .Returns(JsonSerializer.Instance.Serialize(new View { FlowId = "flowId", OwnerRepository = null!, Param = 1986 }));
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -102,7 +101,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
                 .Setup(c => c.Get("flowId"))
-                .Returns(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(new object())));
+                .Returns(JsonSerializer.Instance.Serialize(new object()));
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -135,7 +134,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
                 .Setup(c => c.Get("flowId"))
-                .Returns((byte[]) null!);
+                .Returns((string) null!);
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -281,27 +280,18 @@ namespace Solti.Utils.Eventing.Tests
             
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
 
-            mockCache.Setup
-            (
-                c => c.Set
+            mockCache
+                .Setup
                 (
-                    "flowId",
-                    It.Is<byte[]>
-                    (
-                        blob => blob.SequenceEqual(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(view)))
-                    ),
-                    It.Is<DistributedCacheEntryOptions>
-                    (
-                        opt => opt.SlidingExpiration == repo.CacheEntryExpiration
-                    )
+                    c => c.Set("flowId", JsonSerializer.Instance.Serialize(view), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
                 )
-            );
+                .Returns(true);
 
             Assert.DoesNotThrow(() => repo.Persist(view, "some-event", []));
 
             mockLock.Verify(l => l.IsHeld(It.IsAny<string>(), It.IsAny<string>()));
             mockEventStore.Verify(s => s.SetEvent(It.IsAny<Event>()), Times.Once);
-            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()), Times.Once);
+            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once);
         }
 
         [Test]
@@ -323,28 +313,21 @@ namespace Solti.Utils.Eventing.Tests
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
 
-            mockCache.Setup
-            (
-                c => c.Set
+            mockCache
+                .Setup
                 (
-                    "flowId",
-                    It.Is<byte[]>
-                    (
-                        blob => blob.SequenceEqual(Encoding.UTF8.GetBytes(JsonSerializer.Instance.Serialize(view)))
-                    ),
-                    It.Is<DistributedCacheEntryOptions>
-                    (
-                        opt => opt.SlidingExpiration == repo.CacheEntryExpiration
-                    )
+                    c => c.Set("flowId", JsonSerializer.Instance.Serialize(view), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
                 )
-            );
-            mockCache.Setup(c => c.Remove("flowId"));
+                .Returns(true);
+            mockCache
+                .Setup(c => c.Remove("flowId"))
+                .Returns(true);
 
             Exception ex = Assert.Throws<InvalidOperationException>(() => repo.Persist(view, "some-event", []))!;
             Assert.That(ex.Message, Is.EqualTo("cica"));
 
             mockEventStore.Verify(s => s.SetEvent(It.IsAny<Event>()), Times.Once);
-            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()), Times.Once);
+            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once);
             mockCache.Verify(c => c.Remove("flowId"), Times.Once);
         }
 

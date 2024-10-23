@@ -21,5 +21,10 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Pushes a new event into the store.
         /// </summary>
         void SetEvent(Event @event);
+
+        /// <summary>
+        /// Initializes the schema in the underlying data store.
+        /// </summary>
+        void InitSchema();
     }
 }

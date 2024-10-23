@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 
 using static System.String;
@@ -59,14 +58,12 @@ namespace Solti.Utils.Eventing
 
             logger?.LogInformation(new EventId(503, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
 
-            cache?.SetString
+            cache?.Set
             (
                 view.FlowId,
                 serializer.Serialize(view),
-                new DistributedCacheEntryOptions
-                {
-                    SlidingExpiration = CacheEntryExpiration
-                }
+                CacheEntryExpiration,
+                DistributedCacheInsertionFlags.AllowOverwrite
             );
 
             logger?.LogInformation(new EventId(504, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
@@ -112,7 +109,7 @@ namespace Solti.Utils.Eventing
                 // Check if we can grab the view from the cache
                 //
 
-                string? cached = cache?.GetString(flowId);
+                string? cached = cache?.Get(flowId);
                 if (cached is not null)
                 {
                     logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
