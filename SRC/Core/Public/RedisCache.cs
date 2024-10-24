@@ -52,7 +52,9 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public bool Remove(string key)
         {
-            throw new NotImplementedException();
+            IDatabase db = FConnection.GetDatabase();
+
+            return db.KeyDelete(key);
         }
 
         /// <inheritdoc/>

@@ -3,6 +3,7 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
+using System;
 using System.Collections.Generic;
 
 namespace Solti.Utils.Eventing.Abstractions
@@ -10,7 +11,7 @@ namespace Solti.Utils.Eventing.Abstractions
     /// <summary>
     /// Describes the contract of event stores
     /// </summary>
-    public interface IEventStore
+    public interface IEventStore: IDisposable
     {
         /// <summary>
         /// Gets the events associated with the given <paramref name="flowId"/>

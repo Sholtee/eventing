@@ -81,5 +81,31 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(FCache.Set("key", "value2", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.None), Is.False);
             Assert.That(FCache.Get("key"), Is.EqualTo("value1"));
         }
+
+        [Test]
+        public void Remove_ShouldRemoveTheEntry([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        {
+            FCache.Set("key", "value", TimeSpan.FromSeconds(1), flags);
+            Assert.That(FCache.Remove("key"));
+            Assert.That(FCache.Get("key"), Is.Null);
+            Assert.That(FCache.Remove("key"), Is.False);
+        }
+
+        [Test]
+        public void Remove_ShouldReturnFalseOnExpiredEntry([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        {
+            FCache.Set("key", "value", TimeSpan.FromMilliseconds(1), flags);
+            Thread.Sleep(10);
+            Assert.That(FCache.Remove("key"), Is.False);
+        }
+
+        [Test]
+        public void RemovedEntry_CanBeReset([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        {
+            FCache.Set("key", "value1", TimeSpan.FromSeconds(1), flags);
+            FCache.Remove("key");
+            Assert.That(FCache.Set("key", "value2", TimeSpan.FromSeconds(1), flags));
+            Assert.That(FCache.Get("key"), Is.EqualTo("value2"));
+        }
     }
 }

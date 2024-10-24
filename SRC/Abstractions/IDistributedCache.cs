@@ -20,7 +20,7 @@ namespace Solti.Utils.Eventing.Abstractions
     /// <summary>
     /// DEfines the contract of distributed chaches
     /// </summary>
-    public interface IDistributedCache
+    public interface IDistributedCache: IDisposable
     {
         /// <summary>
         /// Sets or updates an entry in the cache.
