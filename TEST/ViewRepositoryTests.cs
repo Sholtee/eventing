@@ -78,7 +78,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             repo.Materialize("flowId", out View view);
 
@@ -111,7 +111,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             repo.Materialize("flowId", out View view);
 
@@ -144,7 +144,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()))
                 .Returns(mockDisposable.Object);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             ArgumentException ex = Assert.Throws<ArgumentException>(() => repo.Materialize("flowId", out View view))!;
             Assert.That(ex.Message, Does.StartWith(Format(INVALID_FLOW_ID, "flowId")));
@@ -278,7 +278,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             mockCache
                 .Setup
@@ -311,7 +311,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, mockCache.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             mockCache
                 .Setup
