@@ -41,7 +41,7 @@
     </ItemGroup>
 
     <ItemGroup>
-	  <ProjectReference Include="..\SRC\Eventing.csproj" />
+	  <ProjectReference Include="..\SRC\Core\Eventing.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
