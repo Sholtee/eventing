@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+	<AssemblyName>Solti.Utils.Eventing.Abstractions</AssemblyName>
+	<RootNamespace>Solti.Utils.Eventing.Abstractions</RootNamespace>
+    </PropertyGroup>
+
+    <Import Project="..\Common.targets" />
+</Project>
