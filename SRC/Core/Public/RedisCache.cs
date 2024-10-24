@@ -11,7 +11,12 @@ namespace Solti.Utils.Eventing
 {
     using Abstractions;
 
-    public sealed class RedisCache(string config, ISerializer serializer) : IDistributedCache, IDisposable
+    /// <summary>
+    /// Implements the <see cref="IDistributedCache"/> interface over Redis
+    /// </summary>
+    /// <param name="config"></param>
+    /// <param name="serializer"></param>
+    public sealed class RedisCache(string config, ISerializer serializer) : IDistributedCache
     {
         private ConnectionMultiplexer FConnection = ConnectionMultiplexer.Connect(config);
 
@@ -21,6 +26,9 @@ namespace Solti.Utils.Eventing
             public required long Expiration { get; init; }
         }
 
+        /// <summary>
+        /// Closes the underlying database connection
+        /// </summary>
         public void Dispose()
         {
             FConnection?.Dispose();

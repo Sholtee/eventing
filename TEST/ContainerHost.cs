@@ -1,5 +1,5 @@
 /********************************************************************************
-* ModuleTestsBase.cs                                                            *
+* ContainerHost.cs                                                              *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
@@ -8,16 +8,14 @@ using System.IO;
 
 using Ductus.FluentDocker.Services;
 using Ductus.FluentDocker.Builders;
-using NUnit.Framework;
 
 namespace Solti.Utils.Eventing.Tests
 {
-    public abstract class ModuleTestsBase
+    public sealed class ContainerHost: IDisposable
     {
         private ICompositeService FService;
 
-        [SetUp]
-        public virtual void Setup()
+        public ContainerHost()
         {
             FService = new Builder()
                 .UseContainer()
@@ -29,7 +27,10 @@ namespace Solti.Utils.Eventing.Tests
                 .Start();
         }
 
-        [TearDown]
-        public virtual void Teardown() => FService?.Dispose();
+        public void Dispose()
+        {
+            FService?.Dispose();
+            FService = null!;
+        }
     }
 }

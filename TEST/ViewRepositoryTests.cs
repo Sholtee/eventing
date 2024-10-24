@@ -4,8 +4,6 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
-using System.Linq;
-using System.Text;
 
 using Moq;
 using NUnit.Framework;
