@@ -45,7 +45,7 @@
     </ItemGroup>
 
     <ItemGroup>
-	  <ProjectReference Include="..\SRC\Abstractions\Abstractions.csproj" />
+	  <ProjectReference Include="..\SRC\Abstractions\Eventing.Abstractions.csproj" />
 	  <ProjectReference Include="..\SRC\Core\Eventing.csproj" />
 	</ItemGroup>
 

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventing", "SRC\Core\Eventi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventing.Tests", "TEST\Eventing.Tests.csproj", "{C35EE783-ECDF-4FF7-9ECC-A4D0AAF5FA10}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstractions", "SRC\Abstractions\Abstractions.csproj", "{002193BD-663D-4EB9-B7F2-32DDDC512AB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventing.Abstractions", "SRC\Abstractions\Eventing.Abstractions.csproj", "{002193BD-663D-4EB9-B7F2-32DDDC512AB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
