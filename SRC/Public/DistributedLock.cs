@@ -82,7 +82,7 @@ namespace Solti.Utils.Eventing
             string? entryRaw = cache.Get(key ?? throw new ArgumentNullException(nameof(key)));
             if (entryRaw is not null)
             {
-                LockEntry entry = serializer.Deserialize(entryRaw, static () => new LockEntry())!;
+                LockEntry entry = serializer.Deserialize<LockEntry>(entryRaw)!;
                 return entry.OwnerId == ownerId;
             }
             return false;

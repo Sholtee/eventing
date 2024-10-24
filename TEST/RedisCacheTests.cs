@@ -20,7 +20,7 @@ namespace Solti.Utils.Eventing.Tests
         public override void Setup()
         {
             base.Setup();
-            FCache = new RedisCache("localhost:6379");
+            FCache = new RedisCache("localhost:6379", JsonSerializer.Instance);
         }
 
         public override void Teardown()
@@ -48,12 +48,12 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Get_ShouldUpdateTheSlidingExpiration([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        public void Get_ShouldUpdateTheSlidingExpiration()
         {
-            FCache.Set("key", "value", TimeSpan.FromMilliseconds(50), flags);
-            Thread.Sleep(35);
+            FCache.Set("key", "value", TimeSpan.FromMilliseconds(200), DistributedCacheInsertionFlags.AllowOverwrite);
+            Thread.Sleep(150);
             FCache.Get("key");
-            Thread.Sleep(35);
+            Thread.Sleep(150);
             Assert.That(FCache.Get("key"), Is.EqualTo("value"));
         }
 

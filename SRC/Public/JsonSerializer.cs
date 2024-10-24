@@ -91,10 +91,16 @@ namespace Solti.Utils.Eventing
         }
         #endregion
 
-        public T? Deserialize<T>(string utf8String, Func<T> ctor)
+        public T? Deserialize<T>(string utf8String, Func<T>? ctor)
         {
-            JsonSerializerOptions opts = new(Options);
-            opts.TypeInfoResolver = new CustomConstructorContractResolver<T>(ctor);
+            JsonSerializerOptions opts;
+
+            if (ctor is not null)
+            {
+                opts = new(Options);
+                opts.TypeInfoResolver = new CustomConstructorContractResolver<T>(ctor);
+            }
+            else opts = Options; 
 
             return SerializerCore.Deserialize<T>(utf8String, opts);
         }

@@ -29,10 +29,10 @@ namespace Solti.Utils.Eventing.Tests
             DistributedLock @lock = new(mockCache.Object, mockSerializer.Object);
 
             mockCache
-                .Setup(c => c.Remove("key"))
+                .Setup(c => c.Remove("lock_key"))
                 .Returns(true);
             mockCache
-                .Setup(c => c.Set("key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
+                .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
                 .Returns(true);
 
             IDisposable lifetime = @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1));
@@ -65,7 +65,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(c => c.Remove("key"))
                 .Returns(true);
             mockCache
-                .Setup(c => c.Set("key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
+                .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
                 .Returns<string, string, TimeSpan, DistributedCacheInsertionFlags>((_, _, _, _) => sleepCalled > 1);
 
             Assert.DoesNotThrow(() => @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1)));
@@ -88,7 +88,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(c => c.Remove("key"))
                 .Returns(true);
             mockCache
-                .Setup(c => c.Set("key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
+                .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
                 .Returns(false);
 
             Assert.Throws<TimeoutException>(() => @lock.Acquire("key", "owner", TimeSpan.FromMilliseconds(10 * @lock.PollingInterval.Milliseconds)));
@@ -111,7 +111,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(c => c.Remove("key"))
                 .Returns(true);
             mockCache
-                .Setup(c => c.Set("key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
+                .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
                 .Returns(false);
 
             Assert.Throws<TimeoutException>(() => @lock.Acquire("key", "owner", TimeSpan.FromMilliseconds(@lock.PollingInterval.Milliseconds / 10)));

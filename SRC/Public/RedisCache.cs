@@ -4,19 +4,22 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
-using System.Diagnostics;
 
 using StackExchange.Redis;
 
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
-    
-    public sealed class RedisCache(string config) : IDistributedCache, IDisposable
-    {
-        const string DATA_FIELD = "data";
 
+    public sealed class RedisCache(string config, ISerializer serializer) : IDistributedCache, IDisposable
+    {
         private ConnectionMultiplexer FConnection = ConnectionMultiplexer.Connect(config);
+
+        private sealed class CacheEntry
+        {
+            public required string Value { get; init; }
+            public required long Expiration { get; init; }
+        }
 
         public void Dispose()
         {
@@ -29,11 +32,21 @@ namespace Solti.Utils.Eventing
         {
             IDatabase db = FConnection.GetDatabase();
 
-            RedisValue val = db.StringGet(key);
-            if (val == RedisValue.Null)
-                return null;
+            //
+            // db.StringGetWithExpiry(key) wont work here as it returns the time left instead of the original span.
+            // 
+            // Also db.Touch() wont reset the expiration so we need to reset the expiration by hand.
+            //
 
-            return val;
+            string? value = db.StringGet(key);
+            if (value is not null)
+            {
+                CacheEntry entry = serializer.Deserialize<CacheEntry>(value)!;
+                if (db.KeyExpire(key, TimeSpan.FromTicks(entry.Expiration)))
+                    return entry.Value;
+            }
+
+            return null;
         }
 
         /// <inheritdoc/>
@@ -47,15 +60,20 @@ namespace Solti.Utils.Eventing
         {
             IDatabase db = FConnection.GetDatabase();
 
-            bool
-                allowOverwrite = flags.HasFlag(DistributedCacheInsertionFlags.AllowOverwrite),
-                newFieldSet = db.StringSet(key, value, slidingExpiration, allowOverwrite ? When.Always : When.NotExists);
-
-            //
-            // StringSet() returns true if a new value was created, in the case the value was updated or remained untouched it returns false.
-            //
-
-            return newFieldSet || allowOverwrite;
+            return db.StringSet
+            (
+                key,
+                serializer.Serialize
+                (
+                    new CacheEntry
+                    {
+                        Value = value,
+                        Expiration = slidingExpiration.Ticks
+                    }
+                ),
+                slidingExpiration,
+                flags.HasFlag(DistributedCacheInsertionFlags.AllowOverwrite) ? When.Always : When.NotExists
+            );
         }
     }
 }
