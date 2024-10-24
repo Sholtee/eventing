@@ -15,12 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-			<_Parameter1>Solti.Utils.Eventing.Tests</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-
-    <ItemGroup>
       <Compile Update="Properties\Resources.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
