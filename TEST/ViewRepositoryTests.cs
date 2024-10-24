@@ -40,6 +40,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -64,6 +67,9 @@ namespace Solti.Utils.Eventing.Tests
         public void Materialize_ShouldReturnViewsFromCache()
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
@@ -97,6 +103,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
@@ -130,6 +139,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([]);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
@@ -160,6 +172,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -184,6 +199,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([]);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -208,6 +226,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([new Event("flowId", "invalid", DateTime.UtcNow, "[1986]")]);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
             mockDisposable.Setup(d => d.Dispose());
@@ -227,6 +248,9 @@ namespace Solti.Utils.Eventing.Tests
         public void Materialize_ShouldThrowOnNullFlowId()
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
@@ -243,6 +267,9 @@ namespace Solti.Utils.Eventing.Tests
                 .Returns(false);
 
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
@@ -254,6 +281,9 @@ namespace Solti.Utils.Eventing.Tests
         {
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
@@ -273,6 +303,9 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
                 .Setup(s => s.SetEvent(It.Is<Event>(evt => evt.EventId == "some-event" && evt.FlowId == "flowId" && evt.Arguments == "[]")));
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             View view = new() { FlowId = "flowId", OwnerRepository = null!, Param = 1986 };
 
@@ -306,6 +339,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.SetEvent(It.IsAny<Event>()))
                 .Throws(new InvalidOperationException("cica"));
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             View view = new() { FlowId = "flowId", OwnerRepository = null!, Param = 1986 };
 
@@ -346,6 +382,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.QueryEvents(It.IsAny<string>()))
                 .Returns([]);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
@@ -374,11 +413,41 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .Setup(s => s.QueryEvents("existing"))
                 .Returns([new Event("existing", "some-event", DateTime.UtcNow, "[]")]);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
             ArgumentException ex = Assert.Throws<ArgumentException>(() => repo.Create("existing", out View view))!;
             Assert.That(ex.Message, Does.StartWith(Format(FLOW_ID_ALREADY_EXISTS, "existing")));
+        }
+
+        [Test]
+        public void Ctor_ShouldInitTheDatabase()
+        {
+            Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
+            mockDisposable.Setup(d => d.Dispose());
+
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            mockLock
+                .Setup(l => l.Acquire(ViewRepository<View>.SCHEMA_INIT_LOCK_NAME, It.IsAny<string>(), It.IsAny<TimeSpan>()))
+                .Returns(mockDisposable.Object);
+
+            bool schemaInitialized = false;
+
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(() => schemaInitialized);
+            mockEventStore
+                .Setup(s => s.InitSchema())
+                .Callback(() => schemaInitialized = true);
+
+             _ = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
+
+            Assert.That(schemaInitialized, Is.True);
+            mockLock.Verify(l => l.Acquire(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Once);
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Solti.Utils.Eventing
     /// </summary>
     public class ViewRepository<TView> : IViewRepository<TView> where TView: ViewBase, new()
     {
+        internal const string SCHEMA_INIT_LOCK_NAME = "SCHEMA_INIT_LOCK";
+
         private static string CreateGuid() => Guid.NewGuid().ToString("D");
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace Solti.Utils.Eventing
             RepoId = CreateGuid();
 
             if (!eventStore.SchemaInitialized)
-                using (Lock.Acquire("SCHEMA_INIT_LOCK", RepoId, LockTimeout))
+                using (Lock.Acquire(SCHEMA_INIT_LOCK_NAME, RepoId, LockTimeout))
                     if (!eventStore.SchemaInitialized)
                         eventStore.InitSchema();
         }
