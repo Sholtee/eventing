@@ -34,6 +34,8 @@ namespace Solti.Utils.Eventing
                 }
             }
         }
+
+        private static string GetLockKey(string key) => $"lock_{key ?? throw new ArgumentNullException(nameof(key))}";
         #endregion
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public IDisposable Acquire(string key, string ownerId, TimeSpan timeout)
         {
-            key = $"lock_{key ?? throw new ArgumentNullException(nameof(key))}";
+            key = GetLockKey(key);
             string entry = serializer.Serialize
             (
                 new LockEntry
@@ -79,7 +81,7 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public bool IsHeld(string key, string ownerId)
         {
-            string? entryRaw = cache.Get(key ?? throw new ArgumentNullException(nameof(key)));
+            string? entryRaw = cache.Get(GetLockKey(key));
             if (entryRaw is not null)
             {
                 LockEntry entry = serializer.Deserialize<LockEntry>(entryRaw)!;

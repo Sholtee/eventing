@@ -14,8 +14,28 @@ namespace Solti.Utils.Eventing.Tests
     using Abstractions;
 
     [TestFixture]
-    public class DistributedLockTests
+    public class DistributedLockTests: IDistributedLockTests
     {
+        private ContainerHost FContainerHost = null!;
+
+        private RedisCache FRedisCache = null!; // can be shared
+
+        [OneTimeSetUp]
+        public void SetupFixture()
+        {
+            FContainerHost = new ContainerHost();
+            FRedisCache = new("localhost", JsonSerializer.Instance);
+        }
+
+        [OneTimeTearDown]
+        public void TearDownFixture()
+        {
+            FRedisCache?.Dispose();
+            FContainerHost?.Dispose();
+        }
+
+        protected override IDistributedLock Createinstance() => new DistributedLock(FRedisCache, JsonSerializer.Instance);
+
         [Test]
         public void Acquire_ShouldCreateALockInstance()
         {
@@ -48,7 +68,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Acquire_ShouldBlock()
+        public void Acquire_ShouldBlock2()
         {
             Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
@@ -75,7 +95,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Acquire_ShouldTimeout()
+        public void Acquire_ShouldTimeout2()
         {
             Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
@@ -98,7 +118,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Acquire_ShouldTimeout2()
+        public void Acquire_ShouldTimeout3()
         {
             Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
@@ -131,7 +151,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(IsHeld_ShouldDetermineIfTheHoldIsOwnedByTheCurrentApp_Params))]
-        public void IsHeld_ShouldDetermineIfTheHoldIsOwnedByTheCurrentApp(string cacheRetVal, bool expected)
+        public void IsHeld_ShouldDetermineIfTheLockIsOwnedByTheCaller(string cacheRetVal, bool expected)
         {
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
