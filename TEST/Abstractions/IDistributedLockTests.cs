@@ -32,15 +32,12 @@ namespace Solti.Utils.Eventing.Tests
        
             void Worker()
             {
-                IDistributedLock @lock = Createinstance();
+                using IDisposable inst = Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMinutes(1));
 
-                using (IDisposable inst = @lock.Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMinutes(1)))
-                {
-                    Assert.That(lockHeld, Is.False);
-                    lockHeld = true;
-                    Thread.Sleep(100); // wait for the other tasks
-                    lockHeld = false;
-                }
+                Assert.That(lockHeld, Is.False);
+                lockHeld = true;
+                Thread.Sleep(100); // wait for the other tasks
+                lockHeld = false;
             }
         }
 
@@ -51,19 +48,12 @@ namespace Solti.Utils.Eventing.Tests
 
             Task t = Task.Factory.StartNew(() =>
             {
-                IDistributedLock lock1 = Createinstance();
-
-                using (IDisposable inst = @lock1.Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMinutes(1)))
-                {
-                    evt.Wait();
-                }
+                IDisposable inst = Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMinutes(1));
+                evt.Wait();
             });
             t.Wait(100); // make sure the thread has grabed the lock
 
-
-            IDistributedLock lock2 = Createinstance();
-
-            Assert.Throws<TimeoutException>(() => lock2.Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMilliseconds(0)));
+            Assert.Throws<TimeoutException>(() => Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMilliseconds(0)));
 
             evt.Set();
             t.Wait();
