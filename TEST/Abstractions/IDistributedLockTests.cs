@@ -18,15 +18,19 @@ namespace Solti.Utils.Eventing.Tests
         protected abstract IDistributedLock Createinstance();
 
         [Test]
-        public void Acquire_ShouldBlock()
+        public void Acquire_ShouldBlock([Values(2,3,10)] int workers)
         {
-            using ContainerHost containerHost = new();
-
             bool lockHeld = false;
 
-            Assert.DoesNotThrow(() => Task.WaitAll(Task.Factory.StartNew(Worker, 1), Task.Factory.StartNew(Worker, 2)));
+            Task[] tasks = new Task[workers];
+            for (int i = 0; i < workers; i++)
+            {
+                tasks[i] = Task.Factory.StartNew(Worker);
+            }
+
+            Assert.DoesNotThrow(() => Task.WaitAll(tasks));
        
-            void Worker(object? id)
+            void Worker()
             {
                 IDistributedLock @lock = Createinstance();
 
@@ -34,9 +38,9 @@ namespace Solti.Utils.Eventing.Tests
                 {
                     Assert.That(lockHeld, Is.False);
                     lockHeld = true;
-                    Thread.Sleep(100); // wait for the other task
+                    Thread.Sleep(100); // wait for the other tasks
+                    lockHeld = false;
                 }
-                lockHeld = false;
             }
         }
 
@@ -54,6 +58,7 @@ namespace Solti.Utils.Eventing.Tests
                     evt.Wait();
                 }
             });
+            t.Wait(100); // make sure the thread has grabed the lock
 
 
             IDistributedLock lock2 = Createinstance();
