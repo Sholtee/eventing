@@ -48,7 +48,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Task t = Task.Factory.StartNew(() =>
             {
-                IDisposable inst = Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMinutes(1));
+                using IDisposable inst = Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMinutes(1));
                 evt.Wait();
             });
             t.Wait(100); // make sure the thread has grabed the lock
