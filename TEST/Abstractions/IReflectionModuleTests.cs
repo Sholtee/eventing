@@ -29,28 +29,41 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void CreateRawView_ShouldCreateAFactoryFunction()
         {
-            Mock<IViewRepository<View>> mockEventRepo = new(MockBehavior.Strict);
+            Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
 
-            View view = CreateInstance<View>().CreateRawView("id", mockEventRepo.Object);
+            View view = CreateInstance<View>().CreateRawView("id", mockRepo.Object);
 
-            mockEventRepo.Setup(r => r.Persist(view, "some-event", new object[] { 1 }));
+            mockRepo.Setup(r => r.Persist((ViewBase) view, "some-event", new object[] { 1 }));
 
             Assert.That(view.Annotated(1), Is.EqualTo("cica"));
 
-            mockEventRepo.Verify(r => r.Persist(view, "some-event", new object[] { 1 }), Times.Once);
+            mockRepo.Verify(r => r.Persist((ViewBase) view, "some-event", new object[] { 1 }), Times.Once);
         }
 
         [Test]
-        public void Interceptor_MayBeDisabled()
+        public void Eventing_MayBeDisabled()
         {
-            Mock<IViewRepository<View>> mockEventRepo = new(MockBehavior.Strict);
+            Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
 
-            View view = CreateInstance<View>().CreateRawView(null!, mockEventRepo.Object);
+            View view = CreateInstance<View>().CreateRawView(null!, mockRepo.Object);
 
-            view.DisableInterception = true;
+            view.EventingDisabled = true;
             view.Annotated(1);
 
-            mockEventRepo.Verify(r => r.Persist(It.IsAny<View>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Never);
+            mockRepo.Verify(r => r.Persist(It.IsAny<View>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Never);
+        }
+
+        [Test]
+        public void Views_ShouldThrowAfterDispose()
+        {
+            Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
+            mockRepo.Setup(r => r.Close("flowid"));
+
+            View view = CreateInstance<View>().CreateRawView("flowid", mockRepo.Object);
+            view.Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => view.Annotated(123));
+            Assert.Throws<ObjectDisposedException>(view.Dispose);
         }
 
         [Test]

@@ -16,7 +16,14 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Creates a global lock over the given <paramref name="key"/>.
         /// </summary>
         /// <remarks><paramref name="ownerId"/> is to help identifying the owner the lock</remarks>
-        IDisposable Acquire(string key, string ownerId, TimeSpan timeout);
+        /// <exception cref="TimeoutException">If the lock could not be aquired in the given period of time.</exception>
+        void Acquire(string key, string ownerId, TimeSpan timeout);
+
+        /// <summary>
+        /// Releases a global lock that is assigned to the given <paramref name="key"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">If the <paramref name="key"/> is not assigned to the <paramref name="ownerId"/></exception>
+        void Release(string key, string ownerId);
 
         /// <summary>
         /// Returns whether the given lock is held be the provided owner.

@@ -38,18 +38,16 @@ namespace Solti.Utils.Eventing
         {
             public void Intercept(IInvocation invocation)
             {
+                TView view = (TView) invocation.Proxy;
+                view.CheckDisposed();
+
                 invocation.Proceed();
 
-                TView view = (TView) invocation.Proxy;
-
-                if (!view.DisableInterception)
+                if (!view.EventingDisabled)
                 {
                     EventAttribute? evtAttr = invocation.MethodInvocationTarget.GetCustomAttribute<EventAttribute>();
                     if (evtAttr is not null)
-                    {
-                        IViewRepository<TView> repo = (IViewRepository<TView>) view.OwnerRepository;
-                        repo.Persist(view, evtAttr.Name, invocation.Arguments);
-                    }
+                        view.OwnerRepository.Persist(view, evtAttr.Name, invocation.Arguments);
                 }
             }
         }
@@ -73,7 +71,7 @@ namespace Solti.Utils.Eventing
 
             ParameterExpression
                 flowId = Expression.Parameter(typeof(string), nameof(flowId)),
-                ownerRepo = Expression.Parameter(typeof(object), nameof(ownerRepo));
+                ownerRepo = Expression.Parameter(typeof(IViewRepository<TView>), nameof(ownerRepo));
 
             return compiler.Register
             (

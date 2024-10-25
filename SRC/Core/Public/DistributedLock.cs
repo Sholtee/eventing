@@ -9,6 +9,7 @@ using System.Threading;
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
+    using Properties;
 
     /// <summary>
     /// Implements global locking mechanism over the <see cref="IDistributedCache"/> interface.
@@ -19,20 +20,6 @@ namespace Solti.Utils.Eventing
         private  sealed class LockEntry
         {
             public string OwnerId { get; set; } = null!;
-        }
-
-        private sealed class LockLifetime(IDistributedCache cache, string key) : IDisposable
-        {
-            private bool FDisposed = false;
-
-            public void Dispose()
-            {
-                if (!FDisposed)
-                {
-                    cache.Remove(key);
-                    FDisposed = true;
-                }
-            }
         }
 
         private static string GetLockKey(string key) => $"lock_{key ?? throw new ArgumentNullException(nameof(key))}";
@@ -54,7 +41,7 @@ namespace Solti.Utils.Eventing
         public TimeSpan LockTimeout { get; set; } = TimeSpan.FromHours(1);
 
         /// <inheritdoc/>
-        public IDisposable Acquire(string key, string ownerId, TimeSpan timeout)
+        public void Acquire(string key, string ownerId, TimeSpan timeout)
         {
             key = GetLockKey(key);
             string entry = serializer.Serialize
@@ -68,7 +55,7 @@ namespace Solti.Utils.Eventing
             for(; ; )
             {
                 if (cache.Set(key, entry, LockTimeout, DistributedCacheInsertionFlags.None))
-                    return new LockLifetime(cache, key);
+                    return;
 
                 timeout -= PollingInterval;
                 if (timeout <= TimeSpan.Zero)
@@ -88,6 +75,14 @@ namespace Solti.Utils.Eventing
                 return entry.OwnerId == ownerId;
             }
             return false;
+        }
+
+        /// <inheritdoc/>
+        public void Release(string key, string ownerId)
+        {
+            if (!IsHeld(key, ownerId))
+                throw new InvalidOperationException(Resources.NO_LOCK);
+            cache.Remove(GetLockKey(key));
         }
     }
 }

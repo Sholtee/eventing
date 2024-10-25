@@ -12,9 +12,34 @@ using NUnit.Framework;
 namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions;
+    using Properties;
 
     public abstract class IDistributedLockTests
     {
+        private sealed class Scope(IDistributedLock @lock, string key, string ownerId) : IDisposable
+        {
+            public bool Disposed { get; private set; }
+
+            public void Dispose()
+            {
+                if (!Disposed)
+                {
+                    @lock.Release(key, ownerId);
+                    Disposed = true;
+                }
+            }
+        }
+
+        protected IDisposable ScopedLock(string key, TimeSpan timeout)
+        {
+            IDistributedLock @lock = Createinstance();
+
+            string ownerId = Guid.NewGuid().ToString("D");
+
+            @lock.Acquire(key, ownerId, timeout);
+            return new Scope(@lock, key, ownerId);
+        }
+
         protected abstract IDistributedLock Createinstance();
 
         [Test]
@@ -32,7 +57,7 @@ namespace Solti.Utils.Eventing.Tests
        
             void Worker()
             {
-                using IDisposable inst = Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMinutes(1));
+                using IDisposable scope = ScopedLock("mylock", TimeSpan.FromMinutes(1));
 
                 Assert.That(lockHeld, Is.False);
                 lockHeld = true;
@@ -48,12 +73,12 @@ namespace Solti.Utils.Eventing.Tests
 
             Task t = Task.Factory.StartNew(() =>
             {
-                using IDisposable inst = Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMinutes(1));
+                using IDisposable scope = ScopedLock("mylock", TimeSpan.FromMinutes(1));
                 evt.Wait();
             });
             t.Wait(100); // make sure the thread has grabed the lock
 
-            Assert.Throws<TimeoutException>(() => Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMilliseconds(10)));
+            Assert.Throws<TimeoutException>(() => ScopedLock("mylock", TimeSpan.FromMilliseconds(10)));
 
             evt.Set();
             t.Wait();
@@ -62,9 +87,9 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Acquire_ShouldBlockOnNestedInvocation()
         {
-            using IDisposable inst = Createinstance().Acquire("mylock", "id", TimeSpan.FromMinutes(1));
+            using IDisposable scope = ScopedLock("mylock", TimeSpan.FromMinutes(1));
 
-            Assert.Throws<TimeoutException>(() => Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMilliseconds(10)));
+            Assert.Throws<TimeoutException>(() => ScopedLock("mylock", TimeSpan.FromMilliseconds(10)));
         }
 
         [Test]
@@ -72,8 +97,32 @@ namespace Solti.Utils.Eventing.Tests
         {
             IDistributedLock @lock = Createinstance();
 
-            using IDisposable inst = @lock.Acquire("mylock", ownerId, TimeSpan.FromMinutes(1));
-            Assert.That(@lock.IsHeld("mylock", "owner_1"), Is.EqualTo(ownerId == "owner_1"));
+            @lock.Acquire("mylock", ownerId, TimeSpan.FromMinutes(1));
+            try
+            {
+                Assert.That(@lock.IsHeld("mylock", "owner_1"), Is.EqualTo(ownerId == "owner_1"));
+            }
+            finally
+            {
+                @lock.Release("mylock", ownerId);
+            }
+        }
+
+        [Test]
+        public void Release_ShouldThrowIfTheLockIsNotHeld()
+        {
+            IDistributedLock @lock = Createinstance();
+
+            @lock.Acquire("mylock", "owner_1", TimeSpan.FromMinutes(1));
+            try
+            {
+                InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => @lock.Release("mylock", "unknown"))!;
+                Assert.That(ex.Message, Is.EqualTo(Resources.NO_LOCK));
+            }
+            finally
+            {
+                @lock.Release("mylock", "owner_1");
+            }
         }
     }
 }

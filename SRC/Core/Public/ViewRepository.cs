@@ -20,7 +20,7 @@ namespace Solti.Utils.Eventing
     /// <summary>
     /// View repository
     /// </summary>
-    public class ViewRepository<TView> : IViewRepository<TView> where TView: ViewBase, new()
+    public class ViewRepository<TView>: IViewRepository<TView> where TView: ViewBase, new()
     {
         internal const string SCHEMA_INIT_LOCK_NAME = "SCHEMA_INIT_LOCK";
 
@@ -43,9 +43,18 @@ namespace Solti.Utils.Eventing
             RepoId = CreateGuid();
 
             if (!eventStore.SchemaInitialized)
-                using (Lock.Acquire(SCHEMA_INIT_LOCK_NAME, RepoId, LockTimeout))
+            {
+                Lock.Acquire(SCHEMA_INIT_LOCK_NAME, RepoId, LockTimeout);
+                try
+                {
                     if (!eventStore.SchemaInitialized)
                         eventStore.InitSchema();
+                }
+                finally
+                {
+                    Lock.Release(SCHEMA_INIT_LOCK_NAME, RepoId);
+                }
+            }
         }
 
         /// <summary>
@@ -145,8 +154,13 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public IDisposable Materialize(string flowId, out TView view)
+        public void Close(string flowId) => Lock.Release(flowId ?? throw new ArgumentNullException(nameof(flowId)), RepoId);
+
+        /// <inheritdoc/>
+        public TView Materialize(string flowId)
         {
+            TView view;
+
             if (flowId is null)
                 throw new ArgumentNullException(nameof(flowId));
 
@@ -154,7 +168,7 @@ namespace Solti.Utils.Eventing
             // Lock the flow
             //
 
-            IDisposable lockInst = Lock.Acquire(flowId, RepoId, LockTimeout);
+            Lock.Acquire(flowId, RepoId, LockTimeout);
             try
             {
                 //
@@ -168,7 +182,7 @@ namespace Solti.Utils.Eventing
 
                     view = Serializer.Deserialize(cached, CreateRawView)!;
                     if (view.IsValid)
-                        return lockInst;
+                        goto ret;
 
                     Logger?.LogWarning(new EventId(300, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
                 }
@@ -193,12 +207,13 @@ namespace Solti.Utils.Eventing
                     processor(view, evt.Arguments, Serializer);
                 }
 
-                view.DisableInterception = false;
-                return lockInst;
+                ret:
+                    view.EventingDisabled = false;
+                    return view;
             }
             catch
             {
-                lockInst.Dispose();
+                Lock.Release(flowId, RepoId);
                 throw;
             }
 
@@ -210,14 +225,14 @@ namespace Solti.Utils.Eventing
                 // Disable interceptors while deserializing or replying the events
                 //
 
-                view.DisableInterception = true;
+                view.EventingDisabled = true;
 
                 return view;
             }
         }
 
         /// <inheritdoc/>
-        public IDisposable Create(string? flowId, out TView view)
+        public TView Create(string? flowId)
         {
             flowId ??= CreateGuid();
 
@@ -225,20 +240,25 @@ namespace Solti.Utils.Eventing
             // Lock the flow
             //
 
-            IDisposable lockInst = Lock.Acquire(flowId, RepoId, LockTimeout);
+            Lock.Acquire(flowId, RepoId, LockTimeout);
             try
             {
                 if (EventStore.QueryEvents(flowId).Count > 0)
                     throw new ArgumentException(Format(FLOW_ID_ALREADY_EXISTS, flowId), nameof(flowId));
 
-                view = ReflectionModule.CreateRawView(flowId, this);
-                return lockInst;
+                return ReflectionModule.CreateRawView(flowId, this);
             }
             catch
             {
-                lockInst.Dispose();
+                Lock.Release(flowId, RepoId);
                 throw;
             }
         }
+
+        void IViewRepository.Persist(ViewBase view, string eventId, object?[] args) => Persist((TView) view, eventId, args);
+
+        ViewBase IViewRepository.Materialize(string flowId) => Materialize(flowId);
+
+        ViewBase IViewRepository.Create(string? flowId) => Create(flowId);
     }
 }

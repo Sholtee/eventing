@@ -37,34 +37,40 @@ namespace Solti.Utils.Eventing.Tests
         protected override IDistributedLock Createinstance() => new DistributedLock(FRedisCache, JsonSerializer.Instance);
 
         [Test]
-        public void Acquire_ShouldCreateALockInstance()
+        public void Test_Flow()
         {
-            Mock<ISerializer> mockSerializer = new(MockBehavior.Strict);
-            mockSerializer
-                .Setup(s => s.Serialize(It.IsAny<It.IsAnyType>()))
-                .Returns<object>(JsonSerializer.Instance.Serialize);
+            string entry = JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } });
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
-            DistributedLock @lock = new(mockCache.Object, mockSerializer.Object);
+            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance);
+
+            MockSequence seq = new();
 
             mockCache
+                .InSequence(seq)
+                .Setup(c => c.Set("lock_key", entry, @lock.LockTimeout, DistributedCacheInsertionFlags.None))
+                .Returns(true);
+            mockCache
+                .InSequence(seq)
+                .Setup(c => c.Get("lock_key"))
+                .Returns(entry);
+            mockCache
+                .InSequence(seq)
                 .Setup(c => c.Remove("lock_key"))
                 .Returns(true);
-            mockCache
-                .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
-                .Returns(true);
 
-            IDisposable lifetime = @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1));
+            @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1));
 
             mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once);
             mockCache.Verify(c => c.Remove(It.IsAny<string>()), Times.Never);
+            mockCache.Verify(c => c.Get(It.IsAny<string>()), Times.Never);
 
-            lifetime.Dispose();
+            @lock.Release("key", "owner");
 
-            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once);
-            mockCache.Verify(c => c.Remove(It.IsAny<string>()), Times.Once);
-            mockSerializer.Verify(s => s.Serialize(It.IsAny<It.IsAnyType>()), Times.Once);
+            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once); // Acquire
+            mockCache.Verify(c => c.Get(It.IsAny<string>()), Times.Once);  // IsHeld()
+            mockCache.Verify(c => c.Remove(It.IsAny<string>()), Times.Once);  // Release()  
         }
 
         [Test]

@@ -162,4 +162,7 @@
   <data name="FLOW_ID_ALREADY_EXISTS" xml:space="preserve">
     <value>The given flow id already exists: "{0}"</value>
   </data>
+  <data name="LOCK_NOT_HELD" xml:space="preserve">
+    <value>No lock assigned to the given id</value>
+  </data>
 </root>
