@@ -53,10 +53,18 @@ namespace Solti.Utils.Eventing.Tests
             });
             t.Wait(100); // make sure the thread has grabed the lock
 
-            Assert.Throws<TimeoutException>(() => Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMilliseconds(0)));
+            Assert.Throws<TimeoutException>(() => Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMilliseconds(10)));
 
             evt.Set();
             t.Wait();
+        }
+
+        [Test]
+        public void Acquire_ShouldBlockOnNestedInvocation()
+        {
+            using IDisposable inst = Createinstance().Acquire("mylock", "id", TimeSpan.FromMinutes(1));
+
+            Assert.Throws<TimeoutException>(() => Createinstance().Acquire("mylock", Guid.NewGuid().ToString(), TimeSpan.FromMilliseconds(10)));
         }
 
         [Test]
