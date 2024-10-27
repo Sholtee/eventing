@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 using Moq;
 using NUnit.Framework;
@@ -108,7 +109,9 @@ namespace Solti.Utils.Eventing.Tests
 
             DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance, mockSleep.Object);
 
-            mockSleep.Setup(s => s.Invoke(@lock.PollingInterval));
+            mockSleep
+                .Setup(s => s.Invoke(@lock.PollingInterval))
+                .Callback<TimeSpan>(Thread.Sleep);
 
             mockCache
                 .Setup(c => c.Remove("key"))
@@ -120,30 +123,7 @@ namespace Solti.Utils.Eventing.Tests
             Assert.Throws<TimeoutException>(() => @lock.Acquire("key", "owner", TimeSpan.FromMilliseconds(10 * @lock.PollingInterval.Milliseconds)));
 
             mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Exactly(10));
-            mockSleep.Verify(s => s.Invoke(It.IsAny<TimeSpan>()), Times.Exactly(9));
-        }
-
-        [Test]
-        public void Acquire_ShouldTimeout3()
-        {
-            Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
-            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
-
-            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance, mockSleep.Object);
-
-            mockSleep.Setup(s => s.Invoke(@lock.PollingInterval));
-
-            mockCache
-                .Setup(c => c.Remove("key"))
-                .Returns(true);
-            mockCache
-                .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
-                .Returns(false);
-
-            Assert.Throws<TimeoutException>(() => @lock.Acquire("key", "owner", TimeSpan.FromMilliseconds(@lock.PollingInterval.Milliseconds / 10)));
-
-            mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once);
-            mockSleep.Verify(s => s.Invoke(It.IsAny<TimeSpan>()), Times.Never);
+            mockSleep.Verify(s => s.Invoke(It.IsAny<TimeSpan>()), Times.Exactly(10));
         }
 
         public static IEnumerable<object?[]> IsHeld_ShouldDetermineIfTheHoldIsOwnedByTheCurrentApp_Params

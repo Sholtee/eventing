@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Solti.Utils.Eventing
@@ -52,16 +53,17 @@ namespace Solti.Utils.Eventing
                 }
             );
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             for(; ; )
             {
                 if (cache.Set(key, entry, LockTimeout, DistributedCacheInsertionFlags.None))
                     return;
 
-                timeout -= PollingInterval;
-                if (timeout <= TimeSpan.Zero)
-                    throw new TimeoutException();
-
                 sleep(PollingInterval);
+
+                if (sw.Elapsed > timeout)
+                    throw new TimeoutException();
             }
         }
 
