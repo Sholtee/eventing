@@ -19,25 +19,33 @@ namespace Solti.Utils.Eventing.Tests
     {
         protected internal class View : ViewBase
         {
+            public Action? AnnotatedCallback { get; set; }
+
             [Event(Name = "some-event")]
-            public virtual string Annotated(int param) => "cica";
+            public virtual void Annotated(int param) => AnnotatedCallback?.Invoke();
+
             public virtual void NotAnnotated(string param) { }
         }
 
         protected abstract IReflectionModule<TView> CreateInstance<TView>() where TView: ViewBase, new();
 
         [Test]
-        public void CreateRawView_ShouldCreateAFactoryFunction()
+        public void Eventing_ShouldPersistTheState()
         {
+            Mock<Action> mockCallback = new(MockBehavior.Strict);
             Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
 
             View view = CreateInstance<View>().CreateRawView("id", mockRepo.Object);
+            view.AnnotatedCallback = mockCallback.Object;
 
-            mockRepo.Setup(r => r.Persist((ViewBase) view, "some-event", new object[] { 1 }));
+            MockSequence seq = new();
+            mockCallback.InSequence(seq).Setup(cb => cb.Invoke());
+            mockRepo.InSequence(seq).Setup(r => r.Persist((ViewBase) view, "some-event", new object[] { 1 }));
+           
+            Assert.DoesNotThrow(() => view.Annotated(1));
 
-            Assert.That(view.Annotated(1), Is.EqualTo("cica"));
-
-            mockRepo.Verify(r => r.Persist((ViewBase) view, "some-event", new object[] { 1 }), Times.Once);
+            mockCallback.Verify(cb => cb.Invoke(), Times.Once);
+            mockRepo.Verify(r => r.Persist((ViewBase) view, "some-event", new object[] { 1 }), Times.Once);           
         }
 
         [Test]
@@ -70,7 +78,7 @@ namespace Solti.Utils.Eventing.Tests
         public void EventProcessors_ShouldCreateAProcessorFunctionForEachEvent()
         {
             Mock<View> mockView = new(MockBehavior.Strict);
-            mockView.Setup(v => v.Annotated(1986)).Returns("cica");
+            mockView.Setup(v => v.Annotated(1986));
 
             IReadOnlyDictionary<string, Action<View, string, ISerializer>> dict = CreateInstance<View>().EventProcessors;
 
@@ -122,6 +130,31 @@ namespace Solti.Utils.Eventing.Tests
         {
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<SealedView>())!;
             Assert.That(ex.Message, Is.EqualTo(ERR_CANNOT_BE_INTERCEPTED));
+        }
+
+        internal class ViewReturningAValue1 : ViewBase
+        {
+            [Event(Name = "some-event")]
+            public virtual string Annotated(int param) => "cica";
+
+            [Event(Name = "other-event")]
+            public virtual void Annotated(out string param) => param = "cica";
+        }
+
+        internal class ViewReturningAValue2 : ViewBase
+        {
+            [Event(Name = "some-event")]
+            public virtual void Annotated(out string param) => param = "cica";
+        }
+
+        [Test]
+        public void Ctor_ShouldThrowOnBadMethodLayout()
+        {
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewReturningAValue1>().CreateRawView("flowid", new Mock<IViewRepository<ViewReturningAValue1>>(MockBehavior.Strict).Object));
+            Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_HAS_RETVAL, nameof(ViewReturningAValue1.Annotated))));
+
+            ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewReturningAValue2>().CreateRawView("flowid", new Mock<IViewRepository<ViewReturningAValue2>>(MockBehavior.Strict).Object));
+            Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_HAS_RETVAL, nameof(ViewReturningAValue2.Annotated))));
         }
     }
 }

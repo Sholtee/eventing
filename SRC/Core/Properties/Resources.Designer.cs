@@ -97,6 +97,15 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Eventized method (&quot;{0}&quot;) may not return a value.
+        /// </summary>
+        internal static string ERR_HAS_RETVAL {
+            get {
+                return ResourceManager.GetString("ERR_HAS_RETVAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid event id provided: &quot;{0}&quot;.
         /// </summary>
         internal static string ERR_INVALID_EVENT_ID {

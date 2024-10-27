@@ -38,17 +38,26 @@ namespace Solti.Utils.Eventing
         {
             public void Intercept(IInvocation invocation)
             {
+                //
+                // Ensure the view is not disposed (regardless we have an eventized method or not)
+                //
+
                 TView view = (TView) invocation.Proxy;
                 view.CheckDisposed();
 
+                //
+                // Call the target method
+                //
+
                 invocation.Proceed();
 
-                if (!view.EventingDisabled)
-                {
-                    EventAttribute? evtAttr = invocation.MethodInvocationTarget.GetCustomAttribute<EventAttribute>();
-                    if (evtAttr is not null)
-                        view.OwnerRepository.Persist(view, evtAttr.Name, invocation.Arguments);
-                }
+                //
+                // Persist the state
+                //
+
+                EventAttribute? evtAttr = invocation.MethodInvocationTarget.GetCustomAttribute<EventAttribute>();
+                if (evtAttr is not null && !view.EventingDisabled)
+                    view.OwnerRepository.Persist(view, evtAttr.Name, invocation.Arguments);
             }
         }
 
@@ -118,6 +127,8 @@ namespace Solti.Utils.Eventing
                     .GetParameters()
                     .Select(static p => p.ParameterType)
                     .ToList();
+                if (method.ReturnType != typeof(void) || argTypes.Any(static t => t.IsByRef))
+                    throw new InvalidOperationException(Format(ERR_HAS_RETVAL, method.Name));
 
                 ParameterExpression
                     self = Expression.Parameter(viewType, nameof(self)),

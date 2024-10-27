@@ -177,4 +177,7 @@
   <data name="LOG_CREATE_RAW_VIEW" xml:space="preserve">
     <value>Creating raw view for: "{0}"</value>
   </data>
+  <data name="ERR_HAS_RETVAL" xml:space="preserve">
+    <value>Eventized method ("{0}") may not return a value</value>
+  </data>
 </root>
