@@ -20,7 +20,7 @@ namespace Solti.Utils.Eventing
         #region Private
         private  sealed class LockEntry
         {
-            public string OwnerId { get; set; } = null!;
+            public string OwnerId { get; init; } = null!;
         }
 
         private static string GetLockKey(string key) => $"lock_{key ?? throw new ArgumentNullException(nameof(key))}";
