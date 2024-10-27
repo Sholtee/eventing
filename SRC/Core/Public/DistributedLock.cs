@@ -53,13 +53,8 @@ namespace Solti.Utils.Eventing
                 }
             );
 
-            Stopwatch sw = Stopwatch.StartNew();
-
-            for(; ; )
+            for(Stopwatch sw = Stopwatch.StartNew(); !cache.Set(key, entry, LockTimeout, DistributedCacheInsertionFlags.None); )
             {
-                if (cache.Set(key, entry, LockTimeout, DistributedCacheInsertionFlags.None))
-                    return;
-
                 sleep(PollingInterval);
 
                 if (sw.Elapsed > timeout)
