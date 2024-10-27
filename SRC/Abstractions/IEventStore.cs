@@ -9,6 +9,13 @@ using System.Collections.Generic;
 namespace Solti.Utils.Eventing.Abstractions
 {
     /// <summary>
+    /// Describes an event on database level.
+    /// </summary>
+    public sealed record Event(string FlowId, string EventId, DateTime CreatedUtc, string Arguments)
+    {
+    }
+
+    /// <summary>
     /// Describes the contract of event stores
     /// </summary>
     public interface IEventStore: IDisposable

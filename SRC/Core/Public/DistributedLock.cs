@@ -18,7 +18,7 @@ namespace Solti.Utils.Eventing
     public sealed class DistributedLock(IDistributedCache cache, ISerializer serializer, Action<TimeSpan> sleep /*for testing*/): IDistributedLock
     {
         #region Private
-        private  sealed class LockEntry
+        private sealed class LockEntry
         {
             public string OwnerId { get; init; } = null!;
         }
