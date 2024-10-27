@@ -24,11 +24,11 @@ namespace Solti.Utils.Eventing.Tests
         {
             get
             {
-                yield return new object[] { "[0, \"cica\"]", new Type[] { typeof(int) }, ARRAY_LENGTH_NOT_MATCH };
-                yield return new object[] { "[0]", new Type[] { typeof(double), typeof(string) }, ARRAY_LENGTH_NOT_MATCH };
-                yield return new object[] { "[1]", Array.Empty<Type>(), ARRAY_LENGTH_NOT_MATCH };
-                yield return new object[] { "0", new Type[] { typeof(int) }, MALFORMED_ARRAY };
-                yield return new object[] { "{},", new Type[] { typeof(int) }, MALFORMED_ARRAY };
+                yield return new object[] { "[0, \"cica\"]", new Type[] { typeof(int) }, ERR_ARRAY_LENGTH_NOT_MATCH };
+                yield return new object[] { "[0]", new Type[] { typeof(double), typeof(string) }, ERR_ARRAY_LENGTH_NOT_MATCH };
+                yield return new object[] { "[1]", Array.Empty<Type>(), ERR_ARRAY_LENGTH_NOT_MATCH };
+                yield return new object[] { "0", new Type[] { typeof(int) }, ERR_MALFORMED_ARRAY };
+                yield return new object[] { "{},", new Type[] { typeof(int) }, ERR_MALFORMED_ARRAY };
             }
         }
 

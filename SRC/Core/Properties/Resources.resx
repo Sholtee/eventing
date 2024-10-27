@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ARRAY_LENGTH_NOT_MATCH" xml:space="preserve">
+  <data name="ERR_ARRAY_LENGTH_NOT_MATCH" xml:space="preserve">
     <value>Array length does not match</value>
   </data>
-  <data name="MALFORMED_ARRAY" xml:space="preserve">
+  <data name="ERR_MALFORMED_ARRAY" xml:space="preserve">
     <value>Malformed array</value>
   </data>
-  <data name="INVALID_EVENT_ID" xml:space="preserve">
+  <data name="ERR_INVALID_EVENT_ID" xml:space="preserve">
     <value>Invalid event id provided: "{0}"</value>
   </data>
-  <data name="INVALID_FLOW_ID" xml:space="preserve">
+  <data name="ERR_INVALID_FLOW_ID" xml:space="preserve">
     <value>Invalid flow id provided: "{0}"</value>
   </data>
   <data name="LOG_CREATE_INTERCEPTOR" xml:space="preserve">
@@ -141,7 +141,7 @@
   <data name="LOG_REPLAY_EVENTS" xml:space="preserve">
     <value>Replaying events for view: "{0}"</value>
   </data>
-  <data name="DUPLICATE_EVENT_ID" xml:space="preserve">
+  <data name="ERR_DUPLICATE_EVENT_ID" xml:space="preserve">
     <value>Duplicate event id: "{0}"</value>
   </data>
   <data name="LOG_INSERT_EVENT" xml:space="preserve">
@@ -150,19 +150,31 @@
   <data name="LOG_UPDATE_CACHE" xml:space="preserve">
     <value>Updating cache item for view: "{0}"</value>
   </data>
-  <data name="NO_LOCK" xml:space="preserve">
+  <data name="ERR_NO_LOCK" xml:space="preserve">
     <value>Lock must be held before make changes to the repository</value>
   </data>
-  <data name="NOT_VIRTUAL" xml:space="preserve">
+  <data name="ERR_NOT_VIRTUAL" xml:space="preserve">
     <value>EventAttribute cannot be applied on non virtual method: {0}</value>
   </data>
-  <data name="CANNOT_BE_INTERCEPTED" xml:space="preserve">
+  <data name="ERR_CANNOT_BE_INTERCEPTED" xml:space="preserve">
     <value>The given class cannot be intercepted (is it sealed?)</value>
   </data>
-  <data name="FLOW_ID_ALREADY_EXISTS" xml:space="preserve">
+  <data name="ERR_FLOW_ID_ALREADY_EXISTS" xml:space="preserve">
     <value>The given flow id already exists: "{0}"</value>
   </data>
   <data name="LOCK_NOT_HELD" xml:space="preserve">
     <value>No lock assigned to the given id</value>
+  </data>
+  <data name="LOG_CACHING_DISABLED" xml:space="preserve">
+    <value>Caching disabled</value>
+  </data>
+  <data name="LOG_INIT_SCHEMA" xml:space="preserve">
+    <value>Initializing database</value>
+  </data>
+  <data name="LOG_SCHEMA_INIT_DONE" xml:space="preserve">
+    <value>Schema initialized</value>
+  </data>
+  <data name="LOG_CREATE_RAW_VIEW" xml:space="preserve">
+    <value>Creating raw view for: "{0}"</value>
   </data>
 </root>

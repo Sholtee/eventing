@@ -37,9 +37,11 @@ namespace Solti.Utils.Eventing
             Serializer = serializer ?? JsonSerializer.Instance;
             ReflectionModule = reflectionModule ?? ReflectionModule<TView>.Instance;
 
-            Cache = cache;
             Logger = logger;
-
+            Cache = cache;
+            if (Cache is null)
+                Logger?.LogWarning(new EventId(300, "CACHING_DISABLED"), LOG_CACHING_DISABLED);
+   
             RepoId = CreateGuid();
 
             if (!eventStore.SchemaInitialized)
@@ -48,7 +50,11 @@ namespace Solti.Utils.Eventing
                 try
                 {
                     if (!eventStore.SchemaInitialized)
+                    {
+                        Logger?.LogInformation(new EventId(500, "INIT_SCHEMA"), LOG_INIT_SCHEMA);
                         eventStore.InitSchema();
+                        Logger?.LogInformation(new EventId(501, "SCHEMA_INITIALIZED"), LOG_SCHEMA_INIT_DONE);
+                    }
                 }
                 finally
                 {
@@ -115,9 +121,9 @@ namespace Solti.Utils.Eventing
                 throw new ArgumentNullException(nameof(args));
 
             if (!Lock.IsHeld(view.FlowId, RepoId))
-                throw new InvalidOperationException(NO_LOCK);
+                throw new InvalidOperationException(ERR_NO_LOCK);
 
-            Logger?.LogInformation(new EventId(503, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
+            Logger?.LogInformation(new EventId(502, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
 
             Cache?.Set
             (
@@ -127,7 +133,7 @@ namespace Solti.Utils.Eventing
                 DistributedCacheInsertionFlags.AllowOverwrite
             );
 
-            Logger?.LogInformation(new EventId(504, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
+            Logger?.LogInformation(new EventId(503, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
 
             try
             {
@@ -178,31 +184,31 @@ namespace Solti.Utils.Eventing
                 string? cached = Cache?.Get(flowId);
                 if (cached is not null)
                 {
-                    Logger?.LogInformation(new EventId(500, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
+                    Logger?.LogInformation(new EventId(504, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
 
                     view = Serializer.Deserialize(cached, CreateRawView)!;
                     if (view.IsValid)
                         goto ret;
 
-                    Logger?.LogWarning(new EventId(300, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
+                    Logger?.LogWarning(new EventId(301, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
                 }
 
                 //
                 // Materialize the view by replaying the events
                 //
 
-                Logger?.LogInformation(new EventId(501, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
+                Logger?.LogInformation(new EventId(505, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
 
                 IList<Event> events = EventStore.QueryEvents(flowId);
                 if (events.Count is 0)
-                    throw new ArgumentException(Format(INVALID_FLOW_ID, flowId), nameof(flowId));
+                    throw new ArgumentException(Format(ERR_INVALID_FLOW_ID, flowId), nameof(flowId));
 
                 view = CreateRawView();
 
                 foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
                 {
                     if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
-                        throw new InvalidOperationException(Format(INVALID_EVENT_ID, evt.EventId));
+                        throw new InvalidOperationException(Format(ERR_INVALID_EVENT_ID, evt.EventId));
 
                     processor(view, evt.Arguments, Serializer);
                 }
@@ -244,7 +250,9 @@ namespace Solti.Utils.Eventing
             try
             {
                 if (EventStore.QueryEvents(flowId).Count > 0)
-                    throw new ArgumentException(Format(FLOW_ID_ALREADY_EXISTS, flowId), nameof(flowId));
+                    throw new ArgumentException(Format(ERR_FLOW_ID_ALREADY_EXISTS, flowId), nameof(flowId));
+
+                Logger?.LogInformation(new EventId(505, "CREATE_RAW_VIEW"), LOG_CREATE_RAW_VIEW, flowId);
 
                 return ReflectionModule.CreateRawView(flowId, this);
             }

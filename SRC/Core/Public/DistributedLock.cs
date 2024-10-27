@@ -81,7 +81,7 @@ namespace Solti.Utils.Eventing
         public void Release(string key, string ownerId)
         {
             if (!IsHeld(key, ownerId))
-                throw new InvalidOperationException(Resources.NO_LOCK);
+                throw new InvalidOperationException(Resources.ERR_NO_LOCK);
             cache.Remove(GetLockKey(key));
         }
     }

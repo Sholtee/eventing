@@ -63,54 +63,90 @@ namespace Solti.Utils.Eventing.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Array length does not match.
         /// </summary>
-        internal static string ARRAY_LENGTH_NOT_MATCH {
+        internal static string ERR_ARRAY_LENGTH_NOT_MATCH {
             get {
-                return ResourceManager.GetString("ARRAY_LENGTH_NOT_MATCH", resourceCulture);
+                return ResourceManager.GetString("ERR_ARRAY_LENGTH_NOT_MATCH", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The given class cannot be intercepted (is it sealed?).
         /// </summary>
-        internal static string CANNOT_BE_INTERCEPTED {
+        internal static string ERR_CANNOT_BE_INTERCEPTED {
             get {
-                return ResourceManager.GetString("CANNOT_BE_INTERCEPTED", resourceCulture);
+                return ResourceManager.GetString("ERR_CANNOT_BE_INTERCEPTED", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Duplicate event id: &quot;{0}&quot;.
         /// </summary>
-        internal static string DUPLICATE_EVENT_ID {
+        internal static string ERR_DUPLICATE_EVENT_ID {
             get {
-                return ResourceManager.GetString("DUPLICATE_EVENT_ID", resourceCulture);
+                return ResourceManager.GetString("ERR_DUPLICATE_EVENT_ID", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The given flow id already exists: &quot;{0}&quot;.
         /// </summary>
-        internal static string FLOW_ID_ALREADY_EXISTS {
+        internal static string ERR_FLOW_ID_ALREADY_EXISTS {
             get {
-                return ResourceManager.GetString("FLOW_ID_ALREADY_EXISTS", resourceCulture);
+                return ResourceManager.GetString("ERR_FLOW_ID_ALREADY_EXISTS", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid event id provided: &quot;{0}&quot;.
         /// </summary>
-        internal static string INVALID_EVENT_ID {
+        internal static string ERR_INVALID_EVENT_ID {
             get {
-                return ResourceManager.GetString("INVALID_EVENT_ID", resourceCulture);
+                return ResourceManager.GetString("ERR_INVALID_EVENT_ID", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid flow id provided: &quot;{0}&quot;.
         /// </summary>
-        internal static string INVALID_FLOW_ID {
+        internal static string ERR_INVALID_FLOW_ID {
             get {
-                return ResourceManager.GetString("INVALID_FLOW_ID", resourceCulture);
+                return ResourceManager.GetString("ERR_INVALID_FLOW_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Malformed array.
+        /// </summary>
+        internal static string ERR_MALFORMED_ARRAY {
+            get {
+                return ResourceManager.GetString("ERR_MALFORMED_ARRAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lock must be held before make changes to the repository.
+        /// </summary>
+        internal static string ERR_NO_LOCK {
+            get {
+                return ResourceManager.GetString("ERR_NO_LOCK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EventAttribute cannot be applied on non virtual method: {0}.
+        /// </summary>
+        internal static string ERR_NOT_VIRTUAL {
+            get {
+                return ResourceManager.GetString("ERR_NOT_VIRTUAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No lock assigned to the given id.
+        /// </summary>
+        internal static string LOCK_NOT_HELD {
+            get {
+                return ResourceManager.GetString("LOCK_NOT_HELD", resourceCulture);
             }
         }
         
@@ -124,11 +160,38 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caching disabled.
+        /// </summary>
+        internal static string LOG_CACHING_DISABLED {
+            get {
+                return ResourceManager.GetString("LOG_CACHING_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating interceptor for view: &quot;{0}&quot;.
         /// </summary>
         internal static string LOG_CREATE_INTERCEPTOR {
             get {
                 return ResourceManager.GetString("LOG_CREATE_INTERCEPTOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating raw view for: &quot;{0}&quot;.
+        /// </summary>
+        internal static string LOG_CREATE_RAW_VIEW {
+            get {
+                return ResourceManager.GetString("LOG_CREATE_RAW_VIEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing database.
+        /// </summary>
+        internal static string LOG_INIT_SCHEMA {
+            get {
+                return ResourceManager.GetString("LOG_INIT_SCHEMA", resourceCulture);
             }
         }
         
@@ -160,38 +223,20 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Schema initialized.
+        /// </summary>
+        internal static string LOG_SCHEMA_INIT_DONE {
+            get {
+                return ResourceManager.GetString("LOG_SCHEMA_INIT_DONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updating cache item for view: &quot;{0}&quot;.
         /// </summary>
         internal static string LOG_UPDATE_CACHE {
             get {
                 return ResourceManager.GetString("LOG_UPDATE_CACHE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Malformed array.
-        /// </summary>
-        internal static string MALFORMED_ARRAY {
-            get {
-                return ResourceManager.GetString("MALFORMED_ARRAY", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lock must be held before make changes to the repository.
-        /// </summary>
-        internal static string NO_LOCK {
-            get {
-                return ResourceManager.GetString("NO_LOCK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to EventAttribute cannot be applied on non virtual method: {0}.
-        /// </summary>
-        internal static string NOT_VIRTUAL {
-            get {
-                return ResourceManager.GetString("NOT_VIRTUAL", resourceCulture);
             }
         }
     }

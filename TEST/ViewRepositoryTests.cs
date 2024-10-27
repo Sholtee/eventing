@@ -149,7 +149,7 @@ namespace Solti.Utils.Eventing.Tests
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             ArgumentException ex = Assert.Throws<ArgumentException>(() => repo.Materialize("flowId"))!;
-            Assert.That(ex.Message, Does.StartWith(Format(INVALID_FLOW_ID, "flowId")));
+            Assert.That(ex.Message, Does.StartWith(Format(ERR_INVALID_FLOW_ID, "flowId")));
 
             mockCache.Verify(c => c.Get("flowId"), Times.Once);
             mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);
@@ -221,7 +221,7 @@ namespace Solti.Utils.Eventing.Tests
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => repo.Materialize("flowId"))!;
-            Assert.That(ex.Message, Is.EqualTo(Format(INVALID_EVENT_ID, "invalid")));
+            Assert.That(ex.Message, Is.EqualTo(Format(ERR_INVALID_EVENT_ID, "invalid")));
         }
 
         [Test]
@@ -405,7 +405,7 @@ namespace Solti.Utils.Eventing.Tests
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
             ArgumentException ex = Assert.Throws<ArgumentException>(() => repo.Create("existing"))!;
-            Assert.That(ex.Message, Does.StartWith(Format(FLOW_ID_ALREADY_EXISTS, "existing")));
+            Assert.That(ex.Message, Does.StartWith(Format(ERR_FLOW_ID_ALREADY_EXISTS, "existing")));
         }
 
         [Test]

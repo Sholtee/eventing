@@ -98,7 +98,7 @@ namespace Solti.Utils.Eventing
             Type viewType = typeof(TView);
 
             if (viewType.IsSealed)
-                throw new InvalidOperationException(CANNOT_BE_INTERCEPTED);
+                throw new InvalidOperationException(ERR_CANNOT_BE_INTERCEPTED);
 
             Dictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> processors = [];
           
@@ -109,10 +109,10 @@ namespace Solti.Utils.Eventing
                     continue;
 
                 if (!method.IsVirtual)
-                    throw new InvalidOperationException(Format(NOT_VIRTUAL, method.Name));
+                    throw new InvalidOperationException(Format(ERR_NOT_VIRTUAL, method.Name));
 
                 if (processors.ContainsKey(evtAttr.Name))
-                    throw new InvalidOperationException(Format(DUPLICATE_EVENT_ID, evtAttr.Name));
+                    throw new InvalidOperationException(Format(ERR_DUPLICATE_EVENT_ID, evtAttr.Name));
 
                 IReadOnlyList<Type> argTypes = method
                     .GetParameters()

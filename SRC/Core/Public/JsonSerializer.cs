@@ -60,19 +60,19 @@ namespace Solti.Utils.Eventing
                         if (reader.TokenType is JsonTokenType.EndArray)
                         {
                             if (i < result.Length)
-                                throw new JsonException(ARRAY_LENGTH_NOT_MATCH);
+                                throw new JsonException(ERR_ARRAY_LENGTH_NOT_MATCH);
 
                             return result;
                         }
 
                         if (i == result.Length)
-                            throw new JsonException(ARRAY_LENGTH_NOT_MATCH);
+                            throw new JsonException(ERR_ARRAY_LENGTH_NOT_MATCH);
 
                         result[i] = SerializerCore.Deserialize(ref reader, ElementTypes[i], options);
                     }
                 }
 
-                throw new JsonException(MALFORMED_ARRAY);
+                throw new JsonException(ERR_MALFORMED_ARRAY);
             }
 
             public override void Write(Utf8JsonWriter writer, object?[] value, JsonSerializerOptions options) => throw new NotImplementedException();

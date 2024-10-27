@@ -95,7 +95,7 @@ namespace Solti.Utils.Eventing.Tests
         public void Ctor_ShouldThrowOnDuplicateEvent()
         {
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewHavingDuplicateEvent>())!;
-            Assert.That(ex.Message, Is.EqualTo(string.Format(DUPLICATE_EVENT_ID, "some-event")));
+            Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_DUPLICATE_EVENT_ID, "some-event")));
         }
 
         internal class ViewHavingNonVirtualEvent : ViewBase
@@ -108,7 +108,7 @@ namespace Solti.Utils.Eventing.Tests
         public void Ctor_ShouldThrowOnNonVirtualEvent()
         {
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewHavingNonVirtualEvent>())!;
-            Assert.That(ex.Message, Is.EqualTo(string.Format(NOT_VIRTUAL, nameof(ViewHavingNonVirtualEvent.Annotated))));
+            Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_NOT_VIRTUAL, nameof(ViewHavingNonVirtualEvent.Annotated))));
         }
 
         internal sealed class SealedView : ViewBase
@@ -121,7 +121,7 @@ namespace Solti.Utils.Eventing.Tests
         public void Ctor_ShouldThrowOnSealedView()
         {
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<SealedView>())!;
-            Assert.That(ex.Message, Is.EqualTo(CANNOT_BE_INTERCEPTED));
+            Assert.That(ex.Message, Is.EqualTo(ERR_CANNOT_BE_INTERCEPTED));
         }
     }
 }
