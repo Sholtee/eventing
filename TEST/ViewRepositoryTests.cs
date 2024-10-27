@@ -36,15 +36,22 @@ namespace Solti.Utils.Eventing.Tests
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
-                .Setup(s => s.QueryEvents("flowId"))
-                .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
-            mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
-            mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
-            mockLock.Setup(l => l.Release("flowId", It.IsAny<string>()));
+
+            MockSequence seq = new();
+            mockLock
+                .InSequence(seq)
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
+            mockEventStore
+                .InSequence(seq)
+                .Setup(s => s.QueryEvents("flowId"))
+                .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
+            mockLock
+                .InSequence(seq)
+                .Setup(l => l.Release("flowId", It.IsAny<string>()));
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
@@ -65,7 +72,14 @@ namespace Solti.Utils.Eventing.Tests
                 .Returns(true);
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+
+            MockSequence seq = new();
+            mockLock
+                .InSequence(seq)
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
             mockCache
+                .InSequence(seq)
                 .Setup(c => c.Get("flowId"))
                 .Returns<string>(static _ =>
                 {
@@ -77,10 +91,9 @@ namespace Solti.Utils.Eventing.Tests
                     };
                     return JsonSerializer.Instance.Serialize(view);
                 });
-
-            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
-            mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
-            mockLock.Setup(l => l.Release("flowId", It.IsAny<string>()));
+            mockLock
+                .InSequence(seq)
+                .Setup(l => l.Release("flowId", It.IsAny<string>()));
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
@@ -99,20 +112,27 @@ namespace Solti.Utils.Eventing.Tests
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
-                .Setup(s => s.QueryEvents("flowId"))
-                .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
-            mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
-
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+
+            MockSequence seq = new();
+
+            mockLock
+                .InSequence(seq)
+                .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
             mockCache
+                .InSequence(seq)
                 .Setup(c => c.Get("flowId"))
                 .Returns(JsonSerializer.Instance.Serialize(new object()));
-
-            Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
-            mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
-            mockLock.Setup(l => l.Release("flowId", It.IsAny<string>()));
+            mockEventStore
+                .InSequence(seq)
+                .Setup(s => s.QueryEvents("flowId"))
+                .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
+            mockLock
+                .InSequence(seq)
+                .Setup(l => l.Release("flowId", It.IsAny<string>()));
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
@@ -387,9 +407,6 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Create_ShouldThrowOnExistingFlowId()
         {
-            Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
-            mockDisposable.Setup(d => d.Dispose());
-
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock.Setup(l => l.Acquire(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>()));
             mockLock.Setup(l => l.Release(It.IsAny<string>(), It.IsAny<string>()));
@@ -411,28 +428,38 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Ctor_ShouldInitTheDatabase()
         {
-            Mock<IDisposable> mockDisposable = new(MockBehavior.Strict);
-            mockDisposable.Setup(d => d.Dispose());
+            MockSequence seq = new();
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
-            mockLock.Setup(l => l.Acquire(ViewRepository<View>.SCHEMA_INIT_LOCK_NAME, It.IsAny<string>(), It.IsAny<TimeSpan>()));
-            mockLock.Setup(l => l.Release(ViewRepository<View>.SCHEMA_INIT_LOCK_NAME, It.IsAny<string>()));
 
             bool schemaInitialized = false;
 
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
+                .InSequence(seq)
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(() => schemaInitialized);
+            mockLock
+                .InSequence(seq)
+                .Setup(l => l.Acquire(ViewRepository<View>.SCHEMA_INIT_LOCK_NAME, It.IsAny<string>(), It.IsAny<TimeSpan>()));
+            mockEventStore
+                .InSequence(seq)
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(() => schemaInitialized);
             mockEventStore
+                .InSequence(seq)
                 .Setup(s => s.InitSchema())
                 .Callback(() => schemaInitialized = true);
+            mockLock
+                .InSequence(seq)
+                .Setup(l => l.Release(ViewRepository<View>.SCHEMA_INIT_LOCK_NAME, It.IsAny<string>()));
 
-             _ = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
+            _ = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
 
             Assert.That(schemaInitialized, Is.True);
             mockLock.Verify(l => l.Acquire(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Once);
             mockLock.Verify(l => l.Release(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            mockEventStore.VerifyGet(s => s.SchemaInitialized, Times.Exactly(2));
         }
     }
 }
