@@ -15,7 +15,9 @@ namespace Solti.Utils.Eventing.Tests
 {
     public class ModuleTestsBase
     {
+        #pragma warning disable NUnit1032
         private ICompositeService FService;
+        #pragma warning restore NUnit1032
 
         [OneTimeSetUp]
         public virtual void SetupFixture()
@@ -34,7 +36,12 @@ namespace Solti.Utils.Eventing.Tests
         [OneTimeTearDown]
         public virtual void TearDownFixture()
         {
-            FService?.Dispose();
+            //
+            // Reuse the stack in the cloud
+            //
+
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI")))
+                FService.Dispose();
             FService = null!;
         }
 
