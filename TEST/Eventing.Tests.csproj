@@ -50,7 +50,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="test-db.yml">
+	  <None Update="Infra\test-db.yml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

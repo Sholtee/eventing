@@ -25,7 +25,7 @@ namespace Solti.Utils.Eventing.Tests
             FService = new Builder()
                 .UseContainer()
                 .UseCompose()
-                .FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test-db.yml"))
+                .FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Infra", "test-db.yml"))
                 .RemoveOrphans()
                 .WaitForHttp("redis-local", "http://localhost:6379")
                 .WaitForHttp("dynamodb-local", "http://localhost:8000")

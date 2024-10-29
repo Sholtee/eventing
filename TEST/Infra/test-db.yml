@@ -1,5 +1,4 @@
 version: "2.4"
-name: test-db
 services:
   redis-local:
     image: redis:latest
