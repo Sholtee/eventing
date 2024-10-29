@@ -19,11 +19,11 @@ namespace Solti.Utils.Eventing.Tests
         protected abstract IDistributedCache CreateInstance();
 
         [SetUp]
-        public virtual void Setup() => FCache = CreateInstance();
+        public virtual void SetupTest() => FCache = CreateInstance();
 
 
         [TearDown]
-        public virtual void Teardown() => FCache?.Dispose();
+        public virtual void TearDownTest() => FCache?.Dispose();
 
 
         [Test]

@@ -32,7 +32,7 @@ namespace Solti.Utils.Eventing.Tests
 
         protected IDisposable ScopedLock(string key, TimeSpan timeout)
         {
-            IDistributedLock @lock = Createinstance();
+            IDistributedLock @lock = CreateInstance();
 
             string ownerId = Guid.NewGuid().ToString("D");
 
@@ -40,7 +40,7 @@ namespace Solti.Utils.Eventing.Tests
             return new Scope(@lock, key, ownerId);
         }
 
-        protected abstract IDistributedLock Createinstance();
+        protected abstract IDistributedLock CreateInstance();
 
         [Test]
         public void Acquire_ShouldBlock([Values(2,3,10)] int workers)
@@ -95,7 +95,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void IsHeld_ShouldDetermineIfTheLockIsOwnedByTheCaller([Values("owner_1", "owner_2")] string ownerId)
         {
-            IDistributedLock @lock = Createinstance();
+            IDistributedLock @lock = CreateInstance();
 
             @lock.Acquire("mylock", ownerId, TimeSpan.FromMinutes(1));
             try
@@ -111,7 +111,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Release_ShouldThrowIfTheLockIsNotHeld()
         {
-            IDistributedLock @lock = Createinstance();
+            IDistributedLock @lock = CreateInstance();
 
             @lock.Acquire("mylock", "owner_1", TimeSpan.FromMinutes(1));
             try

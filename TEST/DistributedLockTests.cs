@@ -17,25 +17,41 @@ namespace Solti.Utils.Eventing.Tests
     [TestFixture]
     public class DistributedLockTests: IDistributedLockTests
     {
-        private ContainerHost FContainerHost = null!;
+        private ModuleTestsBase FContainerHost = null!;
 
-        private RedisCache FRedisCache = null!; // can be shared
+        private RedisCache FRedisCache = null!;
 
         [OneTimeSetUp]
         public void SetupFixture()
         {
-            FContainerHost = new ContainerHost();
-            FRedisCache = new("localhost", JsonSerializer.Instance);
+            FContainerHost = new ModuleTestsBase();
+            FContainerHost.SetupFixture();
         }
 
         [OneTimeTearDown]
         public void TearDownFixture()
         {
-            FRedisCache?.Dispose();
-            FContainerHost?.Dispose();
+            FContainerHost.TearDownFixture();
+            FContainerHost = null!;
         }
 
-        protected override IDistributedLock Createinstance() => new DistributedLock(FRedisCache, JsonSerializer.Instance);
+        [SetUp]
+        public void SetupTest()
+        {
+            FContainerHost.SetupTest();
+            FRedisCache = new RedisCache("localhost", JsonSerializer.Instance);
+        }
+
+        [TearDown]
+        public void TearDownTest()
+        {
+            FRedisCache.Dispose();
+            FRedisCache = null!;
+
+            FContainerHost.TearDownTest();
+        }
+
+        protected override IDistributedLock CreateInstance() => new DistributedLock(FRedisCache, JsonSerializer.Instance);
 
         [Test]
         public void Test_Flow()

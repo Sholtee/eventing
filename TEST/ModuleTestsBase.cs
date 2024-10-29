@@ -1,36 +1,57 @@
 /********************************************************************************
-* ContainerHost.cs                                                              *
+* ModuleTestsBase.cs                                                            *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
 using System.IO;
 
+using NUnit.Framework;
 using Ductus.FluentDocker.Services;
 using Ductus.FluentDocker.Builders;
+using StackExchange.Redis;
 
 namespace Solti.Utils.Eventing.Tests
 {
-    public sealed class ContainerHost: IDisposable
+    public class ModuleTestsBase
     {
         private ICompositeService FService;
 
-        public ContainerHost()
+        [OneTimeSetUp]
+        public virtual void SetupFixture()
         {
             FService = new Builder()
                 .UseContainer()
                 .UseCompose()
                 .FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test-db.yml"))
                 .RemoveOrphans()
+                .WaitForHttp("redis-local", "http://localhost:6379")
                 .WaitForHttp("dynamodb-local", "http://localhost:8000")
                 .Build()
                 .Start();
         }
 
-        public void Dispose()
+        [OneTimeTearDown]
+        public virtual void TearDownFixture()
         {
             FService?.Dispose();
             FService = null!;
+        }
+
+        [SetUp]
+        public virtual void SetupTest()
+        {
+        }
+
+        [TearDown]
+        public virtual void TearDownTest()
+        {
+            using ConnectionMultiplexer connection = ConnectionMultiplexer.Connect("localhost,allowAdmin=true");
+
+            foreach (IServer server in connection.GetServers())
+            {
+                server.FlushAllDatabases();
+            }
         }
     }
 }
