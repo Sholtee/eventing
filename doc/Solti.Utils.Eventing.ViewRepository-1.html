@@ -1,0 +1,637 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ViewRepository&lt;TView&gt;
+   | Solti.Utils.Eventing </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ViewRepository&lt;TView&gt;
+   | Solti.Utils.Eventing ">
+    <meta name="generator" content="docfx 2.59.3.0">
+    
+    <link rel="shortcut icon" href="icon.png">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Solti.Utils.Eventing.ViewRepository`1">
+  
+  
+  <h1 id="Solti_Utils_Eventing_ViewRepository_1" data-uid="Solti.Utils.Eventing.ViewRepository`1" class="text-break">Class ViewRepository&lt;TView&gt;
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ViewRepository&lt;TView&gt;</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Solti.Utils.Eventing.Abstractions.IViewRepository-1.html">IViewRepository</a>&lt;TView&gt;</div>
+    <div><a class="xref" href="Solti.Utils.Eventing.Abstractions.IViewRepository.html">IViewRepository</a></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Eventing.html">Solti.Utils.Eventing</a></h6>
+  <h6><strong>Assembly</strong>: Solti.Utils.Eventing.dll</h6>
+  <h5 id="Solti_Utils_Eventing_ViewRepository_1_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ViewRepository&lt;TView&gt; : Object, IViewRepository&lt;TView&gt;, IViewRepository where TView : ViewBase, new()</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TView</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="constructors">Constructors
+  </h3>
+  <a id="Solti_Utils_Eventing_ViewRepository_1__ctor_" data-uid="Solti.Utils.Eventing.ViewRepository`1.#ctor*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1__ctor_Solti_Utils_Eventing_Abstractions_IEventStore_Solti_Utils_Eventing_Abstractions_IDistributedLock_Solti_Utils_Eventing_Abstractions_ISerializer_Solti_Utils_Eventing_Abstractions_IReflectionModule__0__Solti_Utils_Eventing_Abstractions_IDistributedCache_Microsoft_Extensions_Logging_ILogger_" data-uid="Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger)">ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule&lt;TView&gt;, IDistributedCache, ILogger)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ViewRepository(IEventStore eventStore, IDistributedLock lock, ISerializer serializer = null, IReflectionModule&lt;TView&gt; reflectionModule = null, IDistributedCache cache = null, ILogger logger = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.IEventStore.html">IEventStore</a></td>
+        <td><span class="parametername">eventStore</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.IDistributedLock.html">IDistributedLock</a></td>
+        <td><span class="parametername">lock</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ISerializer.html">ISerializer</a></td>
+        <td><span class="parametername">serializer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.IReflectionModule-1.html">IReflectionModule</a>&lt;TView&gt;</td>
+        <td><span class="parametername">reflectionModule</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.IDistributedCache.html">IDistributedCache</a></td>
+        <td><span class="parametername">cache</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span></td>
+        <td><span class="parametername">logger</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Cache_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Cache*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Cache" data-uid="Solti.Utils.Eventing.ViewRepository`1.Cache">Cache</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IDistributedCache Cache { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.IDistributedCache.html">IDistributedCache</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_CacheEntryExpiration_" data-uid="Solti.Utils.Eventing.ViewRepository`1.CacheEntryExpiration*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_CacheEntryExpiration" data-uid="Solti.Utils.Eventing.ViewRepository`1.CacheEntryExpiration">CacheEntryExpiration</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan CacheEntryExpiration { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.TimeSpan</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_EventStore_" data-uid="Solti.Utils.Eventing.ViewRepository`1.EventStore*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_EventStore" data-uid="Solti.Utils.Eventing.ViewRepository`1.EventStore">EventStore</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEventStore EventStore { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.IEventStore.html">IEventStore</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Lock_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Lock*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Lock" data-uid="Solti.Utils.Eventing.ViewRepository`1.Lock">Lock</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IDistributedLock Lock { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.IDistributedLock.html">IDistributedLock</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_LockTimeout_" data-uid="Solti.Utils.Eventing.ViewRepository`1.LockTimeout*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_LockTimeout" data-uid="Solti.Utils.Eventing.ViewRepository`1.LockTimeout">LockTimeout</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan LockTimeout { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.TimeSpan</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Logger_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Logger*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Logger" data-uid="Solti.Utils.Eventing.ViewRepository`1.Logger">Logger</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ILogger Logger { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_ReflectionModule_" data-uid="Solti.Utils.Eventing.ViewRepository`1.ReflectionModule*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_ReflectionModule" data-uid="Solti.Utils.Eventing.ViewRepository`1.ReflectionModule">ReflectionModule</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReflectionModule&lt;TView&gt; ReflectionModule { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.IReflectionModule-1.html">IReflectionModule</a>&lt;TView&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_RepoId_" data-uid="Solti.Utils.Eventing.ViewRepository`1.RepoId*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_RepoId" data-uid="Solti.Utils.Eventing.ViewRepository`1.RepoId">RepoId</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string RepoId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Serializer_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Serializer*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Serializer" data-uid="Solti.Utils.Eventing.ViewRepository`1.Serializer">Serializer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ISerializer Serializer { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ISerializer.html">ISerializer</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Close_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Close*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Close_System_String_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Close(System.String)">Close(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Close(string flowId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Create_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Create*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Create_System_String_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Create(System.String)">Create(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TView Create(string flowId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TView</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Materialize_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Materialize*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Materialize_System_String_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Materialize(System.String)">Materialize(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TView Materialize(string flowId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TView</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Persist_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Persist*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Persist__0_System_String_System_Object___" data-uid="Solti.Utils.Eventing.ViewRepository`1.Persist(`0,System.String,System.Object[])">Persist(TView, String, Object[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Persist(TView view, string eventId, object[] args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TView</span></td>
+        <td><span class="parametername">view</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">eventId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String)">IViewRepository.Create(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">ViewBase IViewRepository.Create(string flowId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ViewBase.html">ViewBase</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Materialize_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Materialize*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Materialize_System_String_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Materialize(System.String)">IViewRepository.Materialize(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">ViewBase IViewRepository.Materialize(string flowId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ViewBase.html">ViewBase</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Persist*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_Solti_Utils_Eventing_Abstractions_ViewBase_System_String_System_Object___" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Persist(Solti.Utils.Eventing.Abstractions.ViewBase,System.String,System.Object[])">IViewRepository.Persist(ViewBase, String, Object[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void IViewRepository.Persist(ViewBase view, string eventId, object[] args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ViewBase.html">ViewBase</a></td>
+        <td><span class="parametername">view</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">eventId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Solti.Utils.Eventing.Abstractions.IViewRepository-1.html">IViewRepository&lt;TView&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="Solti.Utils.Eventing.Abstractions.IViewRepository.html">IViewRepository</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>

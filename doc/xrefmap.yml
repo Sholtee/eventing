@@ -1,0 +1,1237 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: Solti.Utils.Eventing
+  name: Solti.Utils.Eventing
+  href: Solti.Utils.Eventing.html
+  commentId: N:Solti.Utils.Eventing
+  fullName: Solti.Utils.Eventing
+  nameWithType: Solti.Utils.Eventing
+- uid: Solti.Utils.Eventing.Abstractions
+  name: Solti.Utils.Eventing.Abstractions
+  href: Solti.Utils.Eventing.Abstractions.html
+  commentId: N:Solti.Utils.Eventing.Abstractions
+  fullName: Solti.Utils.Eventing.Abstractions
+  nameWithType: Solti.Utils.Eventing.Abstractions
+- uid: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags
+  name: DistributedCacheInsertionFlags
+  href: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags
+  fullName: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags
+  nameWithType: DistributedCacheInsertionFlags
+- uid: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.AllowOverwrite
+  name: AllowOverwrite
+  href: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.html#Solti_Utils_Eventing_Abstractions_DistributedCacheInsertionFlags_AllowOverwrite
+  commentId: F:Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.AllowOverwrite
+  fullName: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.AllowOverwrite
+  nameWithType: DistributedCacheInsertionFlags.AllowOverwrite
+- uid: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.None
+  name: None
+  href: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.html#Solti_Utils_Eventing_Abstractions_DistributedCacheInsertionFlags_None
+  commentId: F:Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.None
+  fullName: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.None
+  nameWithType: DistributedCacheInsertionFlags.None
+- uid: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.value__
+  name: value__
+  href: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.html#Solti_Utils_Eventing_Abstractions_DistributedCacheInsertionFlags_value__
+  commentId: F:Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.value__
+  fullName: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.value__
+  nameWithType: DistributedCacheInsertionFlags.value__
+- uid: Solti.Utils.Eventing.Abstractions.Event
+  name: Event
+  href: Solti.Utils.Eventing.Abstractions.Event.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.Event
+  fullName: Solti.Utils.Eventing.Abstractions.Event
+  nameWithType: Event
+- uid: Solti.Utils.Eventing.Abstractions.Event.#ctor(System.String,System.String,System.DateTime,System.String)
+  name: Event(String, String, DateTime, String)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__ctor_System_String_System_String_System_DateTime_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.#ctor(System.String,System.String,System.DateTime,System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Event(System.String, System.String, System.DateTime, System.String)
+  nameWithType: Event.Event(String, String, DateTime, String)
+- uid: Solti.Utils.Eventing.Abstractions.Event.#ctor*
+  name: Event
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__ctor_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.#ctor
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Event
+  nameWithType: Event.Event
+- uid: Solti.Utils.Eventing.Abstractions.Event.{Clone}$
+  name: <Clone>$()
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__Clone__
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.{Clone}$
+  fullName: Solti.Utils.Eventing.Abstractions.Event.<Clone>$()
+  nameWithType: Event.<Clone>$()
+- uid: Solti.Utils.Eventing.Abstractions.Event.{Clone}$*
+  name: <Clone>$
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__Clone___
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.{Clone}$
+  fullName: Solti.Utils.Eventing.Abstractions.Event.<Clone>$
+  nameWithType: Event.<Clone>$
+- uid: Solti.Utils.Eventing.Abstractions.Event.Arguments
+  name: Arguments
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Arguments
+  commentId: P:Solti.Utils.Eventing.Abstractions.Event.Arguments
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Arguments
+  nameWithType: Event.Arguments
+- uid: Solti.Utils.Eventing.Abstractions.Event.Arguments*
+  name: Arguments
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Arguments_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.Arguments
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Arguments
+  nameWithType: Event.Arguments
+- uid: Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
+  name: CreatedUtc
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_CreatedUtc
+  commentId: P:Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
+  fullName: Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
+  nameWithType: Event.CreatedUtc
+- uid: Solti.Utils.Eventing.Abstractions.Event.CreatedUtc*
+  name: CreatedUtc
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_CreatedUtc_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
+  fullName: Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
+  nameWithType: Event.CreatedUtc
+- uid: Solti.Utils.Eventing.Abstractions.Event.Deconstruct(System.String@,System.String@,System.DateTime@,System.String@)
+  name: Deconstruct(out String, out String, out DateTime, out String)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Deconstruct_System_String__System_String__System_DateTime__System_String__
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.Deconstruct(System.String@,System.String@,System.DateTime@,System.String@)
+  name.vb: Deconstruct(ByRef String, ByRef String, ByRef DateTime, ByRef String)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Deconstruct(out System.String, out System.String, out System.DateTime, out System.String)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.Event.Deconstruct(ByRef System.String, ByRef System.String, ByRef System.DateTime, ByRef System.String)
+  nameWithType: Event.Deconstruct(out String, out String, out DateTime, out String)
+  nameWithType.vb: Event.Deconstruct(ByRef String, ByRef String, ByRef DateTime, ByRef String)
+- uid: Solti.Utils.Eventing.Abstractions.Event.Deconstruct*
+  name: Deconstruct
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Deconstruct_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.Deconstruct
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Deconstruct
+  nameWithType: Event.Deconstruct
+- uid: Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
+  name: Equals(Event)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: Event.Equals(Event)
+- uid: Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
+  name: Equals(Object)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_System_Object_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
+  nameWithType: Event.Equals(Object)
+- uid: Solti.Utils.Eventing.Abstractions.Event.Equals*
+  name: Equals
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.Equals
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals
+  nameWithType: Event.Equals
+- uid: Solti.Utils.Eventing.Abstractions.Event.EventId
+  name: EventId
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_EventId
+  commentId: P:Solti.Utils.Eventing.Abstractions.Event.EventId
+  fullName: Solti.Utils.Eventing.Abstractions.Event.EventId
+  nameWithType: Event.EventId
+- uid: Solti.Utils.Eventing.Abstractions.Event.EventId*
+  name: EventId
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_EventId_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.EventId
+  fullName: Solti.Utils.Eventing.Abstractions.Event.EventId
+  nameWithType: Event.EventId
+- uid: Solti.Utils.Eventing.Abstractions.Event.FlowId
+  name: FlowId
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_FlowId
+  commentId: P:Solti.Utils.Eventing.Abstractions.Event.FlowId
+  fullName: Solti.Utils.Eventing.Abstractions.Event.FlowId
+  nameWithType: Event.FlowId
+- uid: Solti.Utils.Eventing.Abstractions.Event.FlowId*
+  name: FlowId
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_FlowId_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.FlowId
+  fullName: Solti.Utils.Eventing.Abstractions.Event.FlowId
+  nameWithType: Event.FlowId
+- uid: Solti.Utils.Eventing.Abstractions.Event.GetHashCode
+  name: GetHashCode()
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_GetHashCode
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.GetHashCode
+  fullName: Solti.Utils.Eventing.Abstractions.Event.GetHashCode()
+  nameWithType: Event.GetHashCode()
+- uid: Solti.Utils.Eventing.Abstractions.Event.GetHashCode*
+  name: GetHashCode
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_GetHashCode_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.GetHashCode
+  fullName: Solti.Utils.Eventing.Abstractions.Event.GetHashCode
+  nameWithType: Event.GetHashCode
+- uid: Solti.Utils.Eventing.Abstractions.Event.op_Equality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
+  name: Equality(Event, Event)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Equality_Solti_Utils_Eventing_Abstractions_Event_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.op_Equality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equality(Solti.Utils.Eventing.Abstractions.Event, Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: Event.Equality(Event, Event)
+- uid: Solti.Utils.Eventing.Abstractions.Event.op_Equality*
+  name: Equality
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Equality_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.op_Equality
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equality
+  nameWithType: Event.Equality
+- uid: Solti.Utils.Eventing.Abstractions.Event.op_Inequality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
+  name: Inequality(Event, Event)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Inequality_Solti_Utils_Eventing_Abstractions_Event_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.op_Inequality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Inequality(Solti.Utils.Eventing.Abstractions.Event, Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: Event.Inequality(Event, Event)
+- uid: Solti.Utils.Eventing.Abstractions.Event.op_Inequality*
+  name: Inequality
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Inequality_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.op_Inequality
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Inequality
+  nameWithType: Event.Inequality
+- uid: Solti.Utils.Eventing.Abstractions.Event.ToString
+  name: ToString()
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_ToString
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.ToString
+  fullName: Solti.Utils.Eventing.Abstractions.Event.ToString()
+  nameWithType: Event.ToString()
+- uid: Solti.Utils.Eventing.Abstractions.Event.ToString*
+  name: ToString
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_ToString_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.ToString
+  fullName: Solti.Utils.Eventing.Abstractions.Event.ToString
+  nameWithType: Event.ToString
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedCache
+  name: IDistributedCache
+  href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.IDistributedCache
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedCache
+  nameWithType: IDistributedCache
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedCache.Get(System.String)
+  name: Get(String)
+  href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html#Solti_Utils_Eventing_Abstractions_IDistributedCache_Get_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IDistributedCache.Get(System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedCache.Get(System.String)
+  nameWithType: IDistributedCache.Get(String)
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedCache.Get*
+  name: Get
+  href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html#Solti_Utils_Eventing_Abstractions_IDistributedCache_Get_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IDistributedCache.Get
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedCache.Get
+  nameWithType: IDistributedCache.Get
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedCache.Remove(System.String)
+  name: Remove(String)
+  href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html#Solti_Utils_Eventing_Abstractions_IDistributedCache_Remove_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IDistributedCache.Remove(System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedCache.Remove(System.String)
+  nameWithType: IDistributedCache.Remove(String)
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedCache.Remove*
+  name: Remove
+  href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html#Solti_Utils_Eventing_Abstractions_IDistributedCache_Remove_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IDistributedCache.Remove
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedCache.Remove
+  nameWithType: IDistributedCache.Remove
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedCache.Set(System.String,System.String,System.TimeSpan,Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags)
+  name: Set(String, String, TimeSpan, DistributedCacheInsertionFlags)
+  href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html#Solti_Utils_Eventing_Abstractions_IDistributedCache_Set_System_String_System_String_System_TimeSpan_Solti_Utils_Eventing_Abstractions_DistributedCacheInsertionFlags_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IDistributedCache.Set(System.String,System.String,System.TimeSpan,Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags)
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedCache.Set(System.String, System.String, System.TimeSpan, Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags)
+  nameWithType: IDistributedCache.Set(String, String, TimeSpan, DistributedCacheInsertionFlags)
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedCache.Set*
+  name: Set
+  href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html#Solti_Utils_Eventing_Abstractions_IDistributedCache_Set_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IDistributedCache.Set
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedCache.Set
+  nameWithType: IDistributedCache.Set
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedLock
+  name: IDistributedLock
+  href: Solti.Utils.Eventing.Abstractions.IDistributedLock.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.IDistributedLock
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock
+  nameWithType: IDistributedLock
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedLock.Acquire(System.String,System.String,System.TimeSpan)
+  name: Acquire(String, String, TimeSpan)
+  href: Solti.Utils.Eventing.Abstractions.IDistributedLock.html#Solti_Utils_Eventing_Abstractions_IDistributedLock_Acquire_System_String_System_String_System_TimeSpan_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IDistributedLock.Acquire(System.String,System.String,System.TimeSpan)
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock.Acquire(System.String, System.String, System.TimeSpan)
+  nameWithType: IDistributedLock.Acquire(String, String, TimeSpan)
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedLock.Acquire*
+  name: Acquire
+  href: Solti.Utils.Eventing.Abstractions.IDistributedLock.html#Solti_Utils_Eventing_Abstractions_IDistributedLock_Acquire_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IDistributedLock.Acquire
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock.Acquire
+  nameWithType: IDistributedLock.Acquire
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedLock.IsHeld(System.String,System.String)
+  name: IsHeld(String, String)
+  href: Solti.Utils.Eventing.Abstractions.IDistributedLock.html#Solti_Utils_Eventing_Abstractions_IDistributedLock_IsHeld_System_String_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IDistributedLock.IsHeld(System.String,System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock.IsHeld(System.String, System.String)
+  nameWithType: IDistributedLock.IsHeld(String, String)
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedLock.IsHeld*
+  name: IsHeld
+  href: Solti.Utils.Eventing.Abstractions.IDistributedLock.html#Solti_Utils_Eventing_Abstractions_IDistributedLock_IsHeld_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IDistributedLock.IsHeld
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock.IsHeld
+  nameWithType: IDistributedLock.IsHeld
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedLock.Release(System.String,System.String)
+  name: Release(String, String)
+  href: Solti.Utils.Eventing.Abstractions.IDistributedLock.html#Solti_Utils_Eventing_Abstractions_IDistributedLock_Release_System_String_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IDistributedLock.Release(System.String,System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock.Release(System.String, System.String)
+  nameWithType: IDistributedLock.Release(String, String)
+- uid: Solti.Utils.Eventing.Abstractions.IDistributedLock.Release*
+  name: Release
+  href: Solti.Utils.Eventing.Abstractions.IDistributedLock.html#Solti_Utils_Eventing_Abstractions_IDistributedLock_Release_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IDistributedLock.Release
+  fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock.Release
+  nameWithType: IDistributedLock.Release
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore
+  name: IEventStore
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.IEventStore
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore
+  nameWithType: IEventStore
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema
+  name: InitSchema()
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_InitSchema
+  commentId: M:Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema()
+  nameWithType: IEventStore.InitSchema()
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema*
+  name: InitSchema
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_InitSchema_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema
+  nameWithType: IEventStore.InitSchema
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents(System.String)
+  name: QueryEvents(String)
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_QueryEvents_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents(System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents(System.String)
+  nameWithType: IEventStore.QueryEvents(String)
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents*
+  name: QueryEvents
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_QueryEvents_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents
+  nameWithType: IEventStore.QueryEvents
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.SchemaInitialized
+  name: SchemaInitialized
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_SchemaInitialized
+  commentId: P:Solti.Utils.Eventing.Abstractions.IEventStore.SchemaInitialized
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.SchemaInitialized
+  nameWithType: IEventStore.SchemaInitialized
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.SchemaInitialized*
+  name: SchemaInitialized
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_SchemaInitialized_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventStore.SchemaInitialized
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.SchemaInitialized
+  nameWithType: IEventStore.SchemaInitialized
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.SetEvent(Solti.Utils.Eventing.Abstractions.Event)
+  name: SetEvent(Event)
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_SetEvent_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IEventStore.SetEvent(Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.SetEvent(Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: IEventStore.SetEvent(Event)
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.SetEvent*
+  name: SetEvent
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_SetEvent_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventStore.SetEvent
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.SetEvent
+  nameWithType: IEventStore.SetEvent
+- uid: Solti.Utils.Eventing.Abstractions.IReflectionModule`1
+  name: IReflectionModule<TView>
+  href: Solti.Utils.Eventing.Abstractions.IReflectionModule-1.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.IReflectionModule`1
+  name.vb: IReflectionModule(Of TView)
+  fullName: Solti.Utils.Eventing.Abstractions.IReflectionModule<TView>
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IReflectionModule(Of TView)
+  nameWithType: IReflectionModule<TView>
+  nameWithType.vb: IReflectionModule(Of TView)
+- uid: Solti.Utils.Eventing.Abstractions.IReflectionModule`1.CreateRawView
+  name: CreateRawView
+  href: Solti.Utils.Eventing.Abstractions.IReflectionModule-1.html#Solti_Utils_Eventing_Abstractions_IReflectionModule_1_CreateRawView
+  commentId: P:Solti.Utils.Eventing.Abstractions.IReflectionModule`1.CreateRawView
+  fullName: Solti.Utils.Eventing.Abstractions.IReflectionModule<TView>.CreateRawView
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IReflectionModule(Of TView).CreateRawView
+  nameWithType: IReflectionModule<TView>.CreateRawView
+  nameWithType.vb: IReflectionModule(Of TView).CreateRawView
+- uid: Solti.Utils.Eventing.Abstractions.IReflectionModule`1.CreateRawView*
+  name: CreateRawView
+  href: Solti.Utils.Eventing.Abstractions.IReflectionModule-1.html#Solti_Utils_Eventing_Abstractions_IReflectionModule_1_CreateRawView_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IReflectionModule`1.CreateRawView
+  fullName: Solti.Utils.Eventing.Abstractions.IReflectionModule<TView>.CreateRawView
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IReflectionModule(Of TView).CreateRawView
+  nameWithType: IReflectionModule<TView>.CreateRawView
+  nameWithType.vb: IReflectionModule(Of TView).CreateRawView
+- uid: Solti.Utils.Eventing.Abstractions.IReflectionModule`1.EventProcessors
+  name: EventProcessors
+  href: Solti.Utils.Eventing.Abstractions.IReflectionModule-1.html#Solti_Utils_Eventing_Abstractions_IReflectionModule_1_EventProcessors
+  commentId: P:Solti.Utils.Eventing.Abstractions.IReflectionModule`1.EventProcessors
+  fullName: Solti.Utils.Eventing.Abstractions.IReflectionModule<TView>.EventProcessors
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IReflectionModule(Of TView).EventProcessors
+  nameWithType: IReflectionModule<TView>.EventProcessors
+  nameWithType.vb: IReflectionModule(Of TView).EventProcessors
+- uid: Solti.Utils.Eventing.Abstractions.IReflectionModule`1.EventProcessors*
+  name: EventProcessors
+  href: Solti.Utils.Eventing.Abstractions.IReflectionModule-1.html#Solti_Utils_Eventing_Abstractions_IReflectionModule_1_EventProcessors_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IReflectionModule`1.EventProcessors
+  fullName: Solti.Utils.Eventing.Abstractions.IReflectionModule<TView>.EventProcessors
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IReflectionModule(Of TView).EventProcessors
+  nameWithType: IReflectionModule<TView>.EventProcessors
+  nameWithType.vb: IReflectionModule(Of TView).EventProcessors
+- uid: Solti.Utils.Eventing.Abstractions.ISerializer
+  name: ISerializer
+  href: Solti.Utils.Eventing.Abstractions.ISerializer.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.ISerializer
+  fullName: Solti.Utils.Eventing.Abstractions.ISerializer
+  nameWithType: ISerializer
+- uid: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize(System.String,System.Collections.Generic.IReadOnlyList{System.Type})
+  name: Deserialize(String, IReadOnlyList<Type>)
+  href: Solti.Utils.Eventing.Abstractions.ISerializer.html#Solti_Utils_Eventing_Abstractions_ISerializer_Deserialize_System_String_System_Collections_Generic_IReadOnlyList_System_Type__
+  commentId: M:Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize(System.String,System.Collections.Generic.IReadOnlyList{System.Type})
+  name.vb: Deserialize(String, IReadOnlyList(Of Type))
+  fullName: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize(System.String, System.Collections.Generic.IReadOnlyList<System.Type>)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize(System.String, System.Collections.Generic.IReadOnlyList(Of System.Type))
+  nameWithType: ISerializer.Deserialize(String, IReadOnlyList<Type>)
+  nameWithType.vb: ISerializer.Deserialize(String, IReadOnlyList(Of Type))
+- uid: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize*
+  name: Deserialize
+  href: Solti.Utils.Eventing.Abstractions.ISerializer.html#Solti_Utils_Eventing_Abstractions_ISerializer_Deserialize_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize
+  fullName: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize
+  nameWithType: ISerializer.Deserialize
+- uid: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize``1(System.String,System.Func{``0})
+  name: Deserialize<T>(String, Func<T>)
+  href: Solti.Utils.Eventing.Abstractions.ISerializer.html#Solti_Utils_Eventing_Abstractions_ISerializer_Deserialize__1_System_String_System_Func___0__
+  commentId: M:Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize``1(System.String,System.Func{``0})
+  name.vb: Deserialize(Of T)(String, Func(Of T))
+  fullName: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize<T>(System.String, System.Func<T>)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize(Of T)(System.String, System.Func(Of T))
+  nameWithType: ISerializer.Deserialize<T>(String, Func<T>)
+  nameWithType.vb: ISerializer.Deserialize(Of T)(String, Func(Of T))
+- uid: Solti.Utils.Eventing.Abstractions.ISerializer.Serialize*
+  name: Serialize
+  href: Solti.Utils.Eventing.Abstractions.ISerializer.html#Solti_Utils_Eventing_Abstractions_ISerializer_Serialize_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ISerializer.Serialize
+  fullName: Solti.Utils.Eventing.Abstractions.ISerializer.Serialize
+  nameWithType: ISerializer.Serialize
+- uid: Solti.Utils.Eventing.Abstractions.ISerializer.Serialize``1(``0)
+  name: Serialize<T>(T)
+  href: Solti.Utils.Eventing.Abstractions.ISerializer.html#Solti_Utils_Eventing_Abstractions_ISerializer_Serialize__1___0_
+  commentId: M:Solti.Utils.Eventing.Abstractions.ISerializer.Serialize``1(``0)
+  name.vb: Serialize(Of T)(T)
+  fullName: Solti.Utils.Eventing.Abstractions.ISerializer.Serialize<T>(T)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ISerializer.Serialize(Of T)(T)
+  nameWithType: ISerializer.Serialize<T>(T)
+  nameWithType.vb: ISerializer.Serialize(Of T)(T)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository
+  name: IViewRepository
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.IViewRepository
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository
+  nameWithType: IViewRepository
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Close(System.String)
+  name: Close(String)
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Close_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository.Close(System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Close(System.String)
+  nameWithType: IViewRepository.Close(String)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Close*
+  name: Close
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Close_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IViewRepository.Close
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Close
+  nameWithType: IViewRepository.Close
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
+  name: Create(String)
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
+  nameWithType: IViewRepository.Create(String)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Create*
+  name: Create
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Create_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IViewRepository.Create
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Create
+  nameWithType: IViewRepository.Create
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize(System.String)
+  name: Materialize(String)
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Materialize_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize(System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize(System.String)
+  nameWithType: IViewRepository.Materialize(String)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize*
+  name: Materialize
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Materialize_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize
+  nameWithType: IViewRepository.Materialize
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(Solti.Utils.Eventing.Abstractions.ViewBase,System.String,System.Object[])
+  name: Persist(ViewBase, String, Object[])
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_Solti_Utils_Eventing_Abstractions_ViewBase_System_String_System_Object___
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(Solti.Utils.Eventing.Abstractions.ViewBase,System.String,System.Object[])
+  name.vb: Persist(ViewBase, String, Object())
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(Solti.Utils.Eventing.Abstractions.ViewBase, System.String, System.Object[])
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(Solti.Utils.Eventing.Abstractions.ViewBase, System.String, System.Object())
+  nameWithType: IViewRepository.Persist(ViewBase, String, Object[])
+  nameWithType.vb: IViewRepository.Persist(ViewBase, String, Object())
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Persist*
+  name: Persist
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IViewRepository.Persist
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Persist
+  nameWithType: IViewRepository.Persist
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1
+  name: IViewRepository<TView>
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.IViewRepository`1
+  name.vb: IViewRepository(Of TView)
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView)
+  nameWithType: IViewRepository<TView>
+  nameWithType.vb: IViewRepository(Of TView)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create(System.String)
+  name: Create(String)
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Create_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create(System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>.Create(System.String)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Create(System.String)
+  nameWithType: IViewRepository<TView>.Create(String)
+  nameWithType.vb: IViewRepository(Of TView).Create(String)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create*
+  name: Create
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Create_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>.Create
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Create
+  nameWithType: IViewRepository<TView>.Create
+  nameWithType.vb: IViewRepository(Of TView).Create
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Materialize(System.String)
+  name: Materialize(String)
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Materialize_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository`1.Materialize(System.String)
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>.Materialize(System.String)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Materialize(System.String)
+  nameWithType: IViewRepository<TView>.Materialize(String)
+  nameWithType.vb: IViewRepository(Of TView).Materialize(String)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Materialize*
+  name: Materialize
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Materialize_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IViewRepository`1.Materialize
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>.Materialize
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Materialize
+  nameWithType: IViewRepository<TView>.Materialize
+  nameWithType.vb: IViewRepository(Of TView).Materialize
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Persist(`0,System.String,System.Object[])
+  name: Persist(TView, String, Object[])
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Persist__0_System_String_System_Object___
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository`1.Persist(`0,System.String,System.Object[])
+  name.vb: Persist(TView, String, Object())
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>.Persist(TView, System.String, System.Object[])
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Persist(TView, System.String, System.Object())
+  nameWithType: IViewRepository<TView>.Persist(TView, String, Object[])
+  nameWithType.vb: IViewRepository(Of TView).Persist(TView, String, Object())
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Persist*
+  name: Persist
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Persist_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IViewRepository`1.Persist
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>.Persist
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Persist
+  nameWithType: IViewRepository<TView>.Persist
+  nameWithType.vb: IViewRepository(Of TView).Persist
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase
+  name: ViewBase
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.ViewBase
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase
+  nameWithType: ViewBase
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.#ctor
+  name: ViewBase()
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase__ctor
+  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.#ctor
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.ViewBase()
+  nameWithType: ViewBase.ViewBase()
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.#ctor*
+  name: ViewBase
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase__ctor_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.#ctor
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.ViewBase
+  nameWithType: ViewBase.ViewBase
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed
+  name: CheckDisposed()
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_CheckDisposed
+  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed()
+  nameWithType: ViewBase.CheckDisposed()
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed*
+  name: CheckDisposed
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_CheckDisposed_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed
+  nameWithType: ViewBase.CheckDisposed
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
+  name: Dispose()
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Dispose
+  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose()
+  nameWithType: ViewBase.Dispose()
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose*
+  name: Dispose
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Dispose_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
+  nameWithType: ViewBase.Dispose
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.Disposed
+  name: Disposed
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Disposed
+  commentId: P:Solti.Utils.Eventing.Abstractions.ViewBase.Disposed
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Disposed
+  nameWithType: ViewBase.Disposed
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.Disposed*
+  name: Disposed
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Disposed_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.Disposed
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Disposed
+  nameWithType: ViewBase.Disposed
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
+  name: EventingDisabled
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_EventingDisabled
+  commentId: P:Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
+  nameWithType: ViewBase.EventingDisabled
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled*
+  name: EventingDisabled
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_EventingDisabled_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
+  nameWithType: ViewBase.EventingDisabled
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.FlowId
+  name: FlowId
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_FlowId
+  commentId: P:Solti.Utils.Eventing.Abstractions.ViewBase.FlowId
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.FlowId
+  nameWithType: ViewBase.FlowId
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.FlowId*
+  name: FlowId
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_FlowId_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.FlowId
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.FlowId
+  nameWithType: ViewBase.FlowId
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
+  name: IsValid
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_IsValid
+  commentId: P:Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
+  nameWithType: ViewBase.IsValid
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.IsValid*
+  name: IsValid
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_IsValid_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
+  nameWithType: ViewBase.IsValid
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
+  name: OwnerRepository
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_OwnerRepository
+  commentId: P:Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
+  nameWithType: ViewBase.OwnerRepository
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository*
+  name: OwnerRepository
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_OwnerRepository_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
+  nameWithType: ViewBase.OwnerRepository
+- uid: Solti.Utils.Eventing.DistributedLock
+  name: DistributedLock
+  href: Solti.Utils.Eventing.DistributedLock.html
+  commentId: T:Solti.Utils.Eventing.DistributedLock
+  fullName: Solti.Utils.Eventing.DistributedLock
+  nameWithType: DistributedLock
+- uid: Solti.Utils.Eventing.DistributedLock.#ctor(Solti.Utils.Eventing.Abstractions.IDistributedCache,Solti.Utils.Eventing.Abstractions.ISerializer)
+  name: DistributedLock(IDistributedCache, ISerializer)
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock__ctor_Solti_Utils_Eventing_Abstractions_IDistributedCache_Solti_Utils_Eventing_Abstractions_ISerializer_
+  commentId: M:Solti.Utils.Eventing.DistributedLock.#ctor(Solti.Utils.Eventing.Abstractions.IDistributedCache,Solti.Utils.Eventing.Abstractions.ISerializer)
+  fullName: Solti.Utils.Eventing.DistributedLock.DistributedLock(Solti.Utils.Eventing.Abstractions.IDistributedCache, Solti.Utils.Eventing.Abstractions.ISerializer)
+  nameWithType: DistributedLock.DistributedLock(IDistributedCache, ISerializer)
+- uid: Solti.Utils.Eventing.DistributedLock.#ctor(Solti.Utils.Eventing.Abstractions.IDistributedCache,Solti.Utils.Eventing.Abstractions.ISerializer,System.Action{System.TimeSpan})
+  name: DistributedLock(IDistributedCache, ISerializer, Action<TimeSpan>)
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock__ctor_Solti_Utils_Eventing_Abstractions_IDistributedCache_Solti_Utils_Eventing_Abstractions_ISerializer_System_Action_System_TimeSpan__
+  commentId: M:Solti.Utils.Eventing.DistributedLock.#ctor(Solti.Utils.Eventing.Abstractions.IDistributedCache,Solti.Utils.Eventing.Abstractions.ISerializer,System.Action{System.TimeSpan})
+  name.vb: DistributedLock(IDistributedCache, ISerializer, Action(Of TimeSpan))
+  fullName: Solti.Utils.Eventing.DistributedLock.DistributedLock(Solti.Utils.Eventing.Abstractions.IDistributedCache, Solti.Utils.Eventing.Abstractions.ISerializer, System.Action<System.TimeSpan>)
+  fullName.vb: Solti.Utils.Eventing.DistributedLock.DistributedLock(Solti.Utils.Eventing.Abstractions.IDistributedCache, Solti.Utils.Eventing.Abstractions.ISerializer, System.Action(Of System.TimeSpan))
+  nameWithType: DistributedLock.DistributedLock(IDistributedCache, ISerializer, Action<TimeSpan>)
+  nameWithType.vb: DistributedLock.DistributedLock(IDistributedCache, ISerializer, Action(Of TimeSpan))
+- uid: Solti.Utils.Eventing.DistributedLock.#ctor*
+  name: DistributedLock
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock__ctor_
+  commentId: Overload:Solti.Utils.Eventing.DistributedLock.#ctor
+  fullName: Solti.Utils.Eventing.DistributedLock.DistributedLock
+  nameWithType: DistributedLock.DistributedLock
+- uid: Solti.Utils.Eventing.DistributedLock.Acquire(System.String,System.String,System.TimeSpan)
+  name: Acquire(String, String, TimeSpan)
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_Acquire_System_String_System_String_System_TimeSpan_
+  commentId: M:Solti.Utils.Eventing.DistributedLock.Acquire(System.String,System.String,System.TimeSpan)
+  fullName: Solti.Utils.Eventing.DistributedLock.Acquire(System.String, System.String, System.TimeSpan)
+  nameWithType: DistributedLock.Acquire(String, String, TimeSpan)
+- uid: Solti.Utils.Eventing.DistributedLock.Acquire*
+  name: Acquire
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_Acquire_
+  commentId: Overload:Solti.Utils.Eventing.DistributedLock.Acquire
+  fullName: Solti.Utils.Eventing.DistributedLock.Acquire
+  nameWithType: DistributedLock.Acquire
+- uid: Solti.Utils.Eventing.DistributedLock.IsHeld(System.String,System.String)
+  name: IsHeld(String, String)
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_IsHeld_System_String_System_String_
+  commentId: M:Solti.Utils.Eventing.DistributedLock.IsHeld(System.String,System.String)
+  fullName: Solti.Utils.Eventing.DistributedLock.IsHeld(System.String, System.String)
+  nameWithType: DistributedLock.IsHeld(String, String)
+- uid: Solti.Utils.Eventing.DistributedLock.IsHeld*
+  name: IsHeld
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_IsHeld_
+  commentId: Overload:Solti.Utils.Eventing.DistributedLock.IsHeld
+  fullName: Solti.Utils.Eventing.DistributedLock.IsHeld
+  nameWithType: DistributedLock.IsHeld
+- uid: Solti.Utils.Eventing.DistributedLock.LockTimeout
+  name: LockTimeout
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_LockTimeout
+  commentId: P:Solti.Utils.Eventing.DistributedLock.LockTimeout
+  fullName: Solti.Utils.Eventing.DistributedLock.LockTimeout
+  nameWithType: DistributedLock.LockTimeout
+- uid: Solti.Utils.Eventing.DistributedLock.LockTimeout*
+  name: LockTimeout
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_LockTimeout_
+  commentId: Overload:Solti.Utils.Eventing.DistributedLock.LockTimeout
+  fullName: Solti.Utils.Eventing.DistributedLock.LockTimeout
+  nameWithType: DistributedLock.LockTimeout
+- uid: Solti.Utils.Eventing.DistributedLock.PollingInterval
+  name: PollingInterval
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_PollingInterval
+  commentId: P:Solti.Utils.Eventing.DistributedLock.PollingInterval
+  fullName: Solti.Utils.Eventing.DistributedLock.PollingInterval
+  nameWithType: DistributedLock.PollingInterval
+- uid: Solti.Utils.Eventing.DistributedLock.PollingInterval*
+  name: PollingInterval
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_PollingInterval_
+  commentId: Overload:Solti.Utils.Eventing.DistributedLock.PollingInterval
+  fullName: Solti.Utils.Eventing.DistributedLock.PollingInterval
+  nameWithType: DistributedLock.PollingInterval
+- uid: Solti.Utils.Eventing.DistributedLock.Release(System.String,System.String)
+  name: Release(String, String)
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_Release_System_String_System_String_
+  commentId: M:Solti.Utils.Eventing.DistributedLock.Release(System.String,System.String)
+  fullName: Solti.Utils.Eventing.DistributedLock.Release(System.String, System.String)
+  nameWithType: DistributedLock.Release(String, String)
+- uid: Solti.Utils.Eventing.DistributedLock.Release*
+  name: Release
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock_Release_
+  commentId: Overload:Solti.Utils.Eventing.DistributedLock.Release
+  fullName: Solti.Utils.Eventing.DistributedLock.Release
+  nameWithType: DistributedLock.Release
+- uid: Solti.Utils.Eventing.EventAttribute
+  name: EventAttribute
+  href: Solti.Utils.Eventing.EventAttribute.html
+  commentId: T:Solti.Utils.Eventing.EventAttribute
+  fullName: Solti.Utils.Eventing.EventAttribute
+  nameWithType: EventAttribute
+- uid: Solti.Utils.Eventing.EventAttribute.#ctor
+  name: EventAttribute()
+  href: Solti.Utils.Eventing.EventAttribute.html#Solti_Utils_Eventing_EventAttribute__ctor
+  commentId: M:Solti.Utils.Eventing.EventAttribute.#ctor
+  fullName: Solti.Utils.Eventing.EventAttribute.EventAttribute()
+  nameWithType: EventAttribute.EventAttribute()
+- uid: Solti.Utils.Eventing.EventAttribute.#ctor*
+  name: EventAttribute
+  href: Solti.Utils.Eventing.EventAttribute.html#Solti_Utils_Eventing_EventAttribute__ctor_
+  commentId: Overload:Solti.Utils.Eventing.EventAttribute.#ctor
+  fullName: Solti.Utils.Eventing.EventAttribute.EventAttribute
+  nameWithType: EventAttribute.EventAttribute
+- uid: Solti.Utils.Eventing.EventAttribute.Name
+  name: Name
+  href: Solti.Utils.Eventing.EventAttribute.html#Solti_Utils_Eventing_EventAttribute_Name
+  commentId: P:Solti.Utils.Eventing.EventAttribute.Name
+  fullName: Solti.Utils.Eventing.EventAttribute.Name
+  nameWithType: EventAttribute.Name
+- uid: Solti.Utils.Eventing.EventAttribute.Name*
+  name: Name
+  href: Solti.Utils.Eventing.EventAttribute.html#Solti_Utils_Eventing_EventAttribute_Name_
+  commentId: Overload:Solti.Utils.Eventing.EventAttribute.Name
+  fullName: Solti.Utils.Eventing.EventAttribute.Name
+  nameWithType: EventAttribute.Name
+- uid: Solti.Utils.Eventing.JsonSerializer
+  name: JsonSerializer
+  href: Solti.Utils.Eventing.JsonSerializer.html
+  commentId: T:Solti.Utils.Eventing.JsonSerializer
+  fullName: Solti.Utils.Eventing.JsonSerializer
+  nameWithType: JsonSerializer
+- uid: Solti.Utils.Eventing.JsonSerializer.#ctor
+  name: JsonSerializer()
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer__ctor
+  commentId: M:Solti.Utils.Eventing.JsonSerializer.#ctor
+  fullName: Solti.Utils.Eventing.JsonSerializer.JsonSerializer()
+  nameWithType: JsonSerializer.JsonSerializer()
+- uid: Solti.Utils.Eventing.JsonSerializer.#ctor*
+  name: JsonSerializer
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer__ctor_
+  commentId: Overload:Solti.Utils.Eventing.JsonSerializer.#ctor
+  fullName: Solti.Utils.Eventing.JsonSerializer.JsonSerializer
+  nameWithType: JsonSerializer.JsonSerializer
+- uid: Solti.Utils.Eventing.JsonSerializer.Deserialize(System.String,System.Collections.Generic.IReadOnlyList{System.Type})
+  name: Deserialize(String, IReadOnlyList<Type>)
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Deserialize_System_String_System_Collections_Generic_IReadOnlyList_System_Type__
+  commentId: M:Solti.Utils.Eventing.JsonSerializer.Deserialize(System.String,System.Collections.Generic.IReadOnlyList{System.Type})
+  name.vb: Deserialize(String, IReadOnlyList(Of Type))
+  fullName: Solti.Utils.Eventing.JsonSerializer.Deserialize(System.String, System.Collections.Generic.IReadOnlyList<System.Type>)
+  fullName.vb: Solti.Utils.Eventing.JsonSerializer.Deserialize(System.String, System.Collections.Generic.IReadOnlyList(Of System.Type))
+  nameWithType: JsonSerializer.Deserialize(String, IReadOnlyList<Type>)
+  nameWithType.vb: JsonSerializer.Deserialize(String, IReadOnlyList(Of Type))
+- uid: Solti.Utils.Eventing.JsonSerializer.Deserialize*
+  name: Deserialize
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Deserialize_
+  commentId: Overload:Solti.Utils.Eventing.JsonSerializer.Deserialize
+  fullName: Solti.Utils.Eventing.JsonSerializer.Deserialize
+  nameWithType: JsonSerializer.Deserialize
+- uid: Solti.Utils.Eventing.JsonSerializer.Deserialize``1(System.String,System.Func{``0})
+  name: Deserialize<T>(String, Func<T>)
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Deserialize__1_System_String_System_Func___0__
+  commentId: M:Solti.Utils.Eventing.JsonSerializer.Deserialize``1(System.String,System.Func{``0})
+  name.vb: Deserialize(Of T)(String, Func(Of T))
+  fullName: Solti.Utils.Eventing.JsonSerializer.Deserialize<T>(System.String, System.Func<T>)
+  fullName.vb: Solti.Utils.Eventing.JsonSerializer.Deserialize(Of T)(System.String, System.Func(Of T))
+  nameWithType: JsonSerializer.Deserialize<T>(String, Func<T>)
+  nameWithType.vb: JsonSerializer.Deserialize(Of T)(String, Func(Of T))
+- uid: Solti.Utils.Eventing.JsonSerializer.Options
+  name: Options
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Options
+  commentId: P:Solti.Utils.Eventing.JsonSerializer.Options
+  fullName: Solti.Utils.Eventing.JsonSerializer.Options
+  nameWithType: JsonSerializer.Options
+- uid: Solti.Utils.Eventing.JsonSerializer.Options*
+  name: Options
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Options_
+  commentId: Overload:Solti.Utils.Eventing.JsonSerializer.Options
+  fullName: Solti.Utils.Eventing.JsonSerializer.Options
+  nameWithType: JsonSerializer.Options
+- uid: Solti.Utils.Eventing.JsonSerializer.Serialize*
+  name: Serialize
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Serialize_
+  commentId: Overload:Solti.Utils.Eventing.JsonSerializer.Serialize
+  fullName: Solti.Utils.Eventing.JsonSerializer.Serialize
+  nameWithType: JsonSerializer.Serialize
+- uid: Solti.Utils.Eventing.JsonSerializer.Serialize``1(``0)
+  name: Serialize<T>(T)
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Serialize__1___0_
+  commentId: M:Solti.Utils.Eventing.JsonSerializer.Serialize``1(``0)
+  name.vb: Serialize(Of T)(T)
+  fullName: Solti.Utils.Eventing.JsonSerializer.Serialize<T>(T)
+  fullName.vb: Solti.Utils.Eventing.JsonSerializer.Serialize(Of T)(T)
+  nameWithType: JsonSerializer.Serialize<T>(T)
+  nameWithType.vb: JsonSerializer.Serialize(Of T)(T)
+- uid: Solti.Utils.Eventing.RedisCache
+  name: RedisCache
+  href: Solti.Utils.Eventing.RedisCache.html
+  commentId: T:Solti.Utils.Eventing.RedisCache
+  fullName: Solti.Utils.Eventing.RedisCache
+  nameWithType: RedisCache
+- uid: Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer)
+  name: RedisCache(String, ISerializer)
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_System_String_Solti_Utils_Eventing_Abstractions_ISerializer_
+  commentId: M:Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer)
+  fullName: Solti.Utils.Eventing.RedisCache.RedisCache(System.String, Solti.Utils.Eventing.Abstractions.ISerializer)
+  nameWithType: RedisCache.RedisCache(String, ISerializer)
+- uid: Solti.Utils.Eventing.RedisCache.#ctor*
+  name: RedisCache
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_
+  commentId: Overload:Solti.Utils.Eventing.RedisCache.#ctor
+  fullName: Solti.Utils.Eventing.RedisCache.RedisCache
+  nameWithType: RedisCache.RedisCache
+- uid: Solti.Utils.Eventing.RedisCache.Dispose
+  name: Dispose()
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Dispose
+  commentId: M:Solti.Utils.Eventing.RedisCache.Dispose
+  fullName: Solti.Utils.Eventing.RedisCache.Dispose()
+  nameWithType: RedisCache.Dispose()
+- uid: Solti.Utils.Eventing.RedisCache.Dispose*
+  name: Dispose
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Dispose_
+  commentId: Overload:Solti.Utils.Eventing.RedisCache.Dispose
+  fullName: Solti.Utils.Eventing.RedisCache.Dispose
+  nameWithType: RedisCache.Dispose
+- uid: Solti.Utils.Eventing.RedisCache.Get(System.String)
+  name: Get(String)
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Get_System_String_
+  commentId: M:Solti.Utils.Eventing.RedisCache.Get(System.String)
+  fullName: Solti.Utils.Eventing.RedisCache.Get(System.String)
+  nameWithType: RedisCache.Get(String)
+- uid: Solti.Utils.Eventing.RedisCache.Get*
+  name: Get
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Get_
+  commentId: Overload:Solti.Utils.Eventing.RedisCache.Get
+  fullName: Solti.Utils.Eventing.RedisCache.Get
+  nameWithType: RedisCache.Get
+- uid: Solti.Utils.Eventing.RedisCache.Remove(System.String)
+  name: Remove(String)
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Remove_System_String_
+  commentId: M:Solti.Utils.Eventing.RedisCache.Remove(System.String)
+  fullName: Solti.Utils.Eventing.RedisCache.Remove(System.String)
+  nameWithType: RedisCache.Remove(String)
+- uid: Solti.Utils.Eventing.RedisCache.Remove*
+  name: Remove
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Remove_
+  commentId: Overload:Solti.Utils.Eventing.RedisCache.Remove
+  fullName: Solti.Utils.Eventing.RedisCache.Remove
+  nameWithType: RedisCache.Remove
+- uid: Solti.Utils.Eventing.RedisCache.Set(System.String,System.String,System.TimeSpan,Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags)
+  name: Set(String, String, TimeSpan, DistributedCacheInsertionFlags)
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Set_System_String_System_String_System_TimeSpan_Solti_Utils_Eventing_Abstractions_DistributedCacheInsertionFlags_
+  commentId: M:Solti.Utils.Eventing.RedisCache.Set(System.String,System.String,System.TimeSpan,Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags)
+  fullName: Solti.Utils.Eventing.RedisCache.Set(System.String, System.String, System.TimeSpan, Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags)
+  nameWithType: RedisCache.Set(String, String, TimeSpan, DistributedCacheInsertionFlags)
+- uid: Solti.Utils.Eventing.RedisCache.Set*
+  name: Set
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Set_
+  commentId: Overload:Solti.Utils.Eventing.RedisCache.Set
+  fullName: Solti.Utils.Eventing.RedisCache.Set
+  nameWithType: RedisCache.Set
+- uid: Solti.Utils.Eventing.ReflectionModule`1
+  name: ReflectionModule<TView>
+  href: Solti.Utils.Eventing.ReflectionModule-1.html
+  commentId: T:Solti.Utils.Eventing.ReflectionModule`1
+  name.vb: ReflectionModule(Of TView)
+  fullName: Solti.Utils.Eventing.ReflectionModule<TView>
+  fullName.vb: Solti.Utils.Eventing.ReflectionModule(Of TView)
+  nameWithType: ReflectionModule<TView>
+  nameWithType.vb: ReflectionModule(Of TView)
+- uid: Solti.Utils.Eventing.ReflectionModule`1.#ctor
+  name: ReflectionModule()
+  href: Solti.Utils.Eventing.ReflectionModule-1.html#Solti_Utils_Eventing_ReflectionModule_1__ctor
+  commentId: M:Solti.Utils.Eventing.ReflectionModule`1.#ctor
+  fullName: Solti.Utils.Eventing.ReflectionModule<TView>.ReflectionModule()
+  fullName.vb: Solti.Utils.Eventing.ReflectionModule(Of TView).ReflectionModule()
+  nameWithType: ReflectionModule<TView>.ReflectionModule()
+  nameWithType.vb: ReflectionModule(Of TView).ReflectionModule()
+- uid: Solti.Utils.Eventing.ReflectionModule`1.#ctor*
+  name: ReflectionModule
+  href: Solti.Utils.Eventing.ReflectionModule-1.html#Solti_Utils_Eventing_ReflectionModule_1__ctor_
+  commentId: Overload:Solti.Utils.Eventing.ReflectionModule`1.#ctor
+  fullName: Solti.Utils.Eventing.ReflectionModule<TView>.ReflectionModule
+  fullName.vb: Solti.Utils.Eventing.ReflectionModule(Of TView).ReflectionModule
+  nameWithType: ReflectionModule<TView>.ReflectionModule
+  nameWithType.vb: ReflectionModule(Of TView).ReflectionModule
+- uid: Solti.Utils.Eventing.ReflectionModule`1.CreateRawView
+  name: CreateRawView
+  href: Solti.Utils.Eventing.ReflectionModule-1.html#Solti_Utils_Eventing_ReflectionModule_1_CreateRawView
+  commentId: P:Solti.Utils.Eventing.ReflectionModule`1.CreateRawView
+  fullName: Solti.Utils.Eventing.ReflectionModule<TView>.CreateRawView
+  fullName.vb: Solti.Utils.Eventing.ReflectionModule(Of TView).CreateRawView
+  nameWithType: ReflectionModule<TView>.CreateRawView
+  nameWithType.vb: ReflectionModule(Of TView).CreateRawView
+- uid: Solti.Utils.Eventing.ReflectionModule`1.CreateRawView*
+  name: CreateRawView
+  href: Solti.Utils.Eventing.ReflectionModule-1.html#Solti_Utils_Eventing_ReflectionModule_1_CreateRawView_
+  commentId: Overload:Solti.Utils.Eventing.ReflectionModule`1.CreateRawView
+  fullName: Solti.Utils.Eventing.ReflectionModule<TView>.CreateRawView
+  fullName.vb: Solti.Utils.Eventing.ReflectionModule(Of TView).CreateRawView
+  nameWithType: ReflectionModule<TView>.CreateRawView
+  nameWithType.vb: ReflectionModule(Of TView).CreateRawView
+- uid: Solti.Utils.Eventing.ReflectionModule`1.EventProcessors
+  name: EventProcessors
+  href: Solti.Utils.Eventing.ReflectionModule-1.html#Solti_Utils_Eventing_ReflectionModule_1_EventProcessors
+  commentId: P:Solti.Utils.Eventing.ReflectionModule`1.EventProcessors
+  fullName: Solti.Utils.Eventing.ReflectionModule<TView>.EventProcessors
+  fullName.vb: Solti.Utils.Eventing.ReflectionModule(Of TView).EventProcessors
+  nameWithType: ReflectionModule<TView>.EventProcessors
+  nameWithType.vb: ReflectionModule(Of TView).EventProcessors
+- uid: Solti.Utils.Eventing.ReflectionModule`1.EventProcessors*
+  name: EventProcessors
+  href: Solti.Utils.Eventing.ReflectionModule-1.html#Solti_Utils_Eventing_ReflectionModule_1_EventProcessors_
+  commentId: Overload:Solti.Utils.Eventing.ReflectionModule`1.EventProcessors
+  fullName: Solti.Utils.Eventing.ReflectionModule<TView>.EventProcessors
+  fullName.vb: Solti.Utils.Eventing.ReflectionModule(Of TView).EventProcessors
+  nameWithType: ReflectionModule<TView>.EventProcessors
+  nameWithType.vb: ReflectionModule(Of TView).EventProcessors
+- uid: Solti.Utils.Eventing.ViewRepository`1
+  name: ViewRepository<TView>
+  href: Solti.Utils.Eventing.ViewRepository-1.html
+  commentId: T:Solti.Utils.Eventing.ViewRepository`1
+  name.vb: ViewRepository(Of TView)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView)
+  nameWithType: ViewRepository<TView>
+  nameWithType.vb: ViewRepository(Of TView)
+- uid: Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger)
+  name: ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule<TView>, IDistributedCache, ILogger)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1__ctor_Solti_Utils_Eventing_Abstractions_IEventStore_Solti_Utils_Eventing_Abstractions_IDistributedLock_Solti_Utils_Eventing_Abstractions_ISerializer_Solti_Utils_Eventing_Abstractions_IReflectionModule__0__Solti_Utils_Eventing_Abstractions_IDistributedCache_Microsoft_Extensions_Logging_ILogger_
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger)
+  name.vb: ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule(Of TView), IDistributedCache, ILogger)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.ViewRepository(Solti.Utils.Eventing.Abstractions.IEventStore, Solti.Utils.Eventing.Abstractions.IDistributedLock, Solti.Utils.Eventing.Abstractions.ISerializer, Solti.Utils.Eventing.Abstractions.IReflectionModule<TView>, Solti.Utils.Eventing.Abstractions.IDistributedCache, Microsoft.Extensions.Logging.ILogger)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).ViewRepository(Solti.Utils.Eventing.Abstractions.IEventStore, Solti.Utils.Eventing.Abstractions.IDistributedLock, Solti.Utils.Eventing.Abstractions.ISerializer, Solti.Utils.Eventing.Abstractions.IReflectionModule(Of TView), Solti.Utils.Eventing.Abstractions.IDistributedCache, Microsoft.Extensions.Logging.ILogger)
+  nameWithType: ViewRepository<TView>.ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule<TView>, IDistributedCache, ILogger)
+  nameWithType.vb: ViewRepository(Of TView).ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule(Of TView), IDistributedCache, ILogger)
+- uid: Solti.Utils.Eventing.ViewRepository`1.#ctor*
+  name: ViewRepository
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1__ctor_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.#ctor
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.ViewRepository
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).ViewRepository
+  nameWithType: ViewRepository<TView>.ViewRepository
+  nameWithType.vb: ViewRepository(Of TView).ViewRepository
+- uid: Solti.Utils.Eventing.ViewRepository`1.Cache
+  name: Cache
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Cache
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.Cache
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Cache
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Cache
+  nameWithType: ViewRepository<TView>.Cache
+  nameWithType.vb: ViewRepository(Of TView).Cache
+- uid: Solti.Utils.Eventing.ViewRepository`1.Cache*
+  name: Cache
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Cache_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Cache
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Cache
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Cache
+  nameWithType: ViewRepository<TView>.Cache
+  nameWithType.vb: ViewRepository(Of TView).Cache
+- uid: Solti.Utils.Eventing.ViewRepository`1.CacheEntryExpiration
+  name: CacheEntryExpiration
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_CacheEntryExpiration
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.CacheEntryExpiration
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.CacheEntryExpiration
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).CacheEntryExpiration
+  nameWithType: ViewRepository<TView>.CacheEntryExpiration
+  nameWithType.vb: ViewRepository(Of TView).CacheEntryExpiration
+- uid: Solti.Utils.Eventing.ViewRepository`1.CacheEntryExpiration*
+  name: CacheEntryExpiration
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_CacheEntryExpiration_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.CacheEntryExpiration
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.CacheEntryExpiration
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).CacheEntryExpiration
+  nameWithType: ViewRepository<TView>.CacheEntryExpiration
+  nameWithType.vb: ViewRepository(Of TView).CacheEntryExpiration
+- uid: Solti.Utils.Eventing.ViewRepository`1.Close(System.String)
+  name: Close(String)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Close_System_String_
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Close(System.String)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Close(System.String)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Close(System.String)
+  nameWithType: ViewRepository<TView>.Close(String)
+  nameWithType.vb: ViewRepository(Of TView).Close(String)
+- uid: Solti.Utils.Eventing.ViewRepository`1.Close*
+  name: Close
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Close_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Close
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Close
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Close
+  nameWithType: ViewRepository<TView>.Close
+  nameWithType.vb: ViewRepository(Of TView).Close
+- uid: Solti.Utils.Eventing.ViewRepository`1.Create(System.String)
+  name: Create(String)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Create_System_String_
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Create(System.String)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Create(System.String)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Create(System.String)
+  nameWithType: ViewRepository<TView>.Create(String)
+  nameWithType.vb: ViewRepository(Of TView).Create(String)
+- uid: Solti.Utils.Eventing.ViewRepository`1.Create*
+  name: Create
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Create_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Create
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Create
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Create
+  nameWithType: ViewRepository<TView>.Create
+  nameWithType.vb: ViewRepository(Of TView).Create
+- uid: Solti.Utils.Eventing.ViewRepository`1.EventStore
+  name: EventStore
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_EventStore
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.EventStore
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.EventStore
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).EventStore
+  nameWithType: ViewRepository<TView>.EventStore
+  nameWithType.vb: ViewRepository(Of TView).EventStore
+- uid: Solti.Utils.Eventing.ViewRepository`1.EventStore*
+  name: EventStore
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_EventStore_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.EventStore
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.EventStore
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).EventStore
+  nameWithType: ViewRepository<TView>.EventStore
+  nameWithType.vb: ViewRepository(Of TView).EventStore
+- uid: Solti.Utils.Eventing.ViewRepository`1.Lock
+  name: Lock
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Lock
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.Lock
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Lock
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Lock
+  nameWithType: ViewRepository<TView>.Lock
+  nameWithType.vb: ViewRepository(Of TView).Lock
+- uid: Solti.Utils.Eventing.ViewRepository`1.Lock*
+  name: Lock
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Lock_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Lock
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Lock
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Lock
+  nameWithType: ViewRepository<TView>.Lock
+  nameWithType.vb: ViewRepository(Of TView).Lock
+- uid: Solti.Utils.Eventing.ViewRepository`1.LockTimeout
+  name: LockTimeout
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_LockTimeout
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.LockTimeout
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.LockTimeout
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).LockTimeout
+  nameWithType: ViewRepository<TView>.LockTimeout
+  nameWithType.vb: ViewRepository(Of TView).LockTimeout
+- uid: Solti.Utils.Eventing.ViewRepository`1.LockTimeout*
+  name: LockTimeout
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_LockTimeout_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.LockTimeout
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.LockTimeout
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).LockTimeout
+  nameWithType: ViewRepository<TView>.LockTimeout
+  nameWithType.vb: ViewRepository(Of TView).LockTimeout
+- uid: Solti.Utils.Eventing.ViewRepository`1.Logger
+  name: Logger
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Logger
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.Logger
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Logger
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Logger
+  nameWithType: ViewRepository<TView>.Logger
+  nameWithType.vb: ViewRepository(Of TView).Logger
+- uid: Solti.Utils.Eventing.ViewRepository`1.Logger*
+  name: Logger
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Logger_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Logger
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Logger
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Logger
+  nameWithType: ViewRepository<TView>.Logger
+  nameWithType.vb: ViewRepository(Of TView).Logger
+- uid: Solti.Utils.Eventing.ViewRepository`1.Materialize(System.String)
+  name: Materialize(String)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Materialize_System_String_
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Materialize(System.String)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Materialize(System.String)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Materialize(System.String)
+  nameWithType: ViewRepository<TView>.Materialize(String)
+  nameWithType.vb: ViewRepository(Of TView).Materialize(String)
+- uid: Solti.Utils.Eventing.ViewRepository`1.Materialize*
+  name: Materialize
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Materialize_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Materialize
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Materialize
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Materialize
+  nameWithType: ViewRepository<TView>.Materialize
+  nameWithType.vb: ViewRepository(Of TView).Materialize
+- uid: Solti.Utils.Eventing.ViewRepository`1.Persist(`0,System.String,System.Object[])
+  name: Persist(TView, String, Object[])
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Persist__0_System_String_System_Object___
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Persist(`0,System.String,System.Object[])
+  name.vb: Persist(TView, String, Object())
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Persist(TView, System.String, System.Object[])
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Persist(TView, System.String, System.Object())
+  nameWithType: ViewRepository<TView>.Persist(TView, String, Object[])
+  nameWithType.vb: ViewRepository(Of TView).Persist(TView, String, Object())
+- uid: Solti.Utils.Eventing.ViewRepository`1.Persist*
+  name: Persist
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Persist_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Persist
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Persist
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Persist
+  nameWithType: ViewRepository<TView>.Persist
+  nameWithType.vb: ViewRepository(Of TView).Persist
+- uid: Solti.Utils.Eventing.ViewRepository`1.ReflectionModule
+  name: ReflectionModule
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_ReflectionModule
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.ReflectionModule
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.ReflectionModule
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).ReflectionModule
+  nameWithType: ViewRepository<TView>.ReflectionModule
+  nameWithType.vb: ViewRepository(Of TView).ReflectionModule
+- uid: Solti.Utils.Eventing.ViewRepository`1.ReflectionModule*
+  name: ReflectionModule
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_ReflectionModule_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.ReflectionModule
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.ReflectionModule
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).ReflectionModule
+  nameWithType: ViewRepository<TView>.ReflectionModule
+  nameWithType.vb: ViewRepository(Of TView).ReflectionModule
+- uid: Solti.Utils.Eventing.ViewRepository`1.RepoId
+  name: RepoId
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_RepoId
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.RepoId
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.RepoId
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).RepoId
+  nameWithType: ViewRepository<TView>.RepoId
+  nameWithType.vb: ViewRepository(Of TView).RepoId
+- uid: Solti.Utils.Eventing.ViewRepository`1.RepoId*
+  name: RepoId
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_RepoId_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.RepoId
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.RepoId
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).RepoId
+  nameWithType: ViewRepository<TView>.RepoId
+  nameWithType.vb: ViewRepository(Of TView).RepoId
+- uid: Solti.Utils.Eventing.ViewRepository`1.Serializer
+  name: Serializer
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Serializer
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.Serializer
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Serializer
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Serializer
+  nameWithType: ViewRepository<TView>.Serializer
+  nameWithType.vb: ViewRepository(Of TView).Serializer
+- uid: Solti.Utils.Eventing.ViewRepository`1.Serializer*
+  name: Serializer
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Serializer_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Serializer
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Serializer
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Serializer
+  nameWithType: ViewRepository<TView>.Serializer
+  nameWithType.vb: ViewRepository(Of TView).Serializer
+- uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String)
+  name: IViewRepository.Create(String)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String)
+  name.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(String)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
+  nameWithType: ViewRepository<TView>.IViewRepository.Create(String)
+  nameWithType.vb: ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Create(String)
+- uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create*
+  name: IViewRepository.Create
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create
+  name.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Create
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Solti.Utils.Eventing.Abstractions.IViewRepository.Create
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Create
+  nameWithType: ViewRepository<TView>.IViewRepository.Create
+  nameWithType.vb: ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Create
+- uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Materialize(System.String)
+  name: IViewRepository.Materialize(String)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Materialize_System_String_
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Materialize(System.String)
+  name.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize(String)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize(System.String)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize(System.String)
+  nameWithType: ViewRepository<TView>.IViewRepository.Materialize(String)
+  nameWithType.vb: ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize(String)
+- uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Materialize*
+  name: IViewRepository.Materialize
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Materialize_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Materialize
+  name.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize
+  nameWithType: ViewRepository<TView>.IViewRepository.Materialize
+  nameWithType.vb: ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize
+- uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Persist(Solti.Utils.Eventing.Abstractions.ViewBase,System.String,System.Object[])
+  name: IViewRepository.Persist(ViewBase, String, Object[])
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_Solti_Utils_Eventing_Abstractions_ViewBase_System_String_System_Object___
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Persist(Solti.Utils.Eventing.Abstractions.ViewBase,System.String,System.Object[])
+  name.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(ViewBase, String, Object())
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(Solti.Utils.Eventing.Abstractions.ViewBase, System.String, System.Object[])
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(Solti.Utils.Eventing.Abstractions.ViewBase, System.String, System.Object())
+  nameWithType: ViewRepository<TView>.IViewRepository.Persist(ViewBase, String, Object[])
+  nameWithType.vb: ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(ViewBase, String, Object())
+- uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Persist*
+  name: IViewRepository.Persist
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Persist
+  name.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Persist
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Solti.Utils.Eventing.Abstractions.IViewRepository.Persist
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Persist
+  nameWithType: ViewRepository<TView>.IViewRepository.Persist
+  nameWithType.vb: ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Persist
