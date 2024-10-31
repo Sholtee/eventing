@@ -228,7 +228,7 @@ namespace Solti.Utils.Eventing
                 TView view = ReflectionModule.CreateRawView(flowId, this);
 
                 //
-                // Disable interceptors while deserializing or replying the events
+                // Disable interceptors while deserializing or replaying the events
                 //
 
                 view.EventingDisabled = true;
