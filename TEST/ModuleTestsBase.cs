@@ -27,7 +27,7 @@ namespace Solti.Utils.Eventing.Tests
                 .UseCompose()
                 .FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Infra", "test-db.yml"))
                 .RemoveOrphans()
-                .WaitForHttp("redis-local", "http://localhost:6379")
+                .WaitForPort("redis-local", "6379/tcp")
                 .WaitForHttp("dynamodb-local", "http://localhost:8000")
                 .Build()
                 .Start();
