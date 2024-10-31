@@ -62,12 +62,12 @@ on_finish:
       Push-Artifact "BenchmarkDotNet.Artifacts\BenchmarkRun-*.log"
 #     $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
-# override settings for `master` branch
+# override settings for `main` branch
 for:
 -
   branches:
     only:
-      - master
+      - main
 
   before_deploy:
     - ps: Git-Config 
