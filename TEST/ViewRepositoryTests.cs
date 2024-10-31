@@ -461,5 +461,12 @@ namespace Solti.Utils.Eventing.Tests
             mockLock.Verify(l => l.Release(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             mockEventStore.VerifyGet(s => s.SchemaInitialized, Times.Exactly(2));
         }
+
+        [Test]
+        public void Ctor_ShouldBeNullChecked()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ViewRepository<View>(null!, new Mock<IDistributedLock>().Object));
+            Assert.Throws<ArgumentNullException>(() => new ViewRepository<View>(new Mock<IEventStore>().Object, null!));
+        }
     }
 }
