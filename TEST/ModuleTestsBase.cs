@@ -28,7 +28,7 @@ namespace Solti.Utils.Eventing.Tests
                 .FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Infra", "test-db.yml"))
                 .RemoveOrphans()
                 .WaitForPort("redis-local", "6379/tcp")
-                .WaitForPort("dynamodb-local", "8000/tcp")
+                //.WaitForPort("dynamodb-local", "8000/tcp")
                 .Build()
                 .Start();
         }
