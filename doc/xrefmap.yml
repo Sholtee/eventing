@@ -103,6 +103,36 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.FlowId
   fullName: Solti.Utils.Eventing.Abstractions.Event.FlowId
   nameWithType: Event.FlowId
+- uid: Solti.Utils.Eventing.Abstractions.EventAttribute
+  name: EventAttribute
+  href: Solti.Utils.Eventing.Abstractions.EventAttribute.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.EventAttribute
+  fullName: Solti.Utils.Eventing.Abstractions.EventAttribute
+  nameWithType: EventAttribute
+- uid: Solti.Utils.Eventing.Abstractions.EventAttribute.#ctor
+  name: EventAttribute()
+  href: Solti.Utils.Eventing.Abstractions.EventAttribute.html#Solti_Utils_Eventing_Abstractions_EventAttribute__ctor
+  commentId: M:Solti.Utils.Eventing.Abstractions.EventAttribute.#ctor
+  fullName: Solti.Utils.Eventing.Abstractions.EventAttribute.EventAttribute()
+  nameWithType: EventAttribute.EventAttribute()
+- uid: Solti.Utils.Eventing.Abstractions.EventAttribute.#ctor*
+  name: EventAttribute
+  href: Solti.Utils.Eventing.Abstractions.EventAttribute.html#Solti_Utils_Eventing_Abstractions_EventAttribute__ctor_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.EventAttribute.#ctor
+  fullName: Solti.Utils.Eventing.Abstractions.EventAttribute.EventAttribute
+  nameWithType: EventAttribute.EventAttribute
+- uid: Solti.Utils.Eventing.Abstractions.EventAttribute.Id
+  name: Id
+  href: Solti.Utils.Eventing.Abstractions.EventAttribute.html#Solti_Utils_Eventing_Abstractions_EventAttribute_Id
+  commentId: P:Solti.Utils.Eventing.Abstractions.EventAttribute.Id
+  fullName: Solti.Utils.Eventing.Abstractions.EventAttribute.Id
+  nameWithType: EventAttribute.Id
+- uid: Solti.Utils.Eventing.Abstractions.EventAttribute.Id*
+  name: Id
+  href: Solti.Utils.Eventing.Abstractions.EventAttribute.html#Solti_Utils_Eventing_Abstractions_EventAttribute_Id_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.EventAttribute.Id
+  fullName: Solti.Utils.Eventing.Abstractions.EventAttribute.Id
+  nameWithType: EventAttribute.Id
 - uid: Solti.Utils.Eventing.Abstractions.EventStoreFeatures
   name: EventStoreFeatures
   href: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.html
@@ -211,6 +241,24 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.IDistributedLock.Release
   fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock.Release
   nameWithType: IDistributedLock.Release
+- uid: Solti.Utils.Eventing.Abstractions.IEventfulView
+  name: IEventfulView
+  href: Solti.Utils.Eventing.Abstractions.IEventfulView.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.IEventfulView
+  fullName: Solti.Utils.Eventing.Abstractions.IEventfulView
+  nameWithType: IEventfulView
+- uid: Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
+  name: EventingDisabled
+  href: Solti.Utils.Eventing.Abstractions.IEventfulView.html#Solti_Utils_Eventing_Abstractions_IEventfulView_EventingDisabled
+  commentId: P:Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
+  fullName: Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
+  nameWithType: IEventfulView.EventingDisabled
+- uid: Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled*
+  name: EventingDisabled
+  href: Solti.Utils.Eventing.Abstractions.IEventfulView.html#Solti_Utils_Eventing_Abstractions_IEventfulView_EventingDisabled_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
+  fullName: Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
+  nameWithType: IEventfulView.EventingDisabled
 - uid: Solti.Utils.Eventing.Abstractions.IEventStore
   name: IEventStore
   href: Solti.Utils.Eventing.Abstractions.IEventStore.html
@@ -532,18 +580,6 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.Disposed
   fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Disposed
   nameWithType: ViewBase.Disposed
-- uid: Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
-  name: EventingDisabled
-  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_EventingDisabled
-  commentId: P:Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
-  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
-  nameWithType: ViewBase.EventingDisabled
-- uid: Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled*
-  name: EventingDisabled
-  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_EventingDisabled_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
-  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.EventingDisabled
-  nameWithType: ViewBase.EventingDisabled
 - uid: Solti.Utils.Eventing.Abstractions.ViewBase.FlowId
   name: FlowId
   href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_FlowId
@@ -667,36 +703,6 @@ references:
   commentId: Overload:Solti.Utils.Eventing.DistributedLock.Release
   fullName: Solti.Utils.Eventing.DistributedLock.Release
   nameWithType: DistributedLock.Release
-- uid: Solti.Utils.Eventing.EventAttribute
-  name: EventAttribute
-  href: Solti.Utils.Eventing.EventAttribute.html
-  commentId: T:Solti.Utils.Eventing.EventAttribute
-  fullName: Solti.Utils.Eventing.EventAttribute
-  nameWithType: EventAttribute
-- uid: Solti.Utils.Eventing.EventAttribute.#ctor
-  name: EventAttribute()
-  href: Solti.Utils.Eventing.EventAttribute.html#Solti_Utils_Eventing_EventAttribute__ctor
-  commentId: M:Solti.Utils.Eventing.EventAttribute.#ctor
-  fullName: Solti.Utils.Eventing.EventAttribute.EventAttribute()
-  nameWithType: EventAttribute.EventAttribute()
-- uid: Solti.Utils.Eventing.EventAttribute.#ctor*
-  name: EventAttribute
-  href: Solti.Utils.Eventing.EventAttribute.html#Solti_Utils_Eventing_EventAttribute__ctor_
-  commentId: Overload:Solti.Utils.Eventing.EventAttribute.#ctor
-  fullName: Solti.Utils.Eventing.EventAttribute.EventAttribute
-  nameWithType: EventAttribute.EventAttribute
-- uid: Solti.Utils.Eventing.EventAttribute.Name
-  name: Name
-  href: Solti.Utils.Eventing.EventAttribute.html#Solti_Utils_Eventing_EventAttribute_Name
-  commentId: P:Solti.Utils.Eventing.EventAttribute.Name
-  fullName: Solti.Utils.Eventing.EventAttribute.Name
-  nameWithType: EventAttribute.Name
-- uid: Solti.Utils.Eventing.EventAttribute.Name*
-  name: Name
-  href: Solti.Utils.Eventing.EventAttribute.html#Solti_Utils_Eventing_EventAttribute_Name_
-  commentId: Overload:Solti.Utils.Eventing.EventAttribute.Name
-  fullName: Solti.Utils.Eventing.EventAttribute.Name
-  nameWithType: EventAttribute.Name
 - uid: Solti.Utils.Eventing.JsonSerializer
   name: JsonSerializer
   href: Solti.Utils.Eventing.JsonSerializer.html
