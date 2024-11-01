@@ -142,18 +142,6 @@ namespace Solti.Utils.Eventing.Tests
             mockSleep.Verify(s => s.Invoke(It.IsAny<TimeSpan>()), Times.Between(8, 10, Moq.Range.Inclusive));
         }
 
-        [Test]
-        public void Acquire_ShouldBeNullChecked()
-        {
-            Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
-            Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
-
-            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance, mockSleep.Object);
-
-            Assert.Throws<ArgumentNullException>(() => @lock.Acquire(null!, "notnull", TimeSpan.Zero));
-            Assert.Throws<ArgumentNullException>(() => @lock.Acquire("notnull", null!, TimeSpan.Zero));
-        }
-
         public static IEnumerable<object?[]> IsHeld_ShouldDetermineIfTheHoldIsOwnedByTheCurrentApp_Params
         {
             get

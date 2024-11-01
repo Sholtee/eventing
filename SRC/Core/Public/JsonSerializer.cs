@@ -29,8 +29,7 @@ namespace Solti.Utils.Eventing
             {
                 foreach (JsonPropertyInfo propertyInfo in typeInfo.Properties)
                 {
-                    if (propertyInfo.AttributeProvider is ICustomAttributeProvider provider &&
-                        provider.IsDefined(typeof(IgnoreDataMemberAttribute), inherit: true))
+                    if (propertyInfo.AttributeProvider is ICustomAttributeProvider provider && provider.IsDefined(typeof(IgnoreDataMemberAttribute), inherit: true))
                     {
                         //
                         // Disable both serialization and deserialization

@@ -65,6 +65,13 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public bool IsHeld(string key, string ownerId)
         {
+            //
+            // "key" is validated by GetLockKey() method
+            //
+
+            if (ownerId is null)
+                throw new ArgumentNullException(nameof(ownerId));
+
             string? entryRaw = cache.Get(GetLockKey(key));
             if (entryRaw is not null)
             {

@@ -124,5 +124,32 @@ namespace Solti.Utils.Eventing.Tests
                 @lock.Release("mylock", "owner_1");
             }
         }
+
+        [Test]
+        public void Acquire_ShouldBeNullChecked()
+        {
+            IDistributedLock @lock = CreateInstance();
+
+            Assert.Throws<ArgumentNullException>(() => @lock.Acquire(null!, "notnull", TimeSpan.Zero));
+            Assert.Throws<ArgumentNullException>(() => @lock.Acquire("notnull", null!, TimeSpan.Zero));
+        }
+
+        [Test]
+        public void IsHelpd_ShouldBeNullChecked()
+        {
+            IDistributedLock @lock = CreateInstance();
+
+            Assert.Throws<ArgumentNullException>(() => @lock.IsHeld(null!, "notnull"));
+            Assert.Throws<ArgumentNullException>(() => @lock.IsHeld("notnull", null!));
+        }
+
+        [Test]
+        public void Release_ShouldBeNullChecked()
+        {
+            IDistributedLock @lock = CreateInstance();
+
+            Assert.Throws<ArgumentNullException>(() => @lock.Release(null!, "notnull"));
+            Assert.Throws<ArgumentNullException>(() => @lock.Release("notnull", null!));
+        }
     }
 }
