@@ -43,30 +43,18 @@ references:
   commentId: T:Solti.Utils.Eventing.Abstractions.Event
   fullName: Solti.Utils.Eventing.Abstractions.Event
   nameWithType: Event
-- uid: Solti.Utils.Eventing.Abstractions.Event.#ctor(System.String,System.String,System.DateTime,System.String)
-  name: Event(String, String, DateTime, String)
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__ctor_System_String_System_String_System_DateTime_System_String_
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.#ctor(System.String,System.String,System.DateTime,System.String)
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Event(System.String, System.String, System.DateTime, System.String)
-  nameWithType: Event.Event(String, String, DateTime, String)
+- uid: Solti.Utils.Eventing.Abstractions.Event.#ctor
+  name: Event()
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__ctor
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.#ctor
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Event()
+  nameWithType: Event.Event()
 - uid: Solti.Utils.Eventing.Abstractions.Event.#ctor*
   name: Event
   href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__ctor_
   commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.#ctor
   fullName: Solti.Utils.Eventing.Abstractions.Event.Event
   nameWithType: Event.Event
-- uid: Solti.Utils.Eventing.Abstractions.Event.{Clone}$
-  name: <Clone>$()
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__Clone__
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.{Clone}$
-  fullName: Solti.Utils.Eventing.Abstractions.Event.<Clone>$()
-  nameWithType: Event.<Clone>$()
-- uid: Solti.Utils.Eventing.Abstractions.Event.{Clone}$*
-  name: <Clone>$
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__Clone___
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.{Clone}$
-  fullName: Solti.Utils.Eventing.Abstractions.Event.<Clone>$
-  nameWithType: Event.<Clone>$
 - uid: Solti.Utils.Eventing.Abstractions.Event.Arguments
   name: Arguments
   href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Arguments
@@ -91,39 +79,6 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
   fullName: Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
   nameWithType: Event.CreatedUtc
-- uid: Solti.Utils.Eventing.Abstractions.Event.Deconstruct(System.String@,System.String@,System.DateTime@,System.String@)
-  name: Deconstruct(out String, out String, out DateTime, out String)
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Deconstruct_System_String__System_String__System_DateTime__System_String__
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.Deconstruct(System.String@,System.String@,System.DateTime@,System.String@)
-  name.vb: Deconstruct(ByRef String, ByRef String, ByRef DateTime, ByRef String)
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Deconstruct(out System.String, out System.String, out System.DateTime, out System.String)
-  fullName.vb: Solti.Utils.Eventing.Abstractions.Event.Deconstruct(ByRef System.String, ByRef System.String, ByRef System.DateTime, ByRef System.String)
-  nameWithType: Event.Deconstruct(out String, out String, out DateTime, out String)
-  nameWithType.vb: Event.Deconstruct(ByRef String, ByRef String, ByRef DateTime, ByRef String)
-- uid: Solti.Utils.Eventing.Abstractions.Event.Deconstruct*
-  name: Deconstruct
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Deconstruct_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.Deconstruct
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Deconstruct
-  nameWithType: Event.Deconstruct
-- uid: Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
-  name: Equals(Event)
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_Solti_Utils_Eventing_Abstractions_Event_
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
-  nameWithType: Event.Equals(Event)
-- uid: Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
-  name: Equals(Object)
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_System_Object_
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
-  nameWithType: Event.Equals(Object)
-- uid: Solti.Utils.Eventing.Abstractions.Event.Equals*
-  name: Equals
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.Equals
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals
-  nameWithType: Event.Equals
 - uid: Solti.Utils.Eventing.Abstractions.Event.EventId
   name: EventId
   href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_EventId
@@ -148,54 +103,6 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.FlowId
   fullName: Solti.Utils.Eventing.Abstractions.Event.FlowId
   nameWithType: Event.FlowId
-- uid: Solti.Utils.Eventing.Abstractions.Event.GetHashCode
-  name: GetHashCode()
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_GetHashCode
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.GetHashCode
-  fullName: Solti.Utils.Eventing.Abstractions.Event.GetHashCode()
-  nameWithType: Event.GetHashCode()
-- uid: Solti.Utils.Eventing.Abstractions.Event.GetHashCode*
-  name: GetHashCode
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_GetHashCode_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.GetHashCode
-  fullName: Solti.Utils.Eventing.Abstractions.Event.GetHashCode
-  nameWithType: Event.GetHashCode
-- uid: Solti.Utils.Eventing.Abstractions.Event.op_Equality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
-  name: Equality(Event, Event)
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Equality_Solti_Utils_Eventing_Abstractions_Event_Solti_Utils_Eventing_Abstractions_Event_
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.op_Equality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Equality(Solti.Utils.Eventing.Abstractions.Event, Solti.Utils.Eventing.Abstractions.Event)
-  nameWithType: Event.Equality(Event, Event)
-- uid: Solti.Utils.Eventing.Abstractions.Event.op_Equality*
-  name: Equality
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Equality_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.op_Equality
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Equality
-  nameWithType: Event.Equality
-- uid: Solti.Utils.Eventing.Abstractions.Event.op_Inequality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
-  name: Inequality(Event, Event)
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Inequality_Solti_Utils_Eventing_Abstractions_Event_Solti_Utils_Eventing_Abstractions_Event_
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.op_Inequality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Inequality(Solti.Utils.Eventing.Abstractions.Event, Solti.Utils.Eventing.Abstractions.Event)
-  nameWithType: Event.Inequality(Event, Event)
-- uid: Solti.Utils.Eventing.Abstractions.Event.op_Inequality*
-  name: Inequality
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Inequality_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.op_Inequality
-  fullName: Solti.Utils.Eventing.Abstractions.Event.Inequality
-  nameWithType: Event.Inequality
-- uid: Solti.Utils.Eventing.Abstractions.Event.ToString
-  name: ToString()
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_ToString
-  commentId: M:Solti.Utils.Eventing.Abstractions.Event.ToString
-  fullName: Solti.Utils.Eventing.Abstractions.Event.ToString()
-  nameWithType: Event.ToString()
-- uid: Solti.Utils.Eventing.Abstractions.Event.ToString*
-  name: ToString
-  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_ToString_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.ToString
-  fullName: Solti.Utils.Eventing.Abstractions.Event.ToString
-  nameWithType: Event.ToString
 - uid: Solti.Utils.Eventing.Abstractions.IDistributedCache
   name: IDistributedCache
   href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html
