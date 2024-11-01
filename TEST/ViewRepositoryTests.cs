@@ -57,7 +57,7 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .InSequence(seq)
                 .Setup(s => s.QueryEvents("flowId"))
-                .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
+                .Returns([new Event { FlowId = "flowId", EventId = "some-event", Arguments = "[1986]" }]);
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Release("flowId", It.IsAny<string>()));
@@ -138,7 +138,7 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .InSequence(seq)
                 .Setup(s => s.QueryEvents("flowId"))
-                .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
+                .Returns([new Event { FlowId = "flowId", EventId = "some-event", Arguments = "[1986]" }]);
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Release("flowId", It.IsAny<string>()));
@@ -190,7 +190,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
                 .Setup(s => s.QueryEvents("flowId"))
-                .Returns([new Event("flowId", "some-event", DateTime.UtcNow, "[1986]")]);
+                .Returns([new Event { FlowId = "flowId", EventId = "some-event", Arguments = "[1986]" }]);
             mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
@@ -199,7 +199,7 @@ namespace Solti.Utils.Eventing.Tests
             mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
             mockLock.Setup(l => l.Release("flowId", It.IsAny<string>()));
 
-            ViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
             using (View view = materialize(repo, "flowId"))
             {
@@ -224,7 +224,7 @@ namespace Solti.Utils.Eventing.Tests
             mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
             mockLock.Setup(l => l.Release("flowId", It.IsAny<string>()));
 
-            ViewRepository<View> repo = new ViewRepository<View>(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
 
             Assert.Throws<ArgumentException>(() => materialize(repo, "flowId"));
 
@@ -238,7 +238,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
                 .Setup(s => s.QueryEvents("flowId"))
-                .Returns([new Event("flowId", "invalid", DateTime.UtcNow, "[1986]")]);
+                .Returns([new Event { FlowId = "flowId", EventId = "invalid", Arguments = "[1986]" }]);
             mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
@@ -399,7 +399,7 @@ namespace Solti.Utils.Eventing.Tests
         {
             get
             {
-                yield return (repo, flowId) => (View) ((IViewRepository)repo).Create(flowId);
+                yield return (repo, flowId) => (View) ((IViewRepository) repo).Create(flowId);
                 yield return (repo, flowId) => ((IViewRepository<View>) repo).Create(flowId);
             }
         }
@@ -442,7 +442,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
                 .Setup(s => s.QueryEvents("existing"))
-                .Returns([new Event("existing", "some-event", DateTime.UtcNow, "[]")]);
+                .Returns([new Event { FlowId = "existing", EventId = "some-event", Arguments = "[]" }]);
             mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
@@ -451,6 +451,33 @@ namespace Solti.Utils.Eventing.Tests
 
             ArgumentException ex = Assert.Throws<ArgumentException>(() => create(repo, "existing"))!;
             Assert.That(ex.Message, Does.StartWith(Format(ERR_FLOW_ID_ALREADY_EXISTS, "existing")));
+        }
+
+        [Test]
+        public void Close_ShouldReleaseTheLock()
+        {
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
+
+            Mock<IDistributedLock> mockLock = new(MockBehavior.Loose);
+
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            repo.Close("flowId");
+            mockLock.Verify(l => l.Release("flowId", It.IsAny<string>()), Times.Once);
+        }
+
+        [Test]
+        public void Close_ShouldBeNullChecked()
+        {
+            Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
+            mockEventStore
+                .SetupGet(s => s.SchemaInitialized)
+                .Returns(true);
+
+            ViewRepository<View> repo = new(mockEventStore.Object, new Mock<IDistributedLock>(MockBehavior.Loose).Object);
+            Assert.Throws<ArgumentNullException>(() => repo.Close(null!));
         }
 
         [Test]

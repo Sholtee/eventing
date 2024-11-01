@@ -140,12 +140,11 @@ namespace Solti.Utils.Eventing
                 EventStore.SetEvent
                 (
                     new Event
-                    (
-                        view.FlowId,
-                        eventId,
-                        DateTime.UtcNow,
-                        Serializer.Serialize(args)
-                    )
+                    {
+                        FlowId = view.FlowId,
+                        EventId = eventId,
+                        Arguments = Serializer.Serialize(args)
+                    }
                 );
             }
             catch

@@ -11,8 +11,27 @@ namespace Solti.Utils.Eventing.Abstractions
     /// <summary>
     /// Describes an event on database level.
     /// </summary>
-    public sealed record Event(string FlowId, string EventId, DateTime CreatedUtc, string Arguments)
+    public sealed class Event
     {
+        /// <summary>
+        /// Identifies the flow this event is assigned to
+        /// </summary>
+        public required string FlowId { get; init; }
+
+        /// <summary>
+        /// The event identifier.
+        /// </summary>
+        public required string EventId { get; init; }
+
+        /// <summary>
+        /// Creation timestamp.
+        /// </summary>
+        public DateTime CreatedUtc { get; init; } = DateTime.UtcNow;
+
+        /// <summary>
+        /// Serialized argument list associated with this event.
+        /// </summary>
+        public required string Arguments { get; init; }
     }
 
     /// <summary>
