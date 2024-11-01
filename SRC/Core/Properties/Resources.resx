@@ -180,4 +180,7 @@
   <data name="ERR_HAS_RETVAL" xml:space="preserve">
     <value>Eventized method ("{0}") may not return a value</value>
   </data>
+  <data name="LOG_EVENTS_PROCESSED" xml:space="preserve">
+    <value>{0} event(s) processed for: "{1}"</value>
+  </data>
 </root>

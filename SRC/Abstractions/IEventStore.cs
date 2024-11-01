@@ -35,6 +35,23 @@ namespace Solti.Utils.Eventing.Abstractions
     }
 
     /// <summary>
+    /// Describes the <see cref="IEventStore"/> features.
+    /// </summary>
+    [Flags]
+    public enum EventStoreFeatures
+    {
+        /// <summary>
+        /// No features set
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// The <see cref="IEventStore.QueryEvents(string)"/> method returns an ordered result.
+        /// </summary>
+        OrderedQueries = 1 << 0,
+    }
+
+    /// <summary>
     /// Describes the contract of event stores
     /// </summary>
     public interface IEventStore: IDisposable
@@ -42,7 +59,8 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// Gets the events associated with the given <paramref name="flowId"/>
         /// </summary>
-        IList<Event> QueryEvents(string flowId);
+        /// <remarks>This method returns an enumerable to support deferred queries.</remarks>
+        IEnumerable<Event> QueryEvents(string flowId);
 
         /// <summary>
         /// Pushes a new event into the store.
@@ -58,5 +76,10 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Determines if the underlying data schema had been initialized.
         /// </summary>
         bool SchemaInitialized { get; }
+
+        /// <summary>
+        /// Features of this instance.
+        /// </summary>
+        EventStoreFeatures Features { get; }
     }
 }

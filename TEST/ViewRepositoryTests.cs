@@ -40,8 +40,20 @@ namespace Solti.Utils.Eventing.Tests
             }
         }
 
-        [TestCaseSource(nameof(MaterializeFns))]
-        public void Materialize_ShouldReplayEvents(Func<ViewRepository<View>, string, View> materialize)
+        public static IEnumerable<object?[]> Materialize_ShouldReplayEvents_Paramz
+        {
+            get
+            {
+                foreach (Func<ViewRepository<View>, string, View> materialize in MaterializeFns)
+                {
+                    yield return [materialize, EventStoreFeatures.OrderedQueries, 1991];
+                    yield return [materialize, EventStoreFeatures.None, 1986];
+                }
+            }
+        }
+
+        [TestCaseSource(nameof(Materialize_ShouldReplayEvents_Paramz))]
+        public void Materialize_ShouldReplayEvents(Func<ViewRepository<View>, string, View> materialize, EventStoreFeatures features, int expected)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -57,7 +69,15 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .InSequence(seq)
                 .Setup(s => s.QueryEvents("flowId"))
-                .Returns([new Event { FlowId = "flowId", EventId = "some-event", Arguments = "[1986]" }]);
+                .Returns(
+                [
+                    new Event { FlowId = "flowId", CreatedUtc = DateTime.UtcNow, EventId = "some-event", Arguments = "[1986]" },
+                    new Event { FlowId = "flowId", CreatedUtc = DateTime.UtcNow.AddDays(-1), EventId = "some-event", Arguments = "[1991]" }
+                ]);
+            mockEventStore
+                .InSequence(seq)
+                .SetupGet(s => s.Features)
+                .Returns(features);
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Release("flowId", It.IsAny<string>()));
@@ -68,7 +88,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Assert.That(view, Is.Not.Null);
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
-            Assert.That(view.Param, Is.EqualTo(1986));
+            Assert.That(view.Param, Is.EqualTo(expected));
             mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);
         }
 
@@ -139,6 +159,10 @@ namespace Solti.Utils.Eventing.Tests
                 .InSequence(seq)
                 .Setup(s => s.QueryEvents("flowId"))
                 .Returns([new Event { FlowId = "flowId", EventId = "some-event", Arguments = "[1986]" }]);
+            mockEventStore
+                .InSequence(seq)
+                .SetupGet(s => s.Features)
+                .Returns(EventStoreFeatures.None);
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Release("flowId", It.IsAny<string>()));
@@ -165,6 +189,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
+            mockEventStore
+                .SetupGet(s => s.Features)
+                .Returns(EventStoreFeatures.None);
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
@@ -194,6 +221,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
+            mockEventStore
+                .SetupGet(s => s.Features)
+                .Returns(EventStoreFeatures.None);
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
@@ -219,6 +249,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
+            mockEventStore
+                .SetupGet(s => s.Features)
+                .Returns(EventStoreFeatures.None);
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
@@ -242,6 +275,9 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
+            mockEventStore
+                .SetupGet(s => s.Features)
+                .Returns(EventStoreFeatures.None);
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));

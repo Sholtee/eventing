@@ -198,19 +198,29 @@ namespace Solti.Utils.Eventing
 
                 Logger?.LogInformation(new EventId(505, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
 
-                IList<Event> events = EventStore.QueryEvents(flowId);
-                if (events.Count is 0)
-                    throw new ArgumentException(Format(ERR_INVALID_FLOW_ID, flowId), nameof(flowId));
-
                 view = CreateRawView();
 
-                foreach (Event evt in events.OrderBy(static evt => evt.CreatedUtc))
+                IEnumerable<Event> events = EventStore.QueryEvents(flowId);
+
+                //
+                // Do not check the count here to enumerate the events only once
+                //
+
+                int eventCount = 0;
+
+                foreach (Event evt in EventStore.Features.HasFlag(EventStoreFeatures.OrderedQueries) ? events : events.OrderBy(static evt => evt.CreatedUtc))
                 {
                     if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
                         throw new InvalidOperationException(Format(ERR_INVALID_EVENT_ID, evt.EventId));
 
                     processor(view, evt.Arguments, Serializer);
+                    eventCount++;
                 }
+
+                if (eventCount is 0)
+                    throw new ArgumentException(Format(ERR_INVALID_FLOW_ID, flowId), nameof(flowId));
+
+                Logger?.LogInformation(new EventId(506, "PROCESSED_EVENTS"), LOG_EVENTS_PROCESSED, eventCount, flowId);
 
                 ret:
                     view.EventingDisabled = false;
@@ -248,7 +258,7 @@ namespace Solti.Utils.Eventing
             Lock.Acquire(flowId, RepoId, LockTimeout);
             try
             {
-                if (EventStore.QueryEvents(flowId).Count > 0)
+                if (EventStore.QueryEvents(flowId).Any())
                     throw new ArgumentException(Format(ERR_FLOW_ID_ALREADY_EXISTS, flowId), nameof(flowId));
 
                 Logger?.LogInformation(new EventId(505, "CREATE_RAW_VIEW"), LOG_CREATE_RAW_VIEW, flowId);
