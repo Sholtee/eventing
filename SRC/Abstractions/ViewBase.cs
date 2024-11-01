@@ -12,7 +12,7 @@ namespace Solti.Utils.Eventing.Abstractions
     /// The base of materialized views
     /// </summary>
     /// <remarks>A view also represents a session being carried out on a perticular flow. Therefore, disposing the view closes the underlying session too</remarks>
-    public abstract class ViewBase: IDisposable
+    public abstract class ViewBase : IDisposable
     {
         /// <summary>
         /// The unique id if this view.
@@ -25,13 +25,6 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <remarks>This member should not be serialized.</remarks>
         [IgnoreDataMember] // do not use [JsonIgnore] here as we want a generic way to ignore properties
         public /*required*/ IViewRepository OwnerRepository { get; init; } = null!;
-
-        /// <summary>
-        /// If set to true, eventized methods wont be intercepted.
-        /// </summary>
-        /// <remarks>Don't change the value of this property unless you know what you are doing. This member should not be serialized.</remarks>
-        [IgnoreDataMember]
-        public bool EventingDisabled { get; set; }
 
         /// <summary>
         /// Determines if the current view is valid

@@ -34,8 +34,16 @@ namespace Solti.Utils.Eventing
             FFlowId = PropertyInfoExtractor.Extract<TView, string>(static v => v.FlowId),
             FOwnerRepo = PropertyInfoExtractor.Extract<TView, object>(static v => v.OwnerRepository);
 
-        private sealed class ViewInterceptor : Singleton<ViewInterceptor>, IInterceptor
+        private sealed class ViewInterceptor : IInterceptor
         {
+            private static IReadOnlyDictionary<IntPtr, Func<ViewInterceptor, object?[], object?>> ConcreteImplementations { get; } = new Dictionary<IntPtr, Func<ViewInterceptor, object?[], object?>>
+            {
+                {PropertyInfoExtractor.Extract<IEventfulView, bool>(static v => v.EventingDisabled).GetMethod.MethodHandle.Value, static (v, _) => v.EventingDisabled},
+                {PropertyInfoExtractor.Extract<IEventfulView, bool>(static v => v.EventingDisabled).SetMethod.MethodHandle.Value, static (v, args) => { v.EventingDisabled = (bool) args[0]!; return null; } }
+            };
+
+            public bool EventingDisabled { get; private set; }
+
             public void Intercept(IInvocation invocation)
             {
                 //
@@ -44,6 +52,16 @@ namespace Solti.Utils.Eventing
 
                 TView view = (TView) invocation.Proxy;
                 view.CheckDisposed();
+
+                //
+                // If we have a concerete implementation then use that
+                //
+
+                if (ConcreteImplementations.TryGetValue(invocation.Method.MethodHandle.Value, out Func<ViewInterceptor, object?[], object?> impl))
+                {
+                    invocation.ReturnValue = impl(this, invocation.Arguments);
+                    return;
+                }
 
                 //
                 // Call the target method
@@ -56,8 +74,8 @@ namespace Solti.Utils.Eventing
                 //
 
                 EventAttribute? evtAttr = invocation.MethodInvocationTarget.GetCustomAttribute<EventAttribute>();
-                if (evtAttr is not null && !view.EventingDisabled)
-                    view.OwnerRepository.Persist(view, evtAttr.Name, invocation.Arguments);
+                if (evtAttr is not null && !EventingDisabled)
+                    view.OwnerRepository.Persist(view, evtAttr.Id, invocation.Arguments);
             }
         }
 
@@ -67,7 +85,7 @@ namespace Solti.Utils.Eventing
             // CreateClassProxy() uses Activator.CreateInstance() which is... uhm... slow?
             //
 
-            public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [], ProxyGenerationOptions.Default);
+            public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [typeof(IEventfulView)], ProxyGenerationOptions.Default);
         }
 
         private static FutureDelegate<Func<string, IViewRepository<TView>, TView>> CreateInterceptorFactory(DelegateCompiler compiler) 
@@ -91,7 +109,11 @@ namespace Solti.Utils.Eventing
                         Expression.New
                         (
                             ctor,
-                            Expression.Constant(new IInterceptor[] { ViewInterceptor.Instance })
+                            Expression.NewArrayInit
+                            (
+                                typeof(IInterceptor),
+                                Expression.New(typeof(ViewInterceptor))
+                            )
                         ),
                         Expression.Bind(FFlowId, flowId),
                         Expression.Bind(FOwnerRepo, ownerRepo)
@@ -120,8 +142,8 @@ namespace Solti.Utils.Eventing
                 if (!method.IsVirtual)
                     throw new InvalidOperationException(Format(ERR_NOT_VIRTUAL, method.Name));
 
-                if (processors.ContainsKey(evtAttr.Name))
-                    throw new InvalidOperationException(Format(ERR_DUPLICATE_EVENT_ID, evtAttr.Name));
+                if (processors.ContainsKey(evtAttr.Id))
+                    throw new InvalidOperationException(Format(ERR_DUPLICATE_EVENT_ID, evtAttr.Id));
 
                 IReadOnlyList<Type> argTypes = method
                     .GetParameters()
@@ -138,7 +160,7 @@ namespace Solti.Utils.Eventing
 
                 processors.Add
                 (
-                    evtAttr.Name,
+                    evtAttr.Id,
                     compiler.Register
                     (
                         //

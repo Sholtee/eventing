@@ -223,7 +223,7 @@ namespace Solti.Utils.Eventing
                 Logger?.LogInformation(new EventId(506, "PROCESSED_EVENTS"), LOG_EVENTS_PROCESSED, eventCount, flowId);
 
                 ret:
-                    view.EventingDisabled = false;
+                    ((IEventfulView) view).EventingDisabled = false;
                     return view;
             }
             catch
@@ -240,7 +240,7 @@ namespace Solti.Utils.Eventing
                 // Disable interceptors while deserializing or replaying the events
                 //
 
-                view.EventingDisabled = true;
+                ((IEventfulView) view).EventingDisabled = true;
 
                 return view;
             }

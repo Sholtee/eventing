@@ -5,7 +5,7 @@
 ********************************************************************************/
 using System;
 
-namespace Solti.Utils.Eventing
+namespace Solti.Utils.Eventing.Abstractions
 {
     /// <summary>
     /// Attribute to annotate interface methods with event name.
@@ -14,8 +14,8 @@ namespace Solti.Utils.Eventing
     public sealed class EventAttribute: Attribute
     {
         /// <summary>
-        /// The name of the event
+        /// The id of the event
         /// </summary>
-        public required string Name { get; init; }
+        public required string Id { get; init; }
     }
 }

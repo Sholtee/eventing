@@ -21,7 +21,7 @@ namespace Solti.Utils.Eventing.Tests
         {
             public Action? AnnotatedCallback { get; set; }
 
-            [Event(Name = "some-event")]
+            [Event(Id = "some-event")]
             public virtual void Annotated(int param) => AnnotatedCallback?.Invoke();
 
             public virtual void NotAnnotated(string param) { }
@@ -55,7 +55,7 @@ namespace Solti.Utils.Eventing.Tests
 
             View view = CreateInstance<View>().CreateRawView(null!, mockRepo.Object);
 
-            view.EventingDisabled = true;
+            ((IEventfulView) view).EventingDisabled = true;
             view.Annotated(1);
 
             mockRepo.Verify(r => r.Persist(It.IsAny<View>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Never);
@@ -92,10 +92,10 @@ namespace Solti.Utils.Eventing.Tests
 
         internal class ViewHavingDuplicateEvent : ViewBase
         {
-            [Event(Name = "some-event")]
+            [Event(Id = "some-event")]
             public virtual void Annotated(int param) { }
 
-            [Event(Name = "some-event")]
+            [Event(Id = "some-event")]
             public virtual void NotAnnotated(string param) { }
         }
 
@@ -108,7 +108,7 @@ namespace Solti.Utils.Eventing.Tests
 
         internal class ViewHavingNonVirtualEvent : ViewBase
         {
-            [Event(Name = "some-event")]
+            [Event(Id = "some-event")]
             public void Annotated(int param) => _ = this;
         }
 
@@ -121,7 +121,7 @@ namespace Solti.Utils.Eventing.Tests
 
         internal sealed class SealedView : ViewBase
         {
-            [Event(Name = "some-event")]
+            [Event(Id = "some-event")]
             public void Annotated(int param)  => _ = this;
         }
 
@@ -134,16 +134,16 @@ namespace Solti.Utils.Eventing.Tests
 
         internal class ViewReturningAValue1 : ViewBase
         {
-            [Event(Name = "some-event")]
+            [Event(Id = "some-event")]
             public virtual string Annotated(int param) => "cica";
 
-            [Event(Name = "other-event")]
+            [Event(Id = "other-event")]
             public virtual void Annotated(out string param) => param = "cica";
         }
 
         internal class ViewReturningAValue2 : ViewBase
         {
-            [Event(Name = "some-event")]
+            [Event(Id = "some-event")]
             public virtual void Annotated(out string param) => param = "cica";
         }
 
