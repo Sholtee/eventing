@@ -103,6 +103,30 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.FlowId
   fullName: Solti.Utils.Eventing.Abstractions.Event.FlowId
   nameWithType: Event.FlowId
+- uid: Solti.Utils.Eventing.Abstractions.EventStoreFeatures
+  name: EventStoreFeatures
+  href: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.EventStoreFeatures
+  fullName: Solti.Utils.Eventing.Abstractions.EventStoreFeatures
+  nameWithType: EventStoreFeatures
+- uid: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.None
+  name: None
+  href: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.html#Solti_Utils_Eventing_Abstractions_EventStoreFeatures_None
+  commentId: F:Solti.Utils.Eventing.Abstractions.EventStoreFeatures.None
+  fullName: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.None
+  nameWithType: EventStoreFeatures.None
+- uid: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.OrderedQueries
+  name: OrderedQueries
+  href: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.html#Solti_Utils_Eventing_Abstractions_EventStoreFeatures_OrderedQueries
+  commentId: F:Solti.Utils.Eventing.Abstractions.EventStoreFeatures.OrderedQueries
+  fullName: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.OrderedQueries
+  nameWithType: EventStoreFeatures.OrderedQueries
+- uid: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.value__
+  name: value__
+  href: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.html#Solti_Utils_Eventing_Abstractions_EventStoreFeatures_value__
+  commentId: F:Solti.Utils.Eventing.Abstractions.EventStoreFeatures.value__
+  fullName: Solti.Utils.Eventing.Abstractions.EventStoreFeatures.value__
+  nameWithType: EventStoreFeatures.value__
 - uid: Solti.Utils.Eventing.Abstractions.IDistributedCache
   name: IDistributedCache
   href: Solti.Utils.Eventing.Abstractions.IDistributedCache.html
@@ -193,6 +217,18 @@ references:
   commentId: T:Solti.Utils.Eventing.Abstractions.IEventStore
   fullName: Solti.Utils.Eventing.Abstractions.IEventStore
   nameWithType: IEventStore
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.Features
+  name: Features
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_Features
+  commentId: P:Solti.Utils.Eventing.Abstractions.IEventStore.Features
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.Features
+  nameWithType: IEventStore.Features
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.Features*
+  name: Features
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_Features_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventStore.Features
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.Features
+  nameWithType: IEventStore.Features
 - uid: Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema
   name: InitSchema()
   href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_InitSchema
