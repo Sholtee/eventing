@@ -9,11 +9,10 @@ using System.Linq;
 
 using Microsoft.Extensions.Logging;
 
-using static System.String;
-
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
+    using Internals;
 
     using static Properties.Resources;
 
@@ -128,7 +127,7 @@ namespace Solti.Utils.Eventing
             Cache?.Set
             (
                 view.FlowId,
-                Serializer.Serialize(view),
+                Serializer.Serialize(view.ToDict()),
                 CacheEntryExpiration,
                 DistributedCacheInsertionFlags.AllowOverwrite
             );
@@ -164,18 +163,21 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public TView Materialize(string flowId)
         {
-            TView view;
-
-            if (flowId is null)
-                throw new ArgumentNullException(nameof(flowId));
-
             //
             // Lock the flow
             //
 
-            Lock.Acquire(flowId, RepoId, LockTimeout);
+            Lock.Acquire(flowId ?? throw new ArgumentNullException(nameof(flowId)), RepoId, LockTimeout);
             try
             {
+                TView view = ReflectionModule.CreateRawView(flowId, this, out IEventfulViewConfig viewConfig);
+
+                //
+                // Disable interceptors while deserializing or replaying the events
+                //
+
+                viewConfig.EventingDisabled = true;
+
                 //
                 // Check if we can grab the view from the cache
                 //
@@ -185,64 +187,63 @@ namespace Solti.Utils.Eventing
                 {
                     Logger?.LogInformation(new EventId(504, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
 
-                    view = Serializer.Deserialize(cached, CreateRawView)!;
-                    if (view.IsValid)
-                        goto ret;
-
-                    Logger?.LogWarning(new EventId(301, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
+                    if (Serializer.Deserialize<object>(cached) is not IDictionary<string, object?> cacheItem || !view.FromDict(cacheItem))
+                    {
+                        Logger?.LogError(new EventId(200, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH, flowId);
+                        throw new InvalidOperationException(ERR_LAYOUT_MISMATCH).WithArgs((nameof(flowId), flowId));
+                    }
                 }
 
                 //
                 // Materialize the view by replaying the events
                 //
 
-                Logger?.LogInformation(new EventId(505, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
-
-                view = CreateRawView();
-
-                IEnumerable<Event> events = EventStore.QueryEvents(flowId);
-
-                //
-                // Do not check the count here to enumerate the events only once
-                //
-
-                int eventCount = 0;
-
-                foreach (Event evt in EventStore.Features.HasFlag(EventStoreFeatures.OrderedQueries) ? events : events.OrderBy(static evt => evt.CreatedUtc))
+                else
                 {
-                    if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
-                        throw new InvalidOperationException(Format(ERR_INVALID_EVENT_ID, evt.EventId));
+                    Logger?.LogInformation(new EventId(505, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
 
-                    processor(view, evt.Arguments, Serializer);
-                    eventCount++;
+                    IEnumerable<Event> events = EventStore.QueryEvents(flowId);
+
+                    //
+                    // Do not check the count here to enumerate the events only once
+                    //
+
+                    int eventCount = 0;
+
+                    foreach (Event evt in EventStore.Features.HasFlag(EventStoreFeatures.OrderedQueries) ? events : events.OrderBy(static evt => evt.CreatedUtc))
+                    {
+                        if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out ProcessEventDelegate<TView> processor))
+                        {
+                            Logger?.LogError(new EventId(201, "PROCESSOR_NOT_FOUND"), LOG_INVALID_EVENT_ID, evt.EventId, flowId);
+                            throw new InvalidOperationException(ERR_INVALID_EVENT_ID).WithArgs(("eventId", evt.EventId), (nameof(flowId), flowId));
+                        }
+
+                        try
+                        {
+                            processor(view, evt.Arguments, Serializer);
+                        }
+                        catch (Exception e)
+                        {
+                            Logger?.LogError(new EventId(202, "PROCESSOR_ERROR"), LOG_EVENT_PROCESSOR_ERROR, evt.EventId, flowId, e.Message);
+                            throw;
+                        }
+
+                        eventCount++;
+                    }
+
+                    if (eventCount is 0)
+                        throw new ArgumentException(ERR_INVALID_FLOW_ID).WithArgs((nameof(flowId), flowId));
+
+                    Logger?.LogInformation(new EventId(506, "PROCESSED_EVENTS"), LOG_EVENTS_PROCESSED, eventCount, flowId);
                 }
 
-                if (eventCount is 0)
-                    throw new ArgumentException(Format(ERR_INVALID_FLOW_ID, flowId), nameof(flowId));
-
-                Logger?.LogInformation(new EventId(506, "PROCESSED_EVENTS"), LOG_EVENTS_PROCESSED, eventCount, flowId);
-
-                ret:
-                    ((IEventfulView) view).EventingDisabled = false;
-                    return view;
+                viewConfig.EventingDisabled = false;
+                return view;
             }
             catch
             {
                 Lock.Release(flowId, RepoId);
                 throw;
-            }
-
-            TView CreateRawView()
-            {
-                TView view = ReflectionModule.CreateRawView(flowId, this);
-
-                //
-                // Disable interceptors while deserializing or replaying the events
-                //
-
-                ((IEventfulView) view).EventingDisabled = true;
-
-                return view;
             }
         }
 
@@ -259,11 +260,11 @@ namespace Solti.Utils.Eventing
             try
             {
                 if (EventStore.QueryEvents(flowId).Any())
-                    throw new ArgumentException(Format(ERR_FLOW_ID_ALREADY_EXISTS, flowId), nameof(flowId));
+                    throw new ArgumentException(ERR_FLOW_ID_ALREADY_EXISTS, nameof(flowId)).WithArgs((nameof(flowId), flowId));
 
                 Logger?.LogInformation(new EventId(505, "CREATE_RAW_VIEW"), LOG_CREATE_RAW_VIEW, flowId);
 
-                return ReflectionModule.CreateRawView(flowId, this);
+                return ReflectionModule.CreateRawView(flowId, this, out _);
             }
             catch
             {

@@ -1,14 +1,14 @@
 /********************************************************************************
-* IEventfulView.cs                                                              *
+* IEventfulViewConfig.cs                                                        *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 namespace Solti.Utils.Eventing.Abstractions
 {
     /// <summary>
-    /// Interface to be implemented by the system when converting views to proxies
+    /// Config interfce over the view proxy
     /// </summary>
-    public interface IEventfulView
+    public interface IEventfulViewConfig
     {
         /// <summary>
         /// If set to true, eventized methods wont be intercepted.

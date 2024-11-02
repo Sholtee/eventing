@@ -4,8 +4,8 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 using Moq;
 using NUnit.Framework;
@@ -26,7 +26,7 @@ namespace Solti.Utils.Eventing.Tests
         [TearDown]
         public virtual void TearDown() => Serializer = null!;
 
-        public static IEnumerable<object[]> TestConvertParamz
+        public static IEnumerable<object[]> Deserialize_ShouldDeserializeMultitypeArrays_Paramz
         {
             get
             {
@@ -35,7 +35,7 @@ namespace Solti.Utils.Eventing.Tests
             }
         }
 
-        [TestCaseSource(nameof(TestConvertParamz))]
+        [TestCaseSource(nameof(Deserialize_ShouldDeserializeMultitypeArrays_Paramz))]
         public void Deserialize_ShouldDeserializeMultitypeArrays(Type[] types, object[] expected)
         {
             string s = Serializer.Serialize(expected);
@@ -45,46 +45,44 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Deserialize_ShouldDeserializeMultitypeArrayContainingAnonArray()
         {
-            object[] ar = [new object[] { 1 }]; 
+            object[] ar = [new object[] { 1 }];
 
             object?[] ret = Serializer.Deserialize(Serializer.Serialize(ar), [typeof(object[])]);
 
             Assert.That(ret.Length, Is.EqualTo(1));
-            
+
             ret = (ret[0] as object?[])!;
             Assert.That(ret, Is.Not.Null);
             Assert.That(ret, Has.Length.EqualTo(1));
+            Assert.That(ret[0], Is.EqualTo(1));
+        }
+
+        public static IEnumerable<object?> Deserialize_ShouldSupportAnonObjects_Paramz
+        {
+            get
+            {
+                yield return null;
+                yield return true;
+                yield return false;
+                yield return 1986;
+                yield return 1986.0;
+                yield return new object[] { 1, 2.0, "3" };
+                yield return new Dictionary<string, object?> { { "Key1", 1988 }, { "Key2", "string" } };
+            }
         }
 
         [Test]
-        public void Deserialize_ShouldUseTheConstructorProvided()
+        public void Deserialize_ShouldSupportUntypedObjects([ValueSource(nameof(Deserialize_ShouldSupportAnonObjects_Paramz))] object expected)
         {
-            Mock<Func<MyClass>> mockCtor = new(MockBehavior.Strict);
-            mockCtor
-                .Setup(c => c.Invoke())
-                .Returns(new MyClass());
+            string serialized = Serializer.Serialize(expected);
 
-            MyClass
-                original = new MyClass { NonIgnored = 5 },
-                deserialized = Serializer.Deserialize(Serializer.Serialize(original), mockCtor.Object)!;
-
-            Assert.That(original, Is.EqualTo(deserialized));
-            mockCtor.Verify(c => c.Invoke(), Times.Once);
+            object? ret = Serializer.Deserialize<object>(serialized);
+            Assert.That(ret, expected is IEnumerable enumerable ? Is.EquivalentTo(enumerable) : Is.EqualTo(expected));
         }
 
         internal record MyClass
         {
             public int NonIgnored { get; init; }
         }
-
-        internal record MyClassHavingIgnoredMember: MyClass
-        {
-            [IgnoreDataMember]
-            public string Ignored { get; init; } = null!;
-        }
-
-        [Test]
-        public void Serialize_ShouldTakeIgnoreDataMemberAttributeIntoAccount() =>
-            Assert.That(Serializer.Serialize(new MyClassHavingIgnoredMember { Ignored = "cica", NonIgnored = 1986 }), Is.EqualTo(Serializer.Serialize(new MyClass { NonIgnored = 1986 })));
     }
 }

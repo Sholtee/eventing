@@ -12,11 +12,10 @@ using System.Reflection;
 
 using Castle.DynamicProxy;
 
-using static System.String;
-
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
+    using Internals;
     using Primitives;
     using Primitives.Patterns;
 
@@ -34,15 +33,9 @@ namespace Solti.Utils.Eventing
             FFlowId = PropertyInfoExtractor.Extract<TView, string>(static v => v.FlowId),
             FOwnerRepo = PropertyInfoExtractor.Extract<TView, object>(static v => v.OwnerRepository);
 
-        private sealed class ViewInterceptor : IInterceptor
+        private sealed class ViewInterceptor : IInterceptor, IEventfulViewConfig
         {
-            private static IReadOnlyDictionary<IntPtr, Func<ViewInterceptor, object?[], object?>> ConcreteImplementations { get; } = new Dictionary<IntPtr, Func<ViewInterceptor, object?[], object?>>
-            {
-                {PropertyInfoExtractor.Extract<IEventfulView, bool>(static v => v.EventingDisabled).GetMethod.MethodHandle.Value, static (v, _) => v.EventingDisabled},
-                {PropertyInfoExtractor.Extract<IEventfulView, bool>(static v => v.EventingDisabled).SetMethod.MethodHandle.Value, static (v, args) => { v.EventingDisabled = (bool) args[0]!; return null; } }
-            };
-
-            public bool EventingDisabled { get; private set; }
+            public bool EventingDisabled { get; set; }
 
             public void Intercept(IInvocation invocation)
             {
@@ -52,16 +45,6 @@ namespace Solti.Utils.Eventing
 
                 TView view = (TView) invocation.Proxy;
                 view.CheckDisposed();
-
-                //
-                // If we have a concerete implementation then use that
-                //
-
-                if (ConcreteImplementations.TryGetValue(invocation.Method.MethodHandle.Value, out Func<ViewInterceptor, object?[], object?> impl))
-                {
-                    invocation.ReturnValue = impl(this, invocation.Arguments);
-                    return;
-                }
 
                 //
                 // Call the target method
@@ -85,10 +68,10 @@ namespace Solti.Utils.Eventing
             // CreateClassProxy() uses Activator.CreateInstance() which is... uhm... slow?
             //
 
-            public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [typeof(IEventfulView)], ProxyGenerationOptions.Default);
+            public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [], ProxyGenerationOptions.Default);
         }
 
-        private static FutureDelegate<Func<string, IViewRepository<TView>, TView>> CreateInterceptorFactory(DelegateCompiler compiler) 
+        private static FutureDelegate<CreateRawViewDelegate<TView>> CreateInterceptorFactory(DelegateCompiler compiler) 
         {
             MyProxyGenerator proxyGenerator = new();
             Type t = proxyGenerator.CreateProxyClass<TView>();
@@ -98,40 +81,46 @@ namespace Solti.Utils.Eventing
 
             ParameterExpression
                 flowId = Expression.Parameter(typeof(string), nameof(flowId)),
-                ownerRepo = Expression.Parameter(typeof(IViewRepository<TView>), nameof(ownerRepo));
+                ownerRepo = Expression.Parameter(typeof(IViewRepository<TView>), nameof(ownerRepo)),
+                config = Expression.Parameter(typeof(IEventfulViewConfig).MakeByRefType(), nameof(config)),
+                interceptor = Expression.Variable(typeof(ViewInterceptor), nameof(interceptor));
 
             return compiler.Register
             (
-                Expression.Lambda<Func<string, IViewRepository<TView>, TView>>
+                Expression.Lambda<CreateRawViewDelegate<TView>>
                 (
-                    Expression.MemberInit
+                    Expression.Block
                     (
-                        Expression.New
+                        typeof(TView),
+                        variables: [interceptor],
+                        Expression.Assign(interceptor, Expression.New(typeof(ViewInterceptor))),
+                        Expression.Assign(config, interceptor),
+                        Expression.MemberInit
                         (
-                            ctor,
-                            Expression.NewArrayInit
+                            Expression.New
                             (
-                                typeof(IInterceptor),
-                                Expression.New(typeof(ViewInterceptor))
-                            )
-                        ),
-                        Expression.Bind(FFlowId, flowId),
-                        Expression.Bind(FOwnerRepo, ownerRepo)
+                                ctor,
+                                Expression.NewArrayInit(typeof(IInterceptor), interceptor)
+                            ),
+                            Expression.Bind(FFlowId, flowId),
+                            Expression.Bind(FOwnerRepo, ownerRepo)
+                        )
                     ),
                     flowId,
-                    ownerRepo
+                    ownerRepo,
+                    config
                 )
             );
         }
 
-        private static IReadOnlyDictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> CreateEventProcessorsDict(DelegateCompiler compiler)
+        private static IReadOnlyDictionary<string, FutureDelegate<ProcessEventDelegate<TView>>> CreateEventProcessorsDict(DelegateCompiler compiler)
         {
             Type viewType = typeof(TView);
 
             if (viewType.IsSealed)
                 throw new InvalidOperationException(ERR_CANNOT_BE_INTERCEPTED);
 
-            Dictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> processors = [];
+            Dictionary<string, FutureDelegate<ProcessEventDelegate<TView>>> processors = [];
           
             foreach (MethodInfo method in viewType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -140,17 +129,17 @@ namespace Solti.Utils.Eventing
                     continue;
 
                 if (!method.IsVirtual)
-                    throw new InvalidOperationException(Format(ERR_NOT_VIRTUAL, method.Name));
+                    throw new InvalidOperationException(ERR_NOT_VIRTUAL).WithArgs(("method", method.Name));
 
                 if (processors.ContainsKey(evtAttr.Id))
-                    throw new InvalidOperationException(Format(ERR_DUPLICATE_EVENT_ID, evtAttr.Id));
+                    throw new InvalidOperationException(ERR_DUPLICATE_EVENT_ID).WithArgs(("id", evtAttr.Id));
 
                 IReadOnlyList<Type> argTypes = method
                     .GetParameters()
                     .Select(static p => p.ParameterType)
                     .ToList();
                 if (method.ReturnType != typeof(void) || argTypes.Any(static t => t.IsByRef))
-                    throw new InvalidOperationException(Format(ERR_HAS_RETVAL, method.Name));
+                    throw new InvalidOperationException(ERR_HAS_RETVAL).WithArgs(("method", method.Name));
 
                 ParameterExpression
                     self = Expression.Parameter(viewType, nameof(self)),
@@ -171,7 +160,7 @@ namespace Solti.Utils.Eventing
                         // }
                         //
 
-                        Expression.Lambda<Action<TView, string, ISerializer>>
+                        Expression.Lambda<ProcessEventDelegate<TView>>
                         (
                             Expression.Block
                             (
@@ -212,9 +201,9 @@ namespace Solti.Utils.Eventing
         {
             DelegateCompiler compiler = new();
 
-            IReadOnlyDictionary<string, FutureDelegate<Action<TView, string, ISerializer>>> processors = CreateEventProcessorsDict(compiler);
+            IReadOnlyDictionary<string, FutureDelegate<ProcessEventDelegate<TView>>> processors = CreateEventProcessorsDict(compiler);
 
-            FutureDelegate<Func<string, IViewRepository<TView>, TView>> ctor = CreateInterceptorFactory(compiler);
+            FutureDelegate<CreateRawViewDelegate<TView>> ctor = CreateInterceptorFactory(compiler);
 
             compiler.Compile();
 
@@ -223,9 +212,9 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public IReadOnlyDictionary<string, Action<TView, string, ISerializer>> EventProcessors { get; }
+        public IReadOnlyDictionary<string, ProcessEventDelegate<TView>> EventProcessors { get; }
 
         /// <inheritdoc/>
-        public Func<string, IViewRepository<TView>, TView> CreateRawView { get; }
+        public CreateRawViewDelegate<TView> CreateRawView { get; }
     }
 }

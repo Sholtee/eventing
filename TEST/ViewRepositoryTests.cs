@@ -28,7 +28,22 @@ namespace Solti.Utils.Eventing.Tests
 
             public virtual void NotAnnotated(string param) { }
 
-            public override bool IsValid => base.IsValid && Param > 0;
+            public override IDictionary<string, object?> ToDict()
+            {
+                IDictionary<string, object?> dict = base.ToDict();
+                dict.Add(nameof(Param), Param);
+                return dict;
+            }
+
+            public override bool FromDict(IDictionary<string, object?> dict)
+            {
+                if (base.FromDict(dict) && dict.TryGetValue(nameof(Param), out object? param) && param is int intParam)
+                {
+                    Param = intParam;
+                    return true;
+                }
+                return false;
+            }
         }
 
         public static IEnumerable<Func<ViewRepository<View>, string, View>> MaterializeFns
@@ -89,9 +104,8 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(view, Is.Not.Null);
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
             Assert.That(view.Param, Is.EqualTo(expected));
-            Assert.That(view, Is.InstanceOf<IEventfulView>());
-            Assert.That(((IEventfulView) view).EventingDisabled, Is.False);
 
+            mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Once);
             mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);
         }
 
@@ -121,7 +135,7 @@ namespace Solti.Utils.Eventing.Tests
                         OwnerRepository = new Mock<IViewRepository>(MockBehavior.Loose).Object,
                         Param = 1986
                     };
-                    return JsonSerializer.Instance.Serialize(view);
+                    return JsonSerializer.Instance.Serialize(view.ToDict());
                 });
             mockLock
                 .InSequence(seq)
@@ -134,15 +148,14 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(view, Is.Not.Null);
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
             Assert.That(view.Param, Is.EqualTo(1986));
-            Assert.That(view, Is.InstanceOf<IEventfulView>());
-            Assert.That(((IEventfulView) view).EventingDisabled, Is.False);
 
+            mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Once);
             mockCache.Verify(c => c.Get("flowId"), Times.Once);
             mockEventStore.Verify(s => s.QueryEvents(It.IsAny<string>()), Times.Never);
         }
 
         [TestCaseSource(nameof(MaterializeFns))]
-        public void Materialize_ShouldReplayEventsOnLayoutMismatch(Func<ViewRepository<View>, string, View> materialize)
+        public void Materialize_ShouldThrowOnLayoutMismatch(Func<ViewRepository<View>, string, View> materialize)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -160,30 +173,19 @@ namespace Solti.Utils.Eventing.Tests
                 .InSequence(seq)
                 .Setup(c => c.Get("flowId"))
                 .Returns(JsonSerializer.Instance.Serialize(new object()));
-            mockEventStore
-                .InSequence(seq)
-                .Setup(s => s.QueryEvents("flowId"))
-                .Returns([new Event { FlowId = "flowId", EventId = "some-event", Arguments = "[1986]" }]);
-            mockEventStore
-                .InSequence(seq)
-                .SetupGet(s => s.Features)
-                .Returns(EventStoreFeatures.None);
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Release("flowId", It.IsAny<string>()));
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
-            using View view = materialize(repo, "flowId");
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => materialize(repo, "flowId"));
+            Assert.That(ex.Message, Is.EqualTo(ERR_LAYOUT_MISMATCH));
 
-            Assert.That(view, Is.Not.Null);
-            Assert.That(view.FlowId, Is.EqualTo("flowId"));
-            Assert.That(view.Param, Is.EqualTo(1986));
-            Assert.That(view, Is.InstanceOf<IEventfulView>());
-            Assert.That(((IEventfulView) view).EventingDisabled, Is.False);
-
+            mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Once);
             mockCache.Verify(c => c.Get("flowId"), Times.Once);
-            mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);
+            mockEventStore.Verify(s => s.QueryEvents(It.IsAny<string>()), Times.Never);
+            mockLock.Verify(l => l.Release("flowId", It.IsAny<string>()), Times.Once);
         }
 
         [TestCaseSource(nameof(MaterializeFns))]
@@ -382,7 +384,7 @@ namespace Solti.Utils.Eventing.Tests
             mockCache
                 .Setup
                 (
-                    c => c.Set("flowId", JsonSerializer.Instance.Serialize(view), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
+                    c => c.Set("flowId", JsonSerializer.Instance.Serialize(view.ToDict()), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
                 )
                 .Returns(true);
 
@@ -423,7 +425,7 @@ namespace Solti.Utils.Eventing.Tests
             mockCache
                 .Setup
                 (
-                    c => c.Set("flowId", JsonSerializer.Instance.Serialize(view), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
+                    c => c.Set("flowId", JsonSerializer.Instance.Serialize(view.ToDict()), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
                 )
                 .Returns(true);
             mockCache

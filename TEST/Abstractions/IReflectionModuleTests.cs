@@ -35,7 +35,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<Action> mockCallback = new(MockBehavior.Strict);
             Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
 
-            View view = CreateInstance<View>().CreateRawView("id", mockRepo.Object);
+            View view = CreateInstance<View>().CreateRawView("id", mockRepo.Object, out _);
             view.AnnotatedCallback = mockCallback.Object;
 
             MockSequence seq = new();
@@ -53,9 +53,9 @@ namespace Solti.Utils.Eventing.Tests
         {
             Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
 
-            View view = CreateInstance<View>().CreateRawView(null!, mockRepo.Object);
+            View view = CreateInstance<View>().CreateRawView(null!, mockRepo.Object, out IEventfulViewConfig viewConfig);
 
-            ((IEventfulView) view).EventingDisabled = true;
+            viewConfig.EventingDisabled = true;
             view.Annotated(1);
 
             mockRepo.Verify(r => r.Persist(It.IsAny<View>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Never);
@@ -67,7 +67,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
             mockRepo.Setup(r => r.Close("flowid"));
 
-            View view = CreateInstance<View>().CreateRawView("flowid", mockRepo.Object);
+            View view = CreateInstance<View>().CreateRawView("flowid", mockRepo.Object, out _);
             view.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => view.Annotated(123));
@@ -80,7 +80,7 @@ namespace Solti.Utils.Eventing.Tests
             Mock<View> mockView = new(MockBehavior.Strict);
             mockView.Setup(v => v.Annotated(1986));
 
-            IReadOnlyDictionary<string, Action<View, string, ISerializer>> dict = CreateInstance<View>().EventProcessors;
+            IReadOnlyDictionary<string, ProcessEventDelegate<View>> dict = CreateInstance<View>().EventProcessors;
 
             Assert.That(dict.Count, Is.EqualTo(1));
             Assert.That(dict, Does.ContainKey("some-event"));
@@ -150,10 +150,10 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Ctor_ShouldThrowOnBadMethodLayout()
         {
-            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewReturningAValue1>().CreateRawView("flowid", new Mock<IViewRepository<ViewReturningAValue1>>(MockBehavior.Strict).Object));
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewReturningAValue1>().CreateRawView("flowid", new Mock<IViewRepository<ViewReturningAValue1>>(MockBehavior.Strict).Object, out _));
             Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_HAS_RETVAL, nameof(ViewReturningAValue1.Annotated))));
 
-            ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewReturningAValue2>().CreateRawView("flowid", new Mock<IViewRepository<ViewReturningAValue2>>(MockBehavior.Strict).Object));
+            ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewReturningAValue2>().CreateRawView("flowid", new Mock<IViewRepository<ViewReturningAValue2>>(MockBehavior.Strict).Object, out _));
             Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_HAS_RETVAL, nameof(ViewReturningAValue2.Annotated))));
         }
     }

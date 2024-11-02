@@ -4,7 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace Solti.Utils.Eventing.Abstractions
 {
@@ -22,23 +22,36 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// The repository that owns this view.
         /// </summary>
-        /// <remarks>This member should not be serialized.</remarks>
-        [IgnoreDataMember] // do not use [JsonIgnore] here as we want a generic way to ignore properties
         public /*required*/ IViewRepository OwnerRepository { get; init; } = null!;
-
-        /// <summary>
-        /// Determines if the current view is valid
-        /// </summary>
-        /// <remarks>This member should not be serialized.</remarks>
-        [IgnoreDataMember]
-        public virtual bool IsValid => !string.IsNullOrWhiteSpace(FlowId);
 
         /// <summary>
         /// Returns true if this instance has been disposed.
         /// </summary>
-        /// <remarks>This member should not be serialized.</remarks>
-        [IgnoreDataMember]
         public bool Disposed { get; private set; }
+
+        /// <summary>
+        /// Setups the view actual state from the given <paramref name="dict"/>. The provided dictionary should support case insensitive queries.
+        /// </summary>
+        public virtual bool FromDict(IDictionary<string, object?> dict)
+        {
+            if (dict is null)
+                throw new ArgumentNullException(nameof(dict));
+
+            //
+            // Just verify that the given flow id is valid
+            //
+
+            return dict.TryGetValue("FlowId", out object? flowId) && flowId?.Equals(FlowId) is true;
+        }
+
+        /// <summary>
+        /// Converts this view to a dictionary.
+        /// </summary>
+        /// <remarks>The returned dictionary is case insensitive.</remarks>
+        public virtual IDictionary<string, object?> ToDict() => new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase)
+        {
+            { nameof(FlowId), FlowId }
+        };
 
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> if the instance had already been disposed.
