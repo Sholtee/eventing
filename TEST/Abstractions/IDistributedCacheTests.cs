@@ -40,7 +40,7 @@ namespace Solti.Utils.Eventing.Tests
         public void Get_ShouldReturnNullIfTheKeyExpired([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
         {
             FCache.Set("key", "value", TimeSpan.FromMilliseconds(1), flags);
-            Thread.Sleep(TimeSpan.FromMilliseconds(1));
+            Thread.Sleep(TimeSpan.FromMilliseconds(20));
             Assert.That(FCache.Get("key"), Is.Null);
         }
 
