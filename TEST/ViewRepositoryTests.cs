@@ -345,7 +345,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(PersistFns))]
-        public void Persist_ShouldThrowIsTheLockIsNotOwned(Action<ViewRepository<View>, View, string, object?[]> persist)
+        public void Persist_ShouldThrowIfTheLockIsNotOwned(Action<ViewRepository<View>, View, string, object?[]> persist)
         {
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
@@ -388,10 +388,10 @@ namespace Solti.Utils.Eventing.Tests
             
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
-                .Setup(s => s.SetEvent(It.Is<Event>(evt => evt.EventId == "some-event" && evt.FlowId == "flowId" && evt.Arguments == "[]")));
-            mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(true);
+
+            Mock<ILogger<ViewRepository<View>>> mockLogger = new(MockBehavior.Strict);
 
             using View view = new()
             {
@@ -402,14 +402,26 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object, logger: mockLogger.Object);
 
+            MockSequence seq = new();
+
+            mockLogger
+                .InSequence(seq)
+                .Setup(l => l.Log(LogLevel.Information, Info.UPDATE_CACHE, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_UPDATE_CACHE, "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
             mockCache
+                .InSequence(seq)
                 .Setup
                 (
                     c => c.Set("flowId", JsonSerializer.Instance.Serialize(view.ToDict()), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
                 )
                 .Returns(true);
+            mockLogger
+                .InSequence(seq)
+                .Setup(l => l.Log(LogLevel.Information, Info.INSERT_EVENT, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_INSERT_EVENT, "some-event", "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
+            mockEventStore
+                .InSequence(seq)
+                .Setup(s => s.SetEvent(It.Is<Event>(evt => evt.EventId == "some-event" && evt.FlowId == "flowId" && evt.Arguments == "[]")));
 
             Assert.DoesNotThrow(() => persist(repo, view, "some-event", []));
 
@@ -443,15 +455,28 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
+            Mock<ILogger<ViewRepository<View>>> mockLogger = new(MockBehavior.Strict);
+            mockLogger
+                .Setup(l => l.Log(LogLevel.Information, Info.UPDATE_CACHE, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_UPDATE_CACHE, "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
+            mockLogger
+                .Setup(l => l.Log(LogLevel.Information, Info.INSERT_EVENT, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_INSERT_EVENT, "some-event", "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
+
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object, logger: mockLogger.Object);
+
+            MockSequence seq = new();
 
             mockCache
+                .InSequence(seq)
                 .Setup
                 (
                     c => c.Set("flowId", JsonSerializer.Instance.Serialize(view.ToDict()), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
                 )
                 .Returns(true);
+            mockLogger
+                .InSequence(seq)
+                .Setup(l => l.Log(LogLevel.Error, Error.EVENT_NOT_SAVED, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_EVENT_NOT_SAVED, "some-event", "flowId", "cica")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
             mockCache
+                .InSequence(seq)
                 .Setup(c => c.Remove("flowId"))
                 .Returns(true);
 
