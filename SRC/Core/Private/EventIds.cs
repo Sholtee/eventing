@@ -13,6 +13,7 @@ namespace Solti.Utils.Eventing.Internals
         {
             public static EventId EVENT_NOT_SAVED { get; } = new(200, nameof(EVENT_NOT_SAVED));
             public static EventId CANNOT_MATERIALIZE { get; } = new(201, nameof(CANNOT_MATERIALIZE));
+            public static EventId CANNOT_CREATE_RAW_VIEW { get; } = new(202, nameof(CANNOT_CREATE_RAW_VIEW));
         }
 
         public static class Warning

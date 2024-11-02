@@ -53,7 +53,7 @@ namespace Solti.Utils.Eventing
                     {
                         Logger?.LogInformation(Info.INIT_SCHEMA, LOG_INIT_SCHEMA);
                         eventStore.InitSchema();
-                        Logger?.LogInformation(Info.SCHEMA_INITIALIZED, LOG_SCHEMA_INIT_DONE);
+                        Logger?.LogInformation(Info.SCHEMA_INITIALIZED, LOG_SCHEMA_INITIALIZED);
                     }
                 }
                 finally
@@ -257,9 +257,12 @@ namespace Solti.Utils.Eventing
 
                 return ReflectionModule.CreateRawView(flowId, this, out _);
             }
-            catch
+            catch(Exception e)
             {
+                Logger?.LogError(Error.CANNOT_CREATE_RAW_VIEW, LOG_CANNOT_CREATE_RAW_VIEW, flowId, e.Message);
+
                 Lock.Release(flowId, RepositoryId);
+
                 throw;
             }
         }
