@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -55,6 +56,7 @@ namespace Solti.Utils.Eventing
                 throw new JsonException(ERR_MALFORMED_ARRAY);
             }
 
+            [ExcludeFromCodeCoverage]
             public override void Write(Utf8JsonWriter writer, object?[] value, JsonSerializerOptions options) => throw new NotImplementedException();
         }
 
@@ -66,8 +68,10 @@ namespace Solti.Utils.Eventing
             {
                 switch (reader.TokenType)
                 {
-                    case JsonTokenType.Null:
-                        return null;
+                    //
+                    // For "null"s the system wont call the converter
+                    //
+
                     case JsonTokenType.False:
                         return false;
                     case JsonTokenType.True:
@@ -105,12 +109,17 @@ namespace Solti.Utils.Eventing
 
                             break;
                         }
-
                         break;
                 }
+
+                //
+                // It might be an assert as i coulnt manage to get here
+                //
+
                 throw new JsonException(ERR_MALFORMED_OBJECT);
             }
 
+            [ExcludeFromCodeCoverage]
             public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options) => throw new NotImplementedException();
 
             public static ObjectConverter Instance { get; } = new();

@@ -12,6 +12,13 @@
       </Exclude>
     </ModulePaths>
 
+    <Attributes>
+      <Exclude>
+        <Attribute>^System\.CodeDom\.Compiler\.GeneratedCodeAttribute$</Attribute>
+        <Attribute>^System\.Diagnostics\.CodeAnalysis\.ExcludeFromCodeCoverageAttribute$</Attribute>
+      </Exclude>
+    </Attributes>
+
     <EnableStaticManagedInstrumentation>True</EnableStaticManagedInstrumentation>
     <EnableDynamicManagedInstrumentation>True</EnableDynamicManagedInstrumentation>
   </CodeCoverage>

@@ -65,7 +65,7 @@ namespace Solti.Utils.Eventing.Tests
                 yield return true;
                 yield return false;
                 yield return 1986;
-                yield return 1986.0;
+                yield return 1986.1026;
                 yield return new object[] { 1, 2.0, "3" };
                 yield return new Dictionary<string, object?> { { "Key1", 1988 }, { "Key2", "string" } };
             }

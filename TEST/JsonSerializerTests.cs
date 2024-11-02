@@ -20,7 +20,7 @@ namespace Solti.Utils.Eventing.Tests
     {
         protected override ISerializer CreateInstance() => JsonSerializer.Instance;
 
-        public static IEnumerable<object[]> TestConvertterInvalidArrayParamz
+        public static IEnumerable<object[]> Deserialize_ShouldThrowOnInvalidMultitypeArrays_Paramz
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Solti.Utils.Eventing.Tests
             }
         }
 
-        [TestCaseSource(nameof(TestConvertterInvalidArrayParamz))]
+        [TestCaseSource(nameof(Deserialize_ShouldThrowOnInvalidMultitypeArrays_Paramz))]
         public void Deserialize_ShouldThrowOnInvalidMultitypeArrays(string str, Type[] types, string err)
         {
             JsonException ex = Assert.Throws<JsonException>(() => JsonSerializer.Instance.Deserialize(str, types))!;
