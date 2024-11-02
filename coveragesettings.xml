@@ -4,11 +4,10 @@
 	
   <CodeCoverage>
     <ModulePaths>
-      <Include />
+      <Include/>
       <Exclude>
-        <ModulePath>Test(S|Logger)</ModulePath>
-        <ModulePath>.*StackExchange.*</ModulePath>
-        <ModulePath>.*Pipelines.*</ModulePath>
+        <ModulePath>^((?!Solti\.Utils\.).)*$</ModulePath>
+        <ModulePath>Tests</ModulePath>
       </Exclude>
     </ModulePaths>
 
