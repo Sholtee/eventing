@@ -128,7 +128,7 @@ namespace Solti.Utils.Eventing
             Cache?.Set
             (
                 view.FlowId,
-                Serializer.Serialize(view),
+                Serializer.Serialize(view.ToDict()),
                 CacheEntryExpiration,
                 DistributedCacheInsertionFlags.AllowOverwrite
             );
@@ -164,75 +164,12 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public TView Materialize(string flowId)
         {
-            TView view;
-
-            if (flowId is null)
-                throw new ArgumentNullException(nameof(flowId));
-
             //
             // Lock the flow
             //
 
-            Lock.Acquire(flowId, RepoId, LockTimeout);
+            Lock.Acquire(flowId ?? throw new ArgumentNullException(nameof(flowId)), RepoId, LockTimeout);
             try
-            {
-                //
-                // Check if we can grab the view from the cache
-                //
-
-                string? cached = Cache?.Get(flowId);
-                if (cached is not null)
-                {
-                    Logger?.LogInformation(new EventId(504, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
-
-                    view = Serializer.Deserialize<TView>(cached)!;
-                    if (view.IsValid)
-                        goto ret;
-
-                    Logger?.LogWarning(new EventId(301, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
-                }
-
-                //
-                // Materialize the view by replaying the events
-                //
-
-                Logger?.LogInformation(new EventId(505, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
-
-                view = CreateRawView();
-
-                IEnumerable<Event> events = EventStore.QueryEvents(flowId);
-
-                //
-                // Do not check the count here to enumerate the events only once
-                //
-
-                int eventCount = 0;
-
-                foreach (Event evt in EventStore.Features.HasFlag(EventStoreFeatures.OrderedQueries) ? events : events.OrderBy(static evt => evt.CreatedUtc))
-                {
-                    if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
-                        throw new InvalidOperationException(Format(ERR_INVALID_EVENT_ID, evt.EventId));
-
-                    processor(view, evt.Arguments, Serializer);
-                    eventCount++;
-                }
-
-                if (eventCount is 0)
-                    throw new ArgumentException(Format(ERR_INVALID_FLOW_ID, flowId), nameof(flowId));
-
-                Logger?.LogInformation(new EventId(506, "PROCESSED_EVENTS"), LOG_EVENTS_PROCESSED, eventCount, flowId);
-
-                ret:
-                    ((IEventfulView) view).EventingDisabled = false;
-                    return view;
-            }
-            catch
-            {
-                Lock.Release(flowId, RepoId);
-                throw;
-            }
-
-            TView CreateRawView()
             {
                 TView view = ReflectionModule.CreateRawView(flowId, this);
 
@@ -242,7 +179,60 @@ namespace Solti.Utils.Eventing
 
                 ((IEventfulView) view).EventingDisabled = true;
 
+                //
+                // Check if we can grab the view from the cache
+                //
+
+                string? cached = Cache?.Get(flowId);
+                if (cached is not null)
+                {
+                    Logger?.LogInformation(new EventId(504, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
+
+                    if (Serializer.Deserialize<object>(cached) is not IDictionary<string, object?> cacheItem || !view.FromDict(cacheItem))
+                    {
+                        Logger?.LogWarning(new EventId(301, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH);
+                        throw new InvalidOperationException(ERR_MALFORMED_OBJECT);
+                    }
+                }
+
+                //
+                // Materialize the view by replaying the events
+                //
+
+                else
+                {
+                    Logger?.LogInformation(new EventId(505, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
+
+                    IEnumerable<Event> events = EventStore.QueryEvents(flowId);
+
+                    //
+                    // Do not check the count here to enumerate the events only once
+                    //
+
+                    int eventCount = 0;
+
+                    foreach (Event evt in EventStore.Features.HasFlag(EventStoreFeatures.OrderedQueries) ? events : events.OrderBy(static evt => evt.CreatedUtc))
+                    {
+                        if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
+                            throw new InvalidOperationException(Format(ERR_INVALID_EVENT_ID, evt.EventId));
+
+                        processor(view, evt.Arguments, Serializer);
+                        eventCount++;
+                    }
+
+                    if (eventCount is 0)
+                        throw new ArgumentException(Format(ERR_INVALID_FLOW_ID, flowId), nameof(flowId));
+
+                    Logger?.LogInformation(new EventId(506, "PROCESSED_EVENTS"), LOG_EVENTS_PROCESSED, eventCount, flowId);
+                }
+
+                ((IEventfulView) view).EventingDisabled = false;
                 return view;
+            }
+            catch
+            {
+                Lock.Release(flowId, RepoId);
+                throw;
             }
         }
 
