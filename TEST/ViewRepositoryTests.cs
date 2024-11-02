@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -14,6 +15,8 @@ using static System.String;
 namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions;
+
+    using static Internals.EventIds;
     using static Properties.Resources;
 
     [TestFixture]
@@ -76,11 +79,17 @@ namespace Solti.Utils.Eventing.Tests
                 .Returns(true);
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            Mock<ILogger<ViewRepository<View>>> mockLogger = new(MockBehavior.Strict);
+            mockLogger
+                .Setup(l => l.Log(LogLevel.Warning, Warning.CACHING_DISABLED, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == LOG_CACHING_DISABLED), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
             MockSequence seq = new();
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
+            mockLogger
+                .InSequence(seq)
+                .Setup(l => l.Log(LogLevel.Information, Info.REPLAY_EVENTS, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_REPLAY_EVENTS, "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
             mockEventStore
                 .InSequence(seq)
                 .Setup(s => s.QueryEvents("flowId"))
@@ -93,11 +102,14 @@ namespace Solti.Utils.Eventing.Tests
                 .InSequence(seq)
                 .SetupGet(s => s.Features)
                 .Returns(features);
+            mockLogger
+                .InSequence(seq)
+                .Setup(l => l.Log(LogLevel.Information, Info.PROCESSED_EVENTS, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_EVENTS_PROCESSED, 2, "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Release("flowId", It.IsAny<string>()));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, logger: mockLogger.Object);
 
             using View view = materialize(repo, "flowId");
 
@@ -119,6 +131,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            Mock<ILogger<ViewRepository<View>>> mockLogger = new(MockBehavior.Strict);
 
             MockSequence seq = new();
             mockLock
@@ -137,11 +150,14 @@ namespace Solti.Utils.Eventing.Tests
                     };
                     return JsonSerializer.Instance.Serialize(view.ToDict());
                 });
+            mockLogger
+                .InSequence(seq)
+                .Setup(l => l.Log(LogLevel.Information, Info.CACHE_ENTRY_FOUND, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_CACHE_ENTRY_FOUND, "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Release("flowId", It.IsAny<string>()));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object, logger: mockLogger.Object);
 
             using View view = materialize(repo, "flowId");
 
@@ -163,6 +179,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Returns(true);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
+            Mock<ILogger<ViewRepository<View>>> mockLogger = new(MockBehavior.Strict);
 
             MockSequence seq = new();
 
@@ -176,6 +193,12 @@ namespace Solti.Utils.Eventing.Tests
             mockLock
                 .InSequence(seq)
                 .Setup(l => l.Release("flowId", It.IsAny<string>()));
+            mockLogger
+                .InSequence(seq)
+                .Setup(l => l.Log(LogLevel.Information, Info.CACHE_ENTRY_FOUND, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_CACHE_ENTRY_FOUND, "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
+            mockLogger
+                .InSequence(seq)
+                .Setup(l => l.Log(LogLevel.Error, Error.CANNOT_MATERIALIZE, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_CANNOT_MATERIALIZE, "flowId", ERR_LAYOUT_MISMATCH)), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 

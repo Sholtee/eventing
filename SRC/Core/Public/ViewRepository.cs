@@ -15,6 +15,7 @@ namespace Solti.Utils.Eventing
     using Internals;
 
     using static Properties.Resources;
+    using static Internals.EventIds;
 
     /// <summary>
     /// View repository
@@ -28,7 +29,7 @@ namespace Solti.Utils.Eventing
         /// <summary>
         /// Creates a new <see cref="ViewRepository{TView}"/> instance
         /// </summary>
-        public ViewRepository(IEventStore eventStore, IDistributedLock @lock, ISerializer? serializer = null, IReflectionModule<TView>? reflectionModule = null, IDistributedCache? cache = null, ILogger? logger = null)
+        public ViewRepository(IEventStore eventStore, IDistributedLock @lock, ISerializer? serializer = null, IReflectionModule<TView>? reflectionModule = null, IDistributedCache? cache = null, ILogger<ViewRepository<TView>>? logger = null)
         {
             EventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             Lock = @lock ?? throw new ArgumentNullException(nameof(@lock));
@@ -39,25 +40,25 @@ namespace Solti.Utils.Eventing
             Logger = logger;
             Cache = cache;
             if (Cache is null)
-                Logger?.LogWarning(new EventId(300, "CACHING_DISABLED"), LOG_CACHING_DISABLED);
+                Logger?.LogWarning(Warning.CACHING_DISABLED, LOG_CACHING_DISABLED);
    
-            RepoId = CreateGuid();
+            RepositoryId = CreateGuid();
 
             if (!eventStore.SchemaInitialized)
             {
-                Lock.Acquire(SCHEMA_INIT_LOCK_NAME, RepoId, LockTimeout);
+                Lock.Acquire(SCHEMA_INIT_LOCK_NAME, RepositoryId, LockTimeout);
                 try
                 {
                     if (!eventStore.SchemaInitialized)
                     {
-                        Logger?.LogInformation(new EventId(500, "INIT_SCHEMA"), LOG_INIT_SCHEMA);
+                        Logger?.LogInformation(Info.INIT_SCHEMA, LOG_INIT_SCHEMA);
                         eventStore.InitSchema();
-                        Logger?.LogInformation(new EventId(501, "SCHEMA_INITIALIZED"), LOG_SCHEMA_INIT_DONE);
+                        Logger?.LogInformation(Info.SCHEMA_INITIALIZED, LOG_SCHEMA_INIT_DONE);
                     }
                 }
                 finally
                 {
-                    Lock.Release(SCHEMA_INIT_LOCK_NAME, RepoId);
+                    Lock.Release(SCHEMA_INIT_LOCK_NAME, RepositoryId);
                 }
             }
         }
@@ -95,7 +96,7 @@ namespace Solti.Utils.Eventing
         /// <summary>
         /// The unique id of this repository.
         /// </summary>
-        public string RepoId { get; }
+        public string RepositoryId { get; }
 
         /// <summary>
         /// Gets or sets the cache expiraton.
@@ -119,10 +120,10 @@ namespace Solti.Utils.Eventing
             if (args is null)
                 throw new ArgumentNullException(nameof(args));
 
-            if (!Lock.IsHeld(view.FlowId, RepoId))
+            if (!Lock.IsHeld(view.FlowId, RepositoryId))
                 throw new InvalidOperationException(ERR_NO_LOCK);
 
-            Logger?.LogInformation(new EventId(502, "UPDATE_CACHE"), LOG_UPDATE_CACHE, view.FlowId);
+            Logger?.LogInformation(Info.UPDATE_CACHE, LOG_UPDATE_CACHE, view.FlowId);
 
             Cache?.Set
             (
@@ -132,7 +133,7 @@ namespace Solti.Utils.Eventing
                 DistributedCacheInsertionFlags.AllowOverwrite
             );
 
-            Logger?.LogInformation(new EventId(503, "INSERT_EVENT"), LOG_INSERT_EVENT, eventId, view.FlowId);
+            Logger?.LogInformation(Info.INSERT_EVENT, LOG_INSERT_EVENT, eventId, view.FlowId);
 
             try
             {
@@ -146,8 +147,10 @@ namespace Solti.Utils.Eventing
                     }
                 );
             }
-            catch
+            catch(Exception e)
             {
+                Logger?.LogError(Error.EVENT_NOT_SAVED, LOG_EVENT_NOT_SAVED, eventId, view.FlowId, e.Message);
+
                 //
                 // Drop the cache to prevent inconsistent state
                 //
@@ -158,7 +161,7 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public void Close(string flowId) => Lock.Release(flowId ?? throw new ArgumentNullException(nameof(flowId)), RepoId);
+        public void Close(string flowId) => Lock.Release(flowId ?? throw new ArgumentNullException(nameof(flowId)), RepositoryId);
 
         /// <inheritdoc/>
         public TView Materialize(string flowId)
@@ -167,7 +170,7 @@ namespace Solti.Utils.Eventing
             // Lock the flow
             //
 
-            Lock.Acquire(flowId ?? throw new ArgumentNullException(nameof(flowId)), RepoId, LockTimeout);
+            Lock.Acquire(flowId ?? throw new ArgumentNullException(nameof(flowId)), RepositoryId, LockTimeout);
             try
             {
                 TView view = ReflectionModule.CreateRawView(flowId, this, out IEventfulViewConfig viewConfig);
@@ -185,13 +188,10 @@ namespace Solti.Utils.Eventing
                 string? cached = Cache?.Get(flowId);
                 if (cached is not null)
                 {
-                    Logger?.LogInformation(new EventId(504, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
+                    Logger?.LogInformation(Info.CACHE_ENTRY_FOUND, LOG_CACHE_ENTRY_FOUND, flowId);
 
                     if (Serializer.Deserialize<object>(cached) is not IDictionary<string, object?> cacheItem || !view.FromDict(cacheItem))
-                    {
-                        Logger?.LogError(new EventId(200, "LAYOUT_MISMATCH"), LOG_LAYOUT_MISMATCH, flowId);
-                        throw new InvalidOperationException(ERR_LAYOUT_MISMATCH).WithArgs((nameof(flowId), flowId));
-                    }
+                        throw new InvalidOperationException(ERR_LAYOUT_MISMATCH).WithData((nameof(flowId), flowId));
                 }
 
                 //
@@ -200,7 +200,7 @@ namespace Solti.Utils.Eventing
 
                 else
                 {
-                    Logger?.LogInformation(new EventId(505, "REPLAY_EVENTS"), LOG_REPLAY_EVENTS, flowId);
+                    Logger?.LogInformation(Info.REPLAY_EVENTS, LOG_REPLAY_EVENTS, flowId);
 
                     IEnumerable<Event> events = EventStore.QueryEvents(flowId);
 
@@ -213,36 +213,27 @@ namespace Solti.Utils.Eventing
                     foreach (Event evt in EventStore.Features.HasFlag(EventStoreFeatures.OrderedQueries) ? events : events.OrderBy(static evt => evt.CreatedUtc))
                     {
                         if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out ProcessEventDelegate<TView> processor))
-                        {
-                            Logger?.LogError(new EventId(201, "PROCESSOR_NOT_FOUND"), LOG_INVALID_EVENT_ID, evt.EventId, flowId);
-                            throw new InvalidOperationException(ERR_INVALID_EVENT_ID).WithArgs(("eventId", evt.EventId), (nameof(flowId), flowId));
-                        }
+                            throw new InvalidOperationException(ERR_INVALID_EVENT_ID).WithData(("eventId", evt.EventId), (nameof(flowId), flowId));
 
-                        try
-                        {
-                            processor(view, evt.Arguments, Serializer);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger?.LogError(new EventId(202, "PROCESSOR_ERROR"), LOG_EVENT_PROCESSOR_ERROR, evt.EventId, flowId, e.Message);
-                            throw;
-                        }
-
+                        processor(view, evt.Arguments, Serializer);
                         eventCount++;
                     }
 
                     if (eventCount is 0)
-                        throw new ArgumentException(ERR_INVALID_FLOW_ID).WithArgs((nameof(flowId), flowId));
+                        throw new ArgumentException(ERR_INVALID_FLOW_ID).WithData((nameof(flowId), flowId));
 
-                    Logger?.LogInformation(new EventId(506, "PROCESSED_EVENTS"), LOG_EVENTS_PROCESSED, eventCount, flowId);
+                    Logger?.LogInformation(Info.PROCESSED_EVENTS, LOG_EVENTS_PROCESSED, eventCount, flowId);
                 }
 
                 viewConfig.EventingDisabled = false;
                 return view;
             }
-            catch
+            catch(Exception e)
             {
-                Lock.Release(flowId, RepoId);
+                Logger?.LogError(Error.CANNOT_MATERIALIZE, LOG_CANNOT_MATERIALIZE, flowId, e.Message);
+ 
+                Lock.Release(flowId, RepositoryId);
+  
                 throw;
             }
         }
@@ -256,19 +247,19 @@ namespace Solti.Utils.Eventing
             // Lock the flow
             //
 
-            Lock.Acquire(flowId, RepoId, LockTimeout);
+            Lock.Acquire(flowId, RepositoryId, LockTimeout);
             try
             {
                 if (EventStore.QueryEvents(flowId).Any())
-                    throw new ArgumentException(ERR_FLOW_ID_ALREADY_EXISTS, nameof(flowId)).WithArgs((nameof(flowId), flowId));
+                    throw new ArgumentException(ERR_FLOW_ID_ALREADY_EXISTS, nameof(flowId)).WithData((nameof(flowId), flowId));
 
-                Logger?.LogInformation(new EventId(505, "CREATE_RAW_VIEW"), LOG_CREATE_RAW_VIEW, flowId);
+                Logger?.LogInformation(Info.CREATE_RAW_VIEW, LOG_CREATE_RAW_VIEW, flowId);
 
                 return ReflectionModule.CreateRawView(flowId, this, out _);
             }
             catch
             {
-                Lock.Release(flowId, RepoId);
+                Lock.Release(flowId, RepositoryId);
                 throw;
             }
         }
