@@ -5,11 +5,8 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
 
 using SerializerCore = System.Text.Json.JsonSerializer;
 
@@ -23,31 +20,16 @@ namespace Solti.Utils.Eventing
     public sealed class JsonSerializer : Singleton<JsonSerializer>, ISerializer
     {
         #region Private
-        private static void DetectIgnoreDataMemberAttribute(JsonTypeInfo typeInfo)
-        {
-            if (typeInfo.Kind is JsonTypeInfoKind.Object)
-            {
-                foreach (JsonPropertyInfo propertyInfo in typeInfo.Properties)
-                {
-                    if (propertyInfo.AttributeProvider is ICustomAttributeProvider provider && provider.IsDefined(typeof(IgnoreDataMemberAttribute), inherit: true))
-                    {
-                        //
-                        // Disable both serialization and deserialization
-                        //
-
-                        propertyInfo.Get = null;
-                        propertyInfo.Set = null;
-                    }
-                }
-            }
-        }
-
         private sealed class MultiTypeArrayConverter(IReadOnlyList<Type> ElementTypes) : JsonConverter<object?[]>
         {
             public override object?[] Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {
                 if (reader.TokenType is JsonTokenType.StartArray)
                 {
+                    //
+                    // Only the top level array should be converted by this logic
+                    //
+
                     options = new JsonSerializerOptions(options);
                     options.Converters.Remove(this);
 
@@ -76,29 +58,69 @@ namespace Solti.Utils.Eventing
             public override void Write(Utf8JsonWriter writer, object?[] value, JsonSerializerOptions options) => throw new NotImplementedException();
         }
 
-        private sealed class CustomConstructorContractResolver<T>(Func<T> Constructor) : DefaultJsonTypeInfoResolver
+        private sealed class ObjectConverter : JsonConverter<object>
         {
-            public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
-            {
-                JsonTypeInfo jsonTypeInfo = base.GetTypeInfo(type, options);
-                if (jsonTypeInfo.Type == typeof(T))
-                    jsonTypeInfo.CreateObject = () => Constructor()!;
+            private ObjectConverter() { }
 
-                return jsonTypeInfo;
+            public override object? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                switch (reader.TokenType)
+                {
+                    case JsonTokenType.Null:
+                        return null;
+                    case JsonTokenType.False:
+                        return false;
+                    case JsonTokenType.True:
+                        return true;
+                    case JsonTokenType.String:
+                        return reader.GetString();
+                    case JsonTokenType.Number:
+                        if (reader.TryGetInt32(out int i))
+                            return i;
+                        if (reader.TryGetDouble(out double d))
+                            return d;
+                        break;
+                    case JsonTokenType.StartArray:
+                        for (List<object?> list = []; reader.Read();)
+                        {
+                            if (reader.TokenType == JsonTokenType.EndArray)
+                                return list;
+                            list.Add(Read(ref reader, typeof(object), options));
+                        }
+                        break;
+                    case JsonTokenType.StartObject:
+                        for (Dictionary<string, object?> dict = []; reader.Read();)
+                        {
+                            if (reader.TokenType is JsonTokenType.EndObject)
+                                return dict;
+
+                            if (reader.TokenType is JsonTokenType.PropertyName)
+                            {
+                                string key = reader.GetString()!;
+
+                                reader.Read();
+                                dict.Add(key, Read(ref reader, typeof(object), options));
+                                continue;
+                            }
+
+                            break;
+                        }
+
+                        break;
+                }
+                throw new JsonException(ERR_MALFORMED_OBJECT);
             }
+
+            public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options) => throw new NotImplementedException();
+
+            public static ObjectConverter Instance { get; } = new();
         }
         #endregion
 
-        public T? Deserialize<T>(string utf8String, Func<T>? ctor)
+        public T? Deserialize<T>(string utf8String)
         {
-            JsonSerializerOptions opts;
-
-            if (ctor is not null)
-            {
-                opts = new(Options);
-                opts.TypeInfoResolver = new CustomConstructorContractResolver<T>(ctor);
-            }
-            else opts = Options; 
+            JsonSerializerOptions opts = new(Options);
+            opts.Converters.Add(ObjectConverter.Instance);
 
             return SerializerCore.Deserialize<T>(utf8String, opts);
         }
@@ -107,19 +129,13 @@ namespace Solti.Utils.Eventing
         {
             JsonSerializerOptions opts = new(Options);
             opts.Converters.Add(new MultiTypeArrayConverter(types));
+            opts.Converters.Add(ObjectConverter.Instance);
 
             return SerializerCore.Deserialize<object?[]>(utf8String, opts)!;
         }
 
         public string Serialize<T>(T? val) => SerializerCore.Serialize(val, Options);
 
-        public JsonSerializerOptions Options { get; set; } = new JsonSerializerOptions
-        {
-            TypeInfoResolver = new DefaultJsonTypeInfoResolver
-            {
-                Modifiers = { DetectIgnoreDataMemberAttribute }
-            },
-            IgnoreReadOnlyProperties = true
-        };
+        public JsonSerializerOptions Options { get; set; } = JsonSerializerOptions.Default;
     }
 }

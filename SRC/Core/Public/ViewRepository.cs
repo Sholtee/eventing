@@ -185,7 +185,7 @@ namespace Solti.Utils.Eventing
                 {
                     Logger?.LogInformation(new EventId(504, "CACHE_ENTRY_FOUND"), LOG_CACHE_ENTRY_FOUND, flowId);
 
-                    view = Serializer.Deserialize(cached, CreateRawView)!;
+                    view = Serializer.Deserialize<TView>(cached)!;
                     if (view.IsValid)
                         goto ret;
 

@@ -21,7 +21,7 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// Deserializes a value
         /// </summary>
-        T? Deserialize<T>(string utf8String, Func<T>? ctor = null);
+        T? Deserialize<T>(string utf8String);
 
         /// <summary>
         /// Deserializes a multi-type array

@@ -131,7 +131,18 @@ namespace Solti.Utils.Eventing.Properties {
                 return ResourceManager.GetString("ERR_MALFORMED_ARRAY", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Malformed object.
+        /// </summary>
+        internal static string ERR_MALFORMED_OBJECT
+        {
+            get
+            {
+                return ResourceManager.GetString("ERR_MALFORMED_OBJECT", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Lock must be held before make changes to the repository.
         /// </summary>

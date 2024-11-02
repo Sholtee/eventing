@@ -183,4 +183,7 @@
   <data name="LOG_EVENTS_PROCESSED" xml:space="preserve">
     <value>{0} event(s) processed for: "{1}"</value>
   </data>
+  <data name="ERR_MALFORMED_OBJECT" xml:space="preserve">
+    <value>Malformed object</value>
+  </data>
 </root>
