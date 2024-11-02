@@ -27,8 +27,6 @@ namespace Solti.Utils.Eventing.Tests
             public virtual void Annotated(int param) => Param = param;
 
             public virtual void NotAnnotated(string param) { }
-
-            public override bool IsValid => base.IsValid && Param > 0;
         }
 
         public static IEnumerable<Func<ViewRepository<View>, string, View>> MaterializeFns
@@ -89,8 +87,6 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(view, Is.Not.Null);
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
             Assert.That(view.Param, Is.EqualTo(expected));
-            Assert.That(view, Is.InstanceOf<IEventfulView>());
-            Assert.That(((IEventfulView) view).EventingDisabled, Is.False);
 
             mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);
         }
@@ -134,8 +130,6 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(view, Is.Not.Null);
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
             Assert.That(view.Param, Is.EqualTo(1986));
-            Assert.That(view, Is.InstanceOf<IEventfulView>());
-            Assert.That(((IEventfulView) view).EventingDisabled, Is.False);
 
             mockCache.Verify(c => c.Get("flowId"), Times.Once);
             mockEventStore.Verify(s => s.QueryEvents(It.IsAny<string>()), Times.Never);
@@ -179,8 +173,6 @@ namespace Solti.Utils.Eventing.Tests
             Assert.That(view, Is.Not.Null);
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
             Assert.That(view.Param, Is.EqualTo(1986));
-            Assert.That(view, Is.InstanceOf<IEventfulView>());
-            Assert.That(((IEventfulView) view).EventingDisabled, Is.False);
 
             mockCache.Verify(c => c.Get("flowId"), Times.Once);
             mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);

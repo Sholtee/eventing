@@ -171,13 +171,13 @@ namespace Solti.Utils.Eventing
             Lock.Acquire(flowId ?? throw new ArgumentNullException(nameof(flowId)), RepoId, LockTimeout);
             try
             {
-                TView view = ReflectionModule.CreateRawView(flowId, this);
+                TView view = ReflectionModule.CreateRawView(flowId, this, out IEventfulViewConfig viewConfig);
 
                 //
                 // Disable interceptors while deserializing or replaying the events
                 //
 
-                ((IEventfulView) view).EventingDisabled = true;
+                viewConfig.EventingDisabled = true;
 
                 //
                 // Check if we can grab the view from the cache
@@ -213,7 +213,7 @@ namespace Solti.Utils.Eventing
 
                     foreach (Event evt in EventStore.Features.HasFlag(EventStoreFeatures.OrderedQueries) ? events : events.OrderBy(static evt => evt.CreatedUtc))
                     {
-                        if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out Action<TView, string, ISerializer> processor))
+                        if (!ReflectionModule.EventProcessors.TryGetValue(evt.EventId, out ProcessEventDelegate<TView> processor))
                             throw new InvalidOperationException(Format(ERR_INVALID_EVENT_ID, evt.EventId));
 
                         processor(view, evt.Arguments, Serializer);
@@ -226,7 +226,7 @@ namespace Solti.Utils.Eventing
                     Logger?.LogInformation(new EventId(506, "PROCESSED_EVENTS"), LOG_EVENTS_PROCESSED, eventCount, flowId);
                 }
 
-                ((IEventfulView) view).EventingDisabled = false;
+                viewConfig.EventingDisabled = false;
                 return view;
             }
             catch
@@ -253,7 +253,7 @@ namespace Solti.Utils.Eventing
 
                 Logger?.LogInformation(new EventId(505, "CREATE_RAW_VIEW"), LOG_CREATE_RAW_VIEW, flowId);
 
-                return ReflectionModule.CreateRawView(flowId, this);
+                return ReflectionModule.CreateRawView(flowId, this, out _);
             }
             catch
             {
