@@ -12,11 +12,10 @@ using System.Reflection;
 
 using Castle.DynamicProxy;
 
-using static System.String;
-
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
+    using Internals;
     using Primitives;
     using Primitives.Patterns;
 
@@ -130,17 +129,17 @@ namespace Solti.Utils.Eventing
                     continue;
 
                 if (!method.IsVirtual)
-                    throw new InvalidOperationException(Format(ERR_NOT_VIRTUAL, method.Name));
+                    throw new InvalidOperationException(ERR_NOT_VIRTUAL).WithArgs(("method", method.Name));
 
                 if (processors.ContainsKey(evtAttr.Id))
-                    throw new InvalidOperationException(Format(ERR_DUPLICATE_EVENT_ID, evtAttr.Id));
+                    throw new InvalidOperationException(ERR_DUPLICATE_EVENT_ID).WithArgs(("id", evtAttr.Id));
 
                 IReadOnlyList<Type> argTypes = method
                     .GetParameters()
                     .Select(static p => p.ParameterType)
                     .ToList();
                 if (method.ReturnType != typeof(void) || argTypes.Any(static t => t.IsByRef))
-                    throw new InvalidOperationException(Format(ERR_HAS_RETVAL, method.Name));
+                    throw new InvalidOperationException(ERR_HAS_RETVAL).WithArgs(("method", method.Name));
 
                 ParameterExpression
                     self = Expression.Parameter(viewType, nameof(self)),
