@@ -18,6 +18,9 @@ namespace Solti.Utils.Eventing
 
     using static Properties.Resources;
 
+    /// <summary>
+    /// The default implementation of <see cref="ISerializer"/> interface which uses the <see cref="SerializerCore"/> class under the hood.
+    /// </summary>
     public sealed class JsonSerializer : Singleton<JsonSerializer>, ISerializer
     {
         #region Private
@@ -113,7 +116,7 @@ namespace Solti.Utils.Eventing
                 }
 
                 //
-                // It might be an assert as i coulnt manage to get here
+                // It might be an assert as I couldn't manage to get here
                 //
 
                 throw new JsonException(ERR_MALFORMED_OBJECT);
@@ -126,6 +129,7 @@ namespace Solti.Utils.Eventing
         }
         #endregion
 
+        /// <inheritdoc/>
         public T? Deserialize<T>(string utf8String)
         {
             JsonSerializerOptions opts = new(Options);
@@ -134,6 +138,7 @@ namespace Solti.Utils.Eventing
             return SerializerCore.Deserialize<T>(utf8String, opts);
         }
 
+        /// <inheritdoc/>
         public object?[] Deserialize(string utf8String, IReadOnlyList<Type> types)
         {
             JsonSerializerOptions opts = new(Options);
@@ -143,8 +148,12 @@ namespace Solti.Utils.Eventing
             return SerializerCore.Deserialize<object?[]>(utf8String, opts)!;
         }
 
+        /// <inheritdoc/>
         public string Serialize<T>(T? val) => SerializerCore.Serialize(val, Options);
 
+        /// <summary>
+        /// Options used during serialization
+        /// </summary>
         public JsonSerializerOptions Options { get; set; } = JsonSerializerOptions.Default;
     }
 }
