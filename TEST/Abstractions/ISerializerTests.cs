@@ -7,7 +7,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Moq;
 using NUnit.Framework;
 
 namespace Solti.Utils.Eventing.Tests
@@ -78,11 +77,6 @@ namespace Solti.Utils.Eventing.Tests
 
             object? ret = Serializer.Deserialize<object>(serialized);
             Assert.That(ret, expected is IEnumerable enumerable ? Is.EquivalentTo(enumerable) : Is.EqualTo(expected));
-        }
-
-        internal record MyClass
-        {
-            public int NonIgnored { get; init; }
         }
     }
 }
