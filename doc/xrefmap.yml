@@ -13,6 +13,82 @@ references:
   commentId: N:Solti.Utils.Eventing.Abstractions
   fullName: Solti.Utils.Eventing.Abstractions
   nameWithType: Solti.Utils.Eventing.Abstractions
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1
+  name: CreateRawViewDelegate<TView>
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1
+  name.vb: CreateRawViewDelegate(Of TView)
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView)
+  nameWithType: CreateRawViewDelegate<TView>
+  nameWithType.vb: CreateRawViewDelegate(Of TView)
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.#ctor(System.Object,System.IntPtr)
+  name: CreateRawViewDelegate(Object, IntPtr)
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html#Solti_Utils_Eventing_Abstractions_CreateRawViewDelegate_1__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>.CreateRawViewDelegate(System.Object, System.IntPtr)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView).CreateRawViewDelegate(System.Object, System.IntPtr)
+  nameWithType: CreateRawViewDelegate<TView>.CreateRawViewDelegate(Object, IntPtr)
+  nameWithType.vb: CreateRawViewDelegate(Of TView).CreateRawViewDelegate(Object, IntPtr)
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.#ctor*
+  name: CreateRawViewDelegate
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html#Solti_Utils_Eventing_Abstractions_CreateRawViewDelegate_1__ctor_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.#ctor
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>.CreateRawViewDelegate
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView).CreateRawViewDelegate
+  nameWithType: CreateRawViewDelegate<TView>.CreateRawViewDelegate
+  nameWithType.vb: CreateRawViewDelegate(Of TView).CreateRawViewDelegate
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.BeginInvoke(System.String,Solti.Utils.Eventing.Abstractions.IViewRepository{`0},Solti.Utils.Eventing.Abstractions.IEventfulViewConfig@,System.AsyncCallback,System.Object)
+  name: BeginInvoke(String, IViewRepository<TView>, out IEventfulViewConfig, AsyncCallback, Object)
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html#Solti_Utils_Eventing_Abstractions_CreateRawViewDelegate_1_BeginInvoke_System_String_Solti_Utils_Eventing_Abstractions_IViewRepository__0__Solti_Utils_Eventing_Abstractions_IEventfulViewConfig__System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.BeginInvoke(System.String,Solti.Utils.Eventing.Abstractions.IViewRepository{`0},Solti.Utils.Eventing.Abstractions.IEventfulViewConfig@,System.AsyncCallback,System.Object)
+  name.vb: BeginInvoke(String, IViewRepository(Of TView), ByRef IEventfulViewConfig, AsyncCallback, Object)
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>.BeginInvoke(System.String, Solti.Utils.Eventing.Abstractions.IViewRepository<TView>, out Solti.Utils.Eventing.Abstractions.IEventfulViewConfig, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView).BeginInvoke(System.String, Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView), ByRef Solti.Utils.Eventing.Abstractions.IEventfulViewConfig, System.AsyncCallback, System.Object)
+  nameWithType: CreateRawViewDelegate<TView>.BeginInvoke(String, IViewRepository<TView>, out IEventfulViewConfig, AsyncCallback, Object)
+  nameWithType.vb: CreateRawViewDelegate(Of TView).BeginInvoke(String, IViewRepository(Of TView), ByRef IEventfulViewConfig, AsyncCallback, Object)
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html#Solti_Utils_Eventing_Abstractions_CreateRawViewDelegate_1_BeginInvoke_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.BeginInvoke
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>.BeginInvoke
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView).BeginInvoke
+  nameWithType: CreateRawViewDelegate<TView>.BeginInvoke
+  nameWithType.vb: CreateRawViewDelegate(Of TView).BeginInvoke
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.EndInvoke(Solti.Utils.Eventing.Abstractions.IEventfulViewConfig@,System.IAsyncResult)
+  name: EndInvoke(out IEventfulViewConfig, IAsyncResult)
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html#Solti_Utils_Eventing_Abstractions_CreateRawViewDelegate_1_EndInvoke_Solti_Utils_Eventing_Abstractions_IEventfulViewConfig__System_IAsyncResult_
+  commentId: M:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.EndInvoke(Solti.Utils.Eventing.Abstractions.IEventfulViewConfig@,System.IAsyncResult)
+  name.vb: EndInvoke(ByRef IEventfulViewConfig, IAsyncResult)
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>.EndInvoke(out Solti.Utils.Eventing.Abstractions.IEventfulViewConfig, System.IAsyncResult)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView).EndInvoke(ByRef Solti.Utils.Eventing.Abstractions.IEventfulViewConfig, System.IAsyncResult)
+  nameWithType: CreateRawViewDelegate<TView>.EndInvoke(out IEventfulViewConfig, IAsyncResult)
+  nameWithType.vb: CreateRawViewDelegate(Of TView).EndInvoke(ByRef IEventfulViewConfig, IAsyncResult)
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html#Solti_Utils_Eventing_Abstractions_CreateRawViewDelegate_1_EndInvoke_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.EndInvoke
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>.EndInvoke
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView).EndInvoke
+  nameWithType: CreateRawViewDelegate<TView>.EndInvoke
+  nameWithType.vb: CreateRawViewDelegate(Of TView).EndInvoke
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.Invoke(System.String,Solti.Utils.Eventing.Abstractions.IViewRepository{`0},Solti.Utils.Eventing.Abstractions.IEventfulViewConfig@)
+  name: Invoke(String, IViewRepository<TView>, out IEventfulViewConfig)
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html#Solti_Utils_Eventing_Abstractions_CreateRawViewDelegate_1_Invoke_System_String_Solti_Utils_Eventing_Abstractions_IViewRepository__0__Solti_Utils_Eventing_Abstractions_IEventfulViewConfig__
+  commentId: M:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.Invoke(System.String,Solti.Utils.Eventing.Abstractions.IViewRepository{`0},Solti.Utils.Eventing.Abstractions.IEventfulViewConfig@)
+  name.vb: Invoke(String, IViewRepository(Of TView), ByRef IEventfulViewConfig)
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>.Invoke(System.String, Solti.Utils.Eventing.Abstractions.IViewRepository<TView>, out Solti.Utils.Eventing.Abstractions.IEventfulViewConfig)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView).Invoke(System.String, Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView), ByRef Solti.Utils.Eventing.Abstractions.IEventfulViewConfig)
+  nameWithType: CreateRawViewDelegate<TView>.Invoke(String, IViewRepository<TView>, out IEventfulViewConfig)
+  nameWithType.vb: CreateRawViewDelegate(Of TView).Invoke(String, IViewRepository(Of TView), ByRef IEventfulViewConfig)
+- uid: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.Invoke*
+  name: Invoke
+  href: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html#Solti_Utils_Eventing_Abstractions_CreateRawViewDelegate_1_Invoke_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate`1.Invoke
+  fullName: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate<TView>.Invoke
+  fullName.vb: Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate(Of TView).Invoke
+  nameWithType: CreateRawViewDelegate<TView>.Invoke
+  nameWithType.vb: CreateRawViewDelegate(Of TView).Invoke
 - uid: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags
   name: DistributedCacheInsertionFlags
   href: Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags.html
@@ -241,24 +317,24 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.IDistributedLock.Release
   fullName: Solti.Utils.Eventing.Abstractions.IDistributedLock.Release
   nameWithType: IDistributedLock.Release
-- uid: Solti.Utils.Eventing.Abstractions.IEventfulView
-  name: IEventfulView
-  href: Solti.Utils.Eventing.Abstractions.IEventfulView.html
-  commentId: T:Solti.Utils.Eventing.Abstractions.IEventfulView
-  fullName: Solti.Utils.Eventing.Abstractions.IEventfulView
-  nameWithType: IEventfulView
-- uid: Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
+- uid: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig
+  name: IEventfulViewConfig
+  href: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.IEventfulViewConfig
+  fullName: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig
+  nameWithType: IEventfulViewConfig
+- uid: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.EventingDisabled
   name: EventingDisabled
-  href: Solti.Utils.Eventing.Abstractions.IEventfulView.html#Solti_Utils_Eventing_Abstractions_IEventfulView_EventingDisabled
-  commentId: P:Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
-  fullName: Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
-  nameWithType: IEventfulView.EventingDisabled
-- uid: Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled*
+  href: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.html#Solti_Utils_Eventing_Abstractions_IEventfulViewConfig_EventingDisabled
+  commentId: P:Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.EventingDisabled
+  fullName: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.EventingDisabled
+  nameWithType: IEventfulViewConfig.EventingDisabled
+- uid: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.EventingDisabled*
   name: EventingDisabled
-  href: Solti.Utils.Eventing.Abstractions.IEventfulView.html#Solti_Utils_Eventing_Abstractions_IEventfulView_EventingDisabled_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
-  fullName: Solti.Utils.Eventing.Abstractions.IEventfulView.EventingDisabled
-  nameWithType: IEventfulView.EventingDisabled
+  href: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.html#Solti_Utils_Eventing_Abstractions_IEventfulViewConfig_EventingDisabled_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.EventingDisabled
+  fullName: Solti.Utils.Eventing.Abstractions.IEventfulViewConfig.EventingDisabled
+  nameWithType: IEventfulViewConfig.EventingDisabled
 - uid: Solti.Utils.Eventing.Abstractions.IEventStore
   name: IEventStore
   href: Solti.Utils.Eventing.Abstractions.IEventStore.html
@@ -387,15 +463,15 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize
   fullName: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize
   nameWithType: ISerializer.Deserialize
-- uid: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize``1(System.String,System.Func{``0})
-  name: Deserialize<T>(String, Func<T>)
-  href: Solti.Utils.Eventing.Abstractions.ISerializer.html#Solti_Utils_Eventing_Abstractions_ISerializer_Deserialize__1_System_String_System_Func___0__
-  commentId: M:Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize``1(System.String,System.Func{``0})
-  name.vb: Deserialize(Of T)(String, Func(Of T))
-  fullName: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize<T>(System.String, System.Func<T>)
-  fullName.vb: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize(Of T)(System.String, System.Func(Of T))
-  nameWithType: ISerializer.Deserialize<T>(String, Func<T>)
-  nameWithType.vb: ISerializer.Deserialize(Of T)(String, Func(Of T))
+- uid: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize``1(System.String)
+  name: Deserialize<T>(String)
+  href: Solti.Utils.Eventing.Abstractions.ISerializer.html#Solti_Utils_Eventing_Abstractions_ISerializer_Deserialize__1_System_String_
+  commentId: M:Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize``1(System.String)
+  name.vb: Deserialize(Of T)(String)
+  fullName: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize<T>(System.String)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ISerializer.Deserialize(Of T)(System.String)
+  nameWithType: ISerializer.Deserialize<T>(String)
+  nameWithType.vb: ISerializer.Deserialize(Of T)(String)
 - uid: Solti.Utils.Eventing.Abstractions.ISerializer.Serialize*
   name: Serialize
   href: Solti.Utils.Eventing.Abstractions.ISerializer.html#Solti_Utils_Eventing_Abstractions_ISerializer_Serialize_
@@ -526,6 +602,79 @@ references:
   fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Persist
   nameWithType: IViewRepository<TView>.Persist
   nameWithType.vb: IViewRepository(Of TView).Persist
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1
+  name: ProcessEventDelegate<TView>
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html
+  commentId: T:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1
+  name.vb: ProcessEventDelegate(Of TView)
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView)
+  nameWithType: ProcessEventDelegate<TView>
+  nameWithType.vb: ProcessEventDelegate(Of TView)
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.#ctor(System.Object,System.IntPtr)
+  name: ProcessEventDelegate(Object, IntPtr)
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html#Solti_Utils_Eventing_Abstractions_ProcessEventDelegate_1__ctor_System_Object_System_IntPtr_
+  commentId: M:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.#ctor(System.Object,System.IntPtr)
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>.ProcessEventDelegate(System.Object, System.IntPtr)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView).ProcessEventDelegate(System.Object, System.IntPtr)
+  nameWithType: ProcessEventDelegate<TView>.ProcessEventDelegate(Object, IntPtr)
+  nameWithType.vb: ProcessEventDelegate(Of TView).ProcessEventDelegate(Object, IntPtr)
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.#ctor*
+  name: ProcessEventDelegate
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html#Solti_Utils_Eventing_Abstractions_ProcessEventDelegate_1__ctor_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.#ctor
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>.ProcessEventDelegate
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView).ProcessEventDelegate
+  nameWithType: ProcessEventDelegate<TView>.ProcessEventDelegate
+  nameWithType.vb: ProcessEventDelegate(Of TView).ProcessEventDelegate
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.BeginInvoke(`0,System.String,Solti.Utils.Eventing.Abstractions.ISerializer,System.AsyncCallback,System.Object)
+  name: BeginInvoke(TView, String, ISerializer, AsyncCallback, Object)
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html#Solti_Utils_Eventing_Abstractions_ProcessEventDelegate_1_BeginInvoke__0_System_String_Solti_Utils_Eventing_Abstractions_ISerializer_System_AsyncCallback_System_Object_
+  commentId: M:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.BeginInvoke(`0,System.String,Solti.Utils.Eventing.Abstractions.ISerializer,System.AsyncCallback,System.Object)
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>.BeginInvoke(TView, System.String, Solti.Utils.Eventing.Abstractions.ISerializer, System.AsyncCallback, System.Object)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView).BeginInvoke(TView, System.String, Solti.Utils.Eventing.Abstractions.ISerializer, System.AsyncCallback, System.Object)
+  nameWithType: ProcessEventDelegate<TView>.BeginInvoke(TView, String, ISerializer, AsyncCallback, Object)
+  nameWithType.vb: ProcessEventDelegate(Of TView).BeginInvoke(TView, String, ISerializer, AsyncCallback, Object)
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.BeginInvoke*
+  name: BeginInvoke
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html#Solti_Utils_Eventing_Abstractions_ProcessEventDelegate_1_BeginInvoke_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.BeginInvoke
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>.BeginInvoke
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView).BeginInvoke
+  nameWithType: ProcessEventDelegate<TView>.BeginInvoke
+  nameWithType.vb: ProcessEventDelegate(Of TView).BeginInvoke
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.EndInvoke(System.IAsyncResult)
+  name: EndInvoke(IAsyncResult)
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html#Solti_Utils_Eventing_Abstractions_ProcessEventDelegate_1_EndInvoke_System_IAsyncResult_
+  commentId: M:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.EndInvoke(System.IAsyncResult)
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>.EndInvoke(System.IAsyncResult)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView).EndInvoke(System.IAsyncResult)
+  nameWithType: ProcessEventDelegate<TView>.EndInvoke(IAsyncResult)
+  nameWithType.vb: ProcessEventDelegate(Of TView).EndInvoke(IAsyncResult)
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.EndInvoke*
+  name: EndInvoke
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html#Solti_Utils_Eventing_Abstractions_ProcessEventDelegate_1_EndInvoke_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.EndInvoke
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>.EndInvoke
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView).EndInvoke
+  nameWithType: ProcessEventDelegate<TView>.EndInvoke
+  nameWithType.vb: ProcessEventDelegate(Of TView).EndInvoke
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.Invoke(`0,System.String,Solti.Utils.Eventing.Abstractions.ISerializer)
+  name: Invoke(TView, String, ISerializer)
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html#Solti_Utils_Eventing_Abstractions_ProcessEventDelegate_1_Invoke__0_System_String_Solti_Utils_Eventing_Abstractions_ISerializer_
+  commentId: M:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.Invoke(`0,System.String,Solti.Utils.Eventing.Abstractions.ISerializer)
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>.Invoke(TView, System.String, Solti.Utils.Eventing.Abstractions.ISerializer)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView).Invoke(TView, System.String, Solti.Utils.Eventing.Abstractions.ISerializer)
+  nameWithType: ProcessEventDelegate<TView>.Invoke(TView, String, ISerializer)
+  nameWithType.vb: ProcessEventDelegate(Of TView).Invoke(TView, String, ISerializer)
+- uid: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.Invoke*
+  name: Invoke
+  href: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html#Solti_Utils_Eventing_Abstractions_ProcessEventDelegate_1_Invoke_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ProcessEventDelegate`1.Invoke
+  fullName: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate<TView>.Invoke
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ProcessEventDelegate(Of TView).Invoke
+  nameWithType: ProcessEventDelegate<TView>.Invoke
+  nameWithType.vb: ProcessEventDelegate(Of TView).Invoke
 - uid: Solti.Utils.Eventing.Abstractions.ViewBase
   name: ViewBase
   href: Solti.Utils.Eventing.Abstractions.ViewBase.html
@@ -592,18 +741,21 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.FlowId
   fullName: Solti.Utils.Eventing.Abstractions.ViewBase.FlowId
   nameWithType: ViewBase.FlowId
-- uid: Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
-  name: IsValid
-  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_IsValid
-  commentId: P:Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
-  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
-  nameWithType: ViewBase.IsValid
-- uid: Solti.Utils.Eventing.Abstractions.ViewBase.IsValid*
-  name: IsValid
-  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_IsValid_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
-  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.IsValid
-  nameWithType: ViewBase.IsValid
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.FromDict(System.Collections.Generic.IDictionary{System.String,System.Object})
+  name: FromDict(IDictionary<String, Object>)
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_FromDict_System_Collections_Generic_IDictionary_System_String_System_Object__
+  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.FromDict(System.Collections.Generic.IDictionary{System.String,System.Object})
+  name.vb: FromDict(IDictionary(Of String, Object))
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.FromDict(System.Collections.Generic.IDictionary<System.String, System.Object>)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.ViewBase.FromDict(System.Collections.Generic.IDictionary(Of System.String, System.Object))
+  nameWithType: ViewBase.FromDict(IDictionary<String, Object>)
+  nameWithType.vb: ViewBase.FromDict(IDictionary(Of String, Object))
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.FromDict*
+  name: FromDict
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_FromDict_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.FromDict
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.FromDict
+  nameWithType: ViewBase.FromDict
 - uid: Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
   name: OwnerRepository
   href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_OwnerRepository
@@ -616,6 +768,18 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
   fullName: Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
   nameWithType: ViewBase.OwnerRepository
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.ToDict
+  name: ToDict()
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_ToDict
+  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.ToDict
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.ToDict()
+  nameWithType: ViewBase.ToDict()
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.ToDict*
+  name: ToDict
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_ToDict_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.ToDict
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.ToDict
+  nameWithType: ViewBase.ToDict
 - uid: Solti.Utils.Eventing.DistributedLock
   name: DistributedLock
   href: Solti.Utils.Eventing.DistributedLock.html
@@ -736,15 +900,15 @@ references:
   commentId: Overload:Solti.Utils.Eventing.JsonSerializer.Deserialize
   fullName: Solti.Utils.Eventing.JsonSerializer.Deserialize
   nameWithType: JsonSerializer.Deserialize
-- uid: Solti.Utils.Eventing.JsonSerializer.Deserialize``1(System.String,System.Func{``0})
-  name: Deserialize<T>(String, Func<T>)
-  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Deserialize__1_System_String_System_Func___0__
-  commentId: M:Solti.Utils.Eventing.JsonSerializer.Deserialize``1(System.String,System.Func{``0})
-  name.vb: Deserialize(Of T)(String, Func(Of T))
-  fullName: Solti.Utils.Eventing.JsonSerializer.Deserialize<T>(System.String, System.Func<T>)
-  fullName.vb: Solti.Utils.Eventing.JsonSerializer.Deserialize(Of T)(System.String, System.Func(Of T))
-  nameWithType: JsonSerializer.Deserialize<T>(String, Func<T>)
-  nameWithType.vb: JsonSerializer.Deserialize(Of T)(String, Func(Of T))
+- uid: Solti.Utils.Eventing.JsonSerializer.Deserialize``1(System.String)
+  name: Deserialize<T>(String)
+  href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Deserialize__1_System_String_
+  commentId: M:Solti.Utils.Eventing.JsonSerializer.Deserialize``1(System.String)
+  name.vb: Deserialize(Of T)(String)
+  fullName: Solti.Utils.Eventing.JsonSerializer.Deserialize<T>(System.String)
+  fullName.vb: Solti.Utils.Eventing.JsonSerializer.Deserialize(Of T)(System.String)
+  nameWithType: JsonSerializer.Deserialize<T>(String)
+  nameWithType.vb: JsonSerializer.Deserialize(Of T)(String)
 - uid: Solti.Utils.Eventing.JsonSerializer.Options
   name: Options
   href: Solti.Utils.Eventing.JsonSerializer.html#Solti_Utils_Eventing_JsonSerializer_Options

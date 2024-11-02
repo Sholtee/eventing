@@ -74,7 +74,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Func&lt;string, IViewRepository&lt;TView&gt;, TView&gt; CreateRawView { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">CreateRawViewDelegate&lt;TView&gt; CreateRawView { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -86,7 +86,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Func</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="Solti.Utils.Eventing.Abstractions.IViewRepository-1.html">IViewRepository</a>&lt;TView&gt;, TView&gt;</td>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.CreateRawViewDelegate-1.html">CreateRawViewDelegate</a>&lt;TView&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -97,7 +97,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IReadOnlyDictionary&lt;string, Action&lt;TView, string, ISerializer&gt;&gt; EventProcessors { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">IReadOnlyDictionary&lt;string, ProcessEventDelegate&lt;TView&gt;&gt; EventProcessors { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -109,7 +109,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IReadOnlyDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Action</span>&lt;TView, <span class="xref">System.String</span>, <a class="xref" href="Solti.Utils.Eventing.Abstractions.ISerializer.html">ISerializer</a>&gt;&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IReadOnlyDictionary</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="Solti.Utils.Eventing.Abstractions.ProcessEventDelegate-1.html">ProcessEventDelegate</a>&lt;TView&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
