@@ -9,7 +9,7 @@ namespace Solti.Utils.Eventing.Internals
 {
     internal static class ExceptionHelpers
     {
-        public static TException WithArgs<TException>(this TException exc, params (string Key, object? Value)[] args) where TException : Exception
+        public static TException WithData<TException>(this TException exc, params (string Key, object? Value)[] args) where TException : Exception
         {
             foreach ((string Key, object? Value) in args)
             {

@@ -196,6 +196,24 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Raw view (&quot;{0}&quot;) cannot be created: &quot;{1}&quot;.
+        /// </summary>
+        internal static string LOG_CANNOT_CREATE_RAW_VIEW {
+            get {
+                return ResourceManager.GetString("LOG_CANNOT_CREATE_RAW_VIEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flow &quot;{0}&quot; cannot be materialized: &quot;{1}&quot;.
+        /// </summary>
+        internal static string LOG_CANNOT_MATERIALIZE {
+            get {
+                return ResourceManager.GetString("LOG_CANNOT_MATERIALIZE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating interceptor for view: &quot;{0}&quot;.
         /// </summary>
         internal static string LOG_CREATE_INTERCEPTOR {
@@ -210,6 +228,15 @@ namespace Solti.Utils.Eventing.Properties {
         internal static string LOG_CREATE_RAW_VIEW {
             get {
                 return ResourceManager.GetString("LOG_CREATE_RAW_VIEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event &quot;{0}&quot; for flow &quot;{1}&quot; cannot be saved: &quot;{2}&quot;.
+        /// </summary>
+        internal static string LOG_EVENT_NOT_SAVED {
+            get {
+                return ResourceManager.GetString("LOG_EVENT_NOT_SAVED", resourceCulture);
             }
         }
         
@@ -279,9 +306,9 @@ namespace Solti.Utils.Eventing.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Schema initialized.
         /// </summary>
-        internal static string LOG_SCHEMA_INIT_DONE {
+        internal static string LOG_SCHEMA_INITIALIZED {
             get {
-                return ResourceManager.GetString("LOG_SCHEMA_INIT_DONE", resourceCulture);
+                return ResourceManager.GetString("LOG_SCHEMA_INITIALIZED", resourceCulture);
             }
         }
         

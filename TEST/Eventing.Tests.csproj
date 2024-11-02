@@ -14,7 +14,7 @@
 		<Optimize>false</Optimize>
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <NoWarn>CA1034;CA1062;CA1707;CA1305;CA1812;CA1852;CA1863;CA2008</NoWarn>
+        <NoWarn>CA1034;CA1062;CA1707;CA1305;CA1812;CA1852;CA1863;CA2008;CA2208</NoWarn>
         <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 	</PropertyGroup>
 

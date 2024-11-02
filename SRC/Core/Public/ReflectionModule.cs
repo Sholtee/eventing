@@ -129,17 +129,17 @@ namespace Solti.Utils.Eventing
                     continue;
 
                 if (!method.IsVirtual)
-                    throw new InvalidOperationException(ERR_NOT_VIRTUAL).WithArgs(("method", method.Name));
+                    throw new InvalidOperationException(ERR_NOT_VIRTUAL).WithData(("method", method.Name));
 
                 if (processors.ContainsKey(evtAttr.Id))
-                    throw new InvalidOperationException(ERR_DUPLICATE_EVENT_ID).WithArgs(("id", evtAttr.Id));
+                    throw new InvalidOperationException(ERR_DUPLICATE_EVENT_ID).WithData(("id", evtAttr.Id));
 
                 IReadOnlyList<Type> argTypes = method
                     .GetParameters()
                     .Select(static p => p.ParameterType)
                     .ToList();
                 if (method.ReturnType != typeof(void) || argTypes.Any(static t => t.IsByRef))
-                    throw new InvalidOperationException(ERR_HAS_RETVAL).WithArgs(("method", method.Name));
+                    throw new InvalidOperationException(ERR_HAS_RETVAL).WithData(("method", method.Name));
 
                 ParameterExpression
                     self = Expression.Parameter(viewType, nameof(self)),

@@ -171,7 +171,7 @@
   <data name="LOG_INIT_SCHEMA" xml:space="preserve">
     <value>Initializing database</value>
   </data>
-  <data name="LOG_SCHEMA_INIT_DONE" xml:space="preserve">
+  <data name="LOG_SCHEMA_INITIALIZED" xml:space="preserve">
     <value>Schema initialized</value>
   </data>
   <data name="LOG_CREATE_RAW_VIEW" xml:space="preserve">
@@ -194,5 +194,14 @@
   </data>
   <data name="LOG_EVENT_PROCESSOR_ERROR" xml:space="preserve">
     <value>Exception occured when processing event ("{0}") for "{1}": "{2}"</value>
+  </data>
+  <data name="LOG_EVENT_NOT_SAVED" xml:space="preserve">
+    <value>Event "{0}" for flow "{1}" cannot be saved: "{2}"</value>
+  </data>
+  <data name="LOG_CANNOT_MATERIALIZE" xml:space="preserve">
+    <value>Flow "{0}" cannot be materialized: "{1}"</value>
+  </data>
+  <data name="LOG_CANNOT_CREATE_RAW_VIEW" xml:space="preserve">
+    <value>Raw view ("{0}") cannot be created: "{1}"</value>
   </data>
 </root>
