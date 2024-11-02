@@ -78,12 +78,12 @@
   <h3 id="constructors">Constructors
   </h3>
   <a id="Solti_Utils_Eventing_ViewRepository_1__ctor_" data-uid="Solti.Utils.Eventing.ViewRepository`1.#ctor*"></a>
-  <h4 id="Solti_Utils_Eventing_ViewRepository_1__ctor_Solti_Utils_Eventing_Abstractions_IEventStore_Solti_Utils_Eventing_Abstractions_IDistributedLock_Solti_Utils_Eventing_Abstractions_ISerializer_Solti_Utils_Eventing_Abstractions_IReflectionModule__0__Solti_Utils_Eventing_Abstractions_IDistributedCache_Microsoft_Extensions_Logging_ILogger_" data-uid="Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger)">ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule&lt;TView&gt;, IDistributedCache, ILogger)</h4>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1__ctor_Solti_Utils_Eventing_Abstractions_IEventStore_Solti_Utils_Eventing_Abstractions_IDistributedLock_Solti_Utils_Eventing_Abstractions_ISerializer_Solti_Utils_Eventing_Abstractions_IReflectionModule__0__Solti_Utils_Eventing_Abstractions_IDistributedCache_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_ViewRepository__0___" data-uid="Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.ViewRepository{`0}})">ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule&lt;TView&gt;, IDistributedCache, ILogger&lt;ViewRepository&lt;TView&gt;&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ViewRepository(IEventStore eventStore, IDistributedLock lock, ISerializer serializer = null, IReflectionModule&lt;TView&gt; reflectionModule = null, IDistributedCache cache = null, ILogger logger = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public ViewRepository(IEventStore eventStore, IDistributedLock lock, ISerializer serializer = null, IReflectionModule&lt;TView&gt; reflectionModule = null, IDistributedCache cache = null, ILogger&lt;ViewRepository&lt;TView&gt;&gt; logger = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -121,7 +121,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span></td>
+        <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span>&lt;<a class="xref" href="Solti.Utils.Eventing.ViewRepository-1.html">ViewRepository</a>&lt;TView&gt;&gt;</td>
         <td><span class="parametername">logger</span></td>
         <td></td>
       </tr>
@@ -290,13 +290,13 @@
       </tr>
     </tbody>
   </table>
-  <a id="Solti_Utils_Eventing_ViewRepository_1_RepoId_" data-uid="Solti.Utils.Eventing.ViewRepository`1.RepoId*"></a>
-  <h4 id="Solti_Utils_Eventing_ViewRepository_1_RepoId" data-uid="Solti.Utils.Eventing.ViewRepository`1.RepoId">RepoId</h4>
+  <a id="Solti_Utils_Eventing_ViewRepository_1_RepositoryId_" data-uid="Solti.Utils.Eventing.ViewRepository`1.RepositoryId*"></a>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_RepositoryId" data-uid="Solti.Utils.Eventing.ViewRepository`1.RepositoryId">RepositoryId</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string RepoId { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string RepositoryId { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">

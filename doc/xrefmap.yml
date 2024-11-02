@@ -1068,15 +1068,15 @@ references:
   fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView)
   nameWithType: ViewRepository<TView>
   nameWithType.vb: ViewRepository(Of TView)
-- uid: Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger)
-  name: ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule<TView>, IDistributedCache, ILogger)
-  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1__ctor_Solti_Utils_Eventing_Abstractions_IEventStore_Solti_Utils_Eventing_Abstractions_IDistributedLock_Solti_Utils_Eventing_Abstractions_ISerializer_Solti_Utils_Eventing_Abstractions_IReflectionModule__0__Solti_Utils_Eventing_Abstractions_IDistributedCache_Microsoft_Extensions_Logging_ILogger_
-  commentId: M:Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger)
-  name.vb: ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule(Of TView), IDistributedCache, ILogger)
-  fullName: Solti.Utils.Eventing.ViewRepository<TView>.ViewRepository(Solti.Utils.Eventing.Abstractions.IEventStore, Solti.Utils.Eventing.Abstractions.IDistributedLock, Solti.Utils.Eventing.Abstractions.ISerializer, Solti.Utils.Eventing.Abstractions.IReflectionModule<TView>, Solti.Utils.Eventing.Abstractions.IDistributedCache, Microsoft.Extensions.Logging.ILogger)
-  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).ViewRepository(Solti.Utils.Eventing.Abstractions.IEventStore, Solti.Utils.Eventing.Abstractions.IDistributedLock, Solti.Utils.Eventing.Abstractions.ISerializer, Solti.Utils.Eventing.Abstractions.IReflectionModule(Of TView), Solti.Utils.Eventing.Abstractions.IDistributedCache, Microsoft.Extensions.Logging.ILogger)
-  nameWithType: ViewRepository<TView>.ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule<TView>, IDistributedCache, ILogger)
-  nameWithType.vb: ViewRepository(Of TView).ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule(Of TView), IDistributedCache, ILogger)
+- uid: Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.ViewRepository{`0}})
+  name: ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule<TView>, IDistributedCache, ILogger<ViewRepository<TView>>)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1__ctor_Solti_Utils_Eventing_Abstractions_IEventStore_Solti_Utils_Eventing_Abstractions_IDistributedLock_Solti_Utils_Eventing_Abstractions_ISerializer_Solti_Utils_Eventing_Abstractions_IReflectionModule__0__Solti_Utils_Eventing_Abstractions_IDistributedCache_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_ViewRepository__0___
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.#ctor(Solti.Utils.Eventing.Abstractions.IEventStore,Solti.Utils.Eventing.Abstractions.IDistributedLock,Solti.Utils.Eventing.Abstractions.ISerializer,Solti.Utils.Eventing.Abstractions.IReflectionModule{`0},Solti.Utils.Eventing.Abstractions.IDistributedCache,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.ViewRepository{`0}})
+  name.vb: ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule(Of TView), IDistributedCache, ILogger(Of ViewRepository(Of TView)))
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.ViewRepository(Solti.Utils.Eventing.Abstractions.IEventStore, Solti.Utils.Eventing.Abstractions.IDistributedLock, Solti.Utils.Eventing.Abstractions.ISerializer, Solti.Utils.Eventing.Abstractions.IReflectionModule<TView>, Solti.Utils.Eventing.Abstractions.IDistributedCache, Microsoft.Extensions.Logging.ILogger<Solti.Utils.Eventing.ViewRepository<TView>>)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).ViewRepository(Solti.Utils.Eventing.Abstractions.IEventStore, Solti.Utils.Eventing.Abstractions.IDistributedLock, Solti.Utils.Eventing.Abstractions.ISerializer, Solti.Utils.Eventing.Abstractions.IReflectionModule(Of TView), Solti.Utils.Eventing.Abstractions.IDistributedCache, Microsoft.Extensions.Logging.ILogger(Of Solti.Utils.Eventing.ViewRepository(Of TView)))
+  nameWithType: ViewRepository<TView>.ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule<TView>, IDistributedCache, ILogger<ViewRepository<TView>>)
+  nameWithType.vb: ViewRepository(Of TView).ViewRepository(IEventStore, IDistributedLock, ISerializer, IReflectionModule(Of TView), IDistributedCache, ILogger(Of ViewRepository(Of TView)))
 - uid: Solti.Utils.Eventing.ViewRepository`1.#ctor*
   name: ViewRepository
   href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1__ctor_
@@ -1262,22 +1262,22 @@ references:
   fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).ReflectionModule
   nameWithType: ViewRepository<TView>.ReflectionModule
   nameWithType.vb: ViewRepository(Of TView).ReflectionModule
-- uid: Solti.Utils.Eventing.ViewRepository`1.RepoId
-  name: RepoId
-  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_RepoId
-  commentId: P:Solti.Utils.Eventing.ViewRepository`1.RepoId
-  fullName: Solti.Utils.Eventing.ViewRepository<TView>.RepoId
-  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).RepoId
-  nameWithType: ViewRepository<TView>.RepoId
-  nameWithType.vb: ViewRepository(Of TView).RepoId
-- uid: Solti.Utils.Eventing.ViewRepository`1.RepoId*
-  name: RepoId
-  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_RepoId_
-  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.RepoId
-  fullName: Solti.Utils.Eventing.ViewRepository<TView>.RepoId
-  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).RepoId
-  nameWithType: ViewRepository<TView>.RepoId
-  nameWithType.vb: ViewRepository(Of TView).RepoId
+- uid: Solti.Utils.Eventing.ViewRepository`1.RepositoryId
+  name: RepositoryId
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_RepositoryId
+  commentId: P:Solti.Utils.Eventing.ViewRepository`1.RepositoryId
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.RepositoryId
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).RepositoryId
+  nameWithType: ViewRepository<TView>.RepositoryId
+  nameWithType.vb: ViewRepository(Of TView).RepositoryId
+- uid: Solti.Utils.Eventing.ViewRepository`1.RepositoryId*
+  name: RepositoryId
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_RepositoryId_
+  commentId: Overload:Solti.Utils.Eventing.ViewRepository`1.RepositoryId
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.RepositoryId
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).RepositoryId
+  nameWithType: ViewRepository<TView>.RepositoryId
+  nameWithType.vb: ViewRepository(Of TView).RepositoryId
 - uid: Solti.Utils.Eventing.ViewRepository`1.Serializer
   name: Serializer
   href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Serializer
