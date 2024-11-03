@@ -1,5 +1,5 @@
 /********************************************************************************
-* ExceptionHelpers.cs                                                           *
+* ExceptionExtensions.cs                                                        *
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
@@ -7,7 +7,7 @@ using System;
 
 namespace Solti.Utils.Eventing.Internals
 {
-    internal static class ExceptionHelpers
+    internal static class ExceptionExtensions
     {
         public static TException WithData<TException>(this TException exc, params (string Key, object? Value)[] args) where TException : Exception
         {
