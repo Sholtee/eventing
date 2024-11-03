@@ -91,24 +91,28 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Acquire_ShouldBlock2()
+        public void Acquire_ShouldBlock2([Values(20)] int pollingInterval, [Values(10000)] int lockTimeout)
         {
             Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
-            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance, mockSleep.Object);
+            TimeSpan
+                delay = TimeSpan.FromMilliseconds(pollingInterval),
+                timeout = TimeSpan.FromMilliseconds(lockTimeout); 
+
+            DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance, mockSleep.Object)
+            {
+                PollingInterval = delay,
+                LockTimeout = timeout
+            };
 
             int sleepCalled = 0;
 
             mockSleep
-                .Setup(s => s.Invoke(@lock.PollingInterval))
+                .Setup(s => s.Invoke(delay))
                 .Callback<TimeSpan>(_ => sleepCalled++);
-
             mockCache
-                .Setup(c => c.Remove("key"))
-                .Returns(true);
-            mockCache
-                .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
+                .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), timeout, DistributedCacheInsertionFlags.None))
                 .Returns<string, string, TimeSpan, DistributedCacheInsertionFlags>((_, _, _, _) => sleepCalled > 1);
 
             Assert.DoesNotThrow(() => @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1)));
@@ -128,10 +132,6 @@ namespace Solti.Utils.Eventing.Tests
             mockSleep
                 .Setup(s => s.Invoke(@lock.PollingInterval))
                 .Callback<TimeSpan>(Thread.Sleep);
-
-            mockCache
-                .Setup(c => c.Remove("key"))
-                .Returns(true);
             mockCache
                 .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
                 .Returns(false);
