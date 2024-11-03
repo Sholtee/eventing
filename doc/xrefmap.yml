@@ -945,6 +945,12 @@ references:
   commentId: T:Solti.Utils.Eventing.RedisCache
   fullName: Solti.Utils.Eventing.RedisCache
   nameWithType: RedisCache
+- uid: Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer)
+  name: RedisCache(IConnectionMultiplexer, ISerializer)
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_StackExchange_Redis_IConnectionMultiplexer_Solti_Utils_Eventing_Abstractions_ISerializer_
+  commentId: M:Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer)
+  fullName: Solti.Utils.Eventing.RedisCache.RedisCache(StackExchange.Redis.IConnectionMultiplexer, Solti.Utils.Eventing.Abstractions.ISerializer)
+  nameWithType: RedisCache.RedisCache(IConnectionMultiplexer, ISerializer)
 - uid: Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer)
   name: RedisCache(String, ISerializer)
   href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_System_String_Solti_Utils_Eventing_Abstractions_ISerializer_
