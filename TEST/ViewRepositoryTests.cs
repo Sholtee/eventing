@@ -250,8 +250,8 @@ namespace Solti.Utils.Eventing.Tests
             mockEventStore.Verify(s => s.QueryEvents("flowId"), Times.Once);
         }
 
-        [TestCaseSource(nameof(MaterializeFns))]
-        public void Materialize_ShouldLock(Func<ViewRepository<View>, string, View> materialize)
+        [Test]
+        public void Materialize_ShouldLock([ValueSource(nameof(MaterializeFns))] Func<ViewRepository<View>, string, View> materialize, [Values(10000)] int lockTimeOut)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -264,15 +264,20 @@ namespace Solti.Utils.Eventing.Tests
                 .SetupGet(s => s.Features)
                 .Returns(EventStoreFeatures.None);
 
+            TimeSpan timeout = TimeSpan.FromMilliseconds(lockTimeOut);
+
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
-            mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), It.IsAny<TimeSpan>()));
+            mockLock.Setup(l => l.Acquire("flowId", It.IsAny<string>(), timeout));
             mockLock.Setup(l => l.Release("flowId", It.IsAny<string>()));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object)
+            {
+                LockTimeout = timeout
+            };
 
             using (View view = materialize(repo, "flowId"))
             {
-                mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>(), repo.LockTimeout), Times.Once);
+                mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>(), timeout), Times.Once);
                 mockLock.Verify(l => l.Release(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             }
             mockLock.Verify(l => l.Release(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
@@ -386,7 +391,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Persist_ShouldStoreTheEvent([ValueSource(nameof(PersistFns))] Action<ViewRepository<View>, View, string, object?[]> persist, [Values(true, false)] bool hasCache, [Values(true, false)] bool hasLogger)
+        public void Persist_ShouldStoreTheEvent([ValueSource(nameof(PersistFns))] Action<ViewRepository<View>, View, string, object?[]> persist, [Values(null, 10000)] int? cacheExpiration, [Values(true, false)] bool hasLogger)
         {
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
@@ -409,9 +414,11 @@ namespace Solti.Utils.Eventing.Tests
                 Param = 1986
             };
 
-            Mock<IDistributedCache>? mockCache = hasCache ? new(MockBehavior.Strict) : null;
+            Mock<IDistributedCache>? mockCache = cacheExpiration.HasValue ? new(MockBehavior.Strict) : null;
             
             ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache?.Object, logger: mockLogger?.Object);
+            if (cacheExpiration.HasValue)
+                repo.CacheEntryExpiration = TimeSpan.FromMilliseconds(cacheExpiration.Value);
 
             MockSequence seq = new();
 
@@ -422,7 +429,7 @@ namespace Solti.Utils.Eventing.Tests
                 .InSequence(seq)
                 .Setup
                 (
-                    c => c.Set("flowId", JsonSerializer.Instance.Serialize(view.ToDict()), repo.CacheEntryExpiration, DistributedCacheInsertionFlags.AllowOverwrite)
+                    c => c.Set("flowId", JsonSerializer.Instance.Serialize(view.ToDict()), TimeSpan.FromMilliseconds(cacheExpiration!.Value), DistributedCacheInsertionFlags.AllowOverwrite)
                 )
                 .Returns(true);
             mockLogger?
