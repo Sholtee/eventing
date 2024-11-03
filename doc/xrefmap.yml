@@ -945,18 +945,24 @@ references:
   commentId: T:Solti.Utils.Eventing.RedisCache
   fullName: Solti.Utils.Eventing.RedisCache
   nameWithType: RedisCache
-- uid: Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer)
-  name: RedisCache(IConnectionMultiplexer, ISerializer)
-  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_StackExchange_Redis_IConnectionMultiplexer_Solti_Utils_Eventing_Abstractions_ISerializer_
-  commentId: M:Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer)
-  fullName: Solti.Utils.Eventing.RedisCache.RedisCache(StackExchange.Redis.IConnectionMultiplexer, Solti.Utils.Eventing.Abstractions.ISerializer)
-  nameWithType: RedisCache.RedisCache(IConnectionMultiplexer, ISerializer)
-- uid: Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer)
-  name: RedisCache(String, ISerializer)
-  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_System_String_Solti_Utils_Eventing_Abstractions_ISerializer_
-  commentId: M:Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer)
-  fullName: Solti.Utils.Eventing.RedisCache.RedisCache(System.String, Solti.Utils.Eventing.Abstractions.ISerializer)
-  nameWithType: RedisCache.RedisCache(String, ISerializer)
+- uid: Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.RedisCache})
+  name: RedisCache(IConnectionMultiplexer, ISerializer, ILogger<RedisCache>)
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_StackExchange_Redis_IConnectionMultiplexer_Solti_Utils_Eventing_Abstractions_ISerializer_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_RedisCache__
+  commentId: M:Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.RedisCache})
+  name.vb: RedisCache(IConnectionMultiplexer, ISerializer, ILogger(Of RedisCache))
+  fullName: Solti.Utils.Eventing.RedisCache.RedisCache(StackExchange.Redis.IConnectionMultiplexer, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger<Solti.Utils.Eventing.RedisCache>)
+  fullName.vb: Solti.Utils.Eventing.RedisCache.RedisCache(StackExchange.Redis.IConnectionMultiplexer, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger(Of Solti.Utils.Eventing.RedisCache))
+  nameWithType: RedisCache.RedisCache(IConnectionMultiplexer, ISerializer, ILogger<RedisCache>)
+  nameWithType.vb: RedisCache.RedisCache(IConnectionMultiplexer, ISerializer, ILogger(Of RedisCache))
+- uid: Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.RedisCache})
+  name: RedisCache(String, ISerializer, ILogger<RedisCache>)
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_System_String_Solti_Utils_Eventing_Abstractions_ISerializer_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_RedisCache__
+  commentId: M:Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.RedisCache})
+  name.vb: RedisCache(String, ISerializer, ILogger(Of RedisCache))
+  fullName: Solti.Utils.Eventing.RedisCache.RedisCache(System.String, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger<Solti.Utils.Eventing.RedisCache>)
+  fullName.vb: Solti.Utils.Eventing.RedisCache.RedisCache(System.String, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger(Of Solti.Utils.Eventing.RedisCache))
+  nameWithType: RedisCache.RedisCache(String, ISerializer, ILogger<RedisCache>)
+  nameWithType.vb: RedisCache.RedisCache(String, ISerializer, ILogger(Of RedisCache))
 - uid: Solti.Utils.Eventing.RedisCache.#ctor*
   name: RedisCache
   href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache__ctor_

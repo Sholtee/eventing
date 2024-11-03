@@ -63,12 +63,12 @@
   <h3 id="constructors">Constructors
   </h3>
   <a id="Solti_Utils_Eventing_RedisCache__ctor_" data-uid="Solti.Utils.Eventing.RedisCache.#ctor*"></a>
-  <h4 id="Solti_Utils_Eventing_RedisCache__ctor_StackExchange_Redis_IConnectionMultiplexer_Solti_Utils_Eventing_Abstractions_ISerializer_" data-uid="Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer)">RedisCache(IConnectionMultiplexer, ISerializer)</h4>
+  <h4 id="Solti_Utils_Eventing_RedisCache__ctor_StackExchange_Redis_IConnectionMultiplexer_Solti_Utils_Eventing_Abstractions_ISerializer_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_RedisCache__" data-uid="Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.RedisCache})">RedisCache(IConnectionMultiplexer, ISerializer, ILogger&lt;RedisCache&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RedisCache(IConnectionMultiplexer connection, ISerializer serializer)</code></pre>
+    <pre><code class="lang-csharp hljs">public RedisCache(IConnectionMultiplexer connection, ISerializer serializer, ILogger&lt;RedisCache&gt; logger = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -90,15 +90,20 @@
         <td><span class="parametername">serializer</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span>&lt;<a class="xref" href="Solti.Utils.Eventing.RedisCache.html">RedisCache</a>&gt;</td>
+        <td><span class="parametername">logger</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <a id="Solti_Utils_Eventing_RedisCache__ctor_" data-uid="Solti.Utils.Eventing.RedisCache.#ctor*"></a>
-  <h4 id="Solti_Utils_Eventing_RedisCache__ctor_System_String_Solti_Utils_Eventing_Abstractions_ISerializer_" data-uid="Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer)">RedisCache(String, ISerializer)</h4>
+  <h4 id="Solti_Utils_Eventing_RedisCache__ctor_System_String_Solti_Utils_Eventing_Abstractions_ISerializer_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_RedisCache__" data-uid="Solti.Utils.Eventing.RedisCache.#ctor(System.String,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.RedisCache})">RedisCache(String, ISerializer, ILogger&lt;RedisCache&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RedisCache(string config, ISerializer serializer)</code></pre>
+    <pre><code class="lang-csharp hljs">public RedisCache(string config, ISerializer serializer, ILogger&lt;RedisCache&gt; logger = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -118,6 +123,11 @@
       <tr>
         <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ISerializer.html">ISerializer</a></td>
         <td><span class="parametername">serializer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span>&lt;<a class="xref" href="Solti.Utils.Eventing.RedisCache.html">RedisCache</a>&gt;</td>
+        <td><span class="parametername">logger</span></td>
         <td></td>
       </tr>
     </tbody>
