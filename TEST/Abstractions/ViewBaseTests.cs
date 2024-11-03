@@ -38,6 +38,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
                 yield return [new Dictionary<string, object?> { { "FlowId", "flowId" } }, true];
                 yield return [new Dictionary<string, object?> { { "FlowId", "otherId" } }, false];
                 yield return [new Dictionary<string, object?> { { "FlowId", 1986 } }, false];
+                yield return [new Dictionary<string, object?> { { "FlowId", null } }, false];
                 yield return [new Dictionary<string, object?> { }, false];
             }
         }
