@@ -19,6 +19,8 @@ namespace Solti.Utils.Eventing.Internals
         public static class Warning
         {
             public static EventId CACHING_DISABLED { get; } = new(300, nameof(CACHING_DISABLED));
+            public static EventId ACQUIRE_LOCK_TIMEOUT { get; } = new(301, nameof(ACQUIRE_LOCK_TIMEOUT));
+            public static EventId FOREIGN_LOCK_RELEASE { get; } = new(301, nameof(FOREIGN_LOCK_RELEASE));
         }
 
         public static class Info
@@ -31,6 +33,8 @@ namespace Solti.Utils.Eventing.Internals
             public static EventId REPLAY_EVENTS { get; } = new(505, nameof(REPLAY_EVENTS));
             public static EventId PROCESSED_EVENTS { get; } = new(506, nameof(PROCESSED_EVENTS));
             public static EventId CREATE_RAW_VIEW { get; } = new(507, nameof(CREATE_RAW_VIEW));
+            public static EventId ACQUIRE_LOCK { get; } = new(508, nameof(ACQUIRE_LOCK));
+            public static EventId RELEASE_LOCK { get; } = new(509, nameof(RELEASE_LOCK));
         }
     }
 }

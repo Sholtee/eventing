@@ -97,6 +97,15 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attempt to relese lock that doesn&apos;t belong to owner.
+        /// </summary>
+        internal static string ERR_FOREIGN_LOCK_RELEASE {
+            get {
+                return ResourceManager.GetString("ERR_FOREIGN_LOCK_RELEASE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Eventized method may not return a value.
         /// </summary>
         internal static string ERR_HAS_RETVAL {
@@ -174,6 +183,24 @@ namespace Solti.Utils.Eventing.Properties {
         internal static string LOCK_NOT_HELD {
             get {
                 return ResourceManager.GetString("LOCK_NOT_HELD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Acquire lock for &quot;{0}&quot; by owner &quot;{1}&quot;.
+        /// </summary>
+        internal static string LOG_ACQUIRE_LOCK {
+            get {
+                return ResourceManager.GetString("LOG_ACQUIRE_LOCK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lock (&quot;{0}&quot;) acquisition for owner &quot;{1}&quot; timed out after: {2}ms.
+        /// </summary>
+        internal static string LOG_ACQUIRE_LOCK_TIMEOUT {
+            get {
+                return ResourceManager.GetString("LOG_ACQUIRE_LOCK_TIMEOUT", resourceCulture);
             }
         }
         
@@ -259,6 +286,15 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attempt to release lock &quot;{0}&quot; that doesn&apos;t belong to owner &quot;{1}&quot;.
+        /// </summary>
+        internal static string LOG_FOREIGN_LOCK_RELEASE {
+            get {
+                return ResourceManager.GetString("LOG_FOREIGN_LOCK_RELEASE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initializing database.
         /// </summary>
         internal static string LOG_INIT_SCHEMA {
@@ -291,6 +327,15 @@ namespace Solti.Utils.Eventing.Properties {
         internal static string LOG_LAYOUT_MISMATCH {
             get {
                 return ResourceManager.GetString("LOG_LAYOUT_MISMATCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Release lock for &quot;{0}&quot; by owner &quot;{1}&quot;.
+        /// </summary>
+        internal static string LOG_RELEASE_LOCK {
+            get {
+                return ResourceManager.GetString("LOG_RELEASE_LOCK", resourceCulture);
             }
         }
         

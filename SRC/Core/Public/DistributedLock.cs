@@ -7,20 +7,25 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
+using Microsoft.Extensions.Logging;
+
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
-    using Properties;
+    using Internals;
+
+    using static Internals.EventIds;
+    using static Properties.Resources;
 
     /// <summary>
     /// Implements global locking mechanism over the <see cref="IDistributedCache"/> interface.
     /// </summary>
-    public sealed class DistributedLock(IDistributedCache cache, ISerializer serializer, Action<TimeSpan> sleep /*for testing*/): IDistributedLock
+    public sealed class DistributedLock(IDistributedCache cache, ISerializer serializer, ILogger<DistributedLock>? logger, Action<TimeSpan> sleep /*for testing*/): IDistributedLock
     {
         #region Private
         private sealed class LockEntry
         {
-            public string OwnerId { get; init; } = null!;
+            public required string OwnerId { get; init; }
         }
 
         private static string GetLockKey(string key) => $"lock_{key ?? throw new ArgumentNullException(nameof(key))}";
@@ -29,7 +34,7 @@ namespace Solti.Utils.Eventing
         /// <summary>
         /// Creates a new <see cref="DistributedLock"/> instance.
         /// </summary>
-        public DistributedLock(IDistributedCache cache, ISerializer serializer) : this(cache, serializer, Thread.Sleep) { }
+        public DistributedLock(IDistributedCache cache, ISerializer serializer, ILogger<DistributedLock>? logger = null) : this(cache, serializer, logger, Thread.Sleep) { }
 
         /// <summary>
         /// Gets or sets the polling interval to be used
@@ -44,7 +49,12 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public void Acquire(string key, string ownerId, TimeSpan timeout)
         {
-            key = GetLockKey(key);
+            //
+            // "key" is validated by GetLockKey() method
+            //
+
+            string prefixedKey = GetLockKey(key);
+
             string entry = serializer.Serialize
             (
                 new LockEntry
@@ -53,12 +63,17 @@ namespace Solti.Utils.Eventing
                 }
             );
 
-            for(Stopwatch sw = Stopwatch.StartNew(); !cache.Set(key, entry, LockTimeout, DistributedCacheInsertionFlags.None); )
+            logger?.LogInformation(Info.ACQUIRE_LOCK, LOG_ACQUIRE_LOCK, key, ownerId);
+
+            for (Stopwatch sw = Stopwatch.StartNew(); !cache.Set(prefixedKey, entry, LockTimeout, DistributedCacheInsertionFlags.None); )
             {
                 sleep(PollingInterval);
 
                 if (sw.Elapsed > timeout)
-                    throw new TimeoutException();
+                {
+                    logger?.LogWarning(Warning.ACQUIRE_LOCK_TIMEOUT, LOG_ACQUIRE_LOCK_TIMEOUT, key, ownerId, sw.ElapsedMilliseconds);
+                    throw new TimeoutException().WithData((nameof(timeout), timeout), ("elapsed", sw.Elapsed));
+                }
             }
         }
 
@@ -85,7 +100,17 @@ namespace Solti.Utils.Eventing
         public void Release(string key, string ownerId)
         {
             if (!IsHeld(key, ownerId))
-                throw new InvalidOperationException(Resources.ERR_NO_LOCK);
+            {
+                logger?.LogWarning(Warning.FOREIGN_LOCK_RELEASE, LOG_FOREIGN_LOCK_RELEASE, key, ownerId);
+                throw new InvalidOperationException(ERR_FOREIGN_LOCK_RELEASE).WithData((nameof(key), key), (nameof(ownerId), ownerId));
+            }
+
+            logger?.LogInformation(Info.RELEASE_LOCK, LOG_RELEASE_LOCK, key, ownerId);
+
+            //
+            // Invoking IsHeld() should refresh the expiration so it's sure we still own the lock here
+            // 
+
             cache.Remove(GetLockKey(key));
         }
     }

@@ -204,4 +204,19 @@
   <data name="LOG_CANNOT_CREATE_RAW_VIEW" xml:space="preserve">
     <value>Raw view ("{0}") cannot be created: "{1}"</value>
   </data>
+  <data name="LOG_ACQUIRE_LOCK" xml:space="preserve">
+    <value>Acquire lock for "{0}" by owner "{1}"</value>
+  </data>
+  <data name="LOG_ACQUIRE_LOCK_TIMEOUT" xml:space="preserve">
+    <value>Lock ("{0}") acquisition for owner "{1}" timed out after: {2}ms</value>
+  </data>
+  <data name="LOG_RELEASE_LOCK" xml:space="preserve">
+    <value>Release lock for "{0}" by owner "{1}"</value>
+  </data>
+  <data name="LOG_FOREIGN_LOCK_RELEASE" xml:space="preserve">
+    <value>Attempt to release lock "{0}" that doesn't belong to owner "{1}"</value>
+  </data>
+  <data name="ERR_FOREIGN_LOCK_RELEASE" xml:space="preserve">
+    <value>Attempt to relese lock that doesn't belong to owner</value>
+  </data>
 </root>

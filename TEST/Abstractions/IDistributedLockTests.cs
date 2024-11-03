@@ -117,7 +117,7 @@ namespace Solti.Utils.Eventing.Tests
             try
             {
                 InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => @lock.Release("mylock", "unknown"))!;
-                Assert.That(ex.Message, Is.EqualTo(Resources.ERR_NO_LOCK));
+                Assert.That(ex.Message, Is.EqualTo(Resources.ERR_FOREIGN_LOCK_RELEASE));
             }
             finally
             {
