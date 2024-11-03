@@ -16,40 +16,56 @@ namespace Solti.Utils.Eventing
     /// </summary>
     /// <param name="config"></param>
     /// <param name="serializer"></param>
-    public sealed class RedisCache(string config, ISerializer serializer) : IDistributedCache
+    public sealed class RedisCache(IConnectionMultiplexer connection, ISerializer serializer) : IDistributedCache
     {
-        private ConnectionMultiplexer FConnection = ConnectionMultiplexer.Connect(config);
+        #region Private
+        private readonly bool FRequireDisposal;
 
         private sealed class CacheEntry
         {
             public required string Value { get; init; }
             public required long Expiration { get; init; }
         }
+        #endregion
+
+        /// <summary>
+        /// Creates a new <see cref="RedisCache"/> instance.
+        /// </summary>
+        public RedisCache(string config, ISerializer serializer) : this(ConnectionMultiplexer.Connect(config), serializer) =>
+            FRequireDisposal = true;
 
         /// <summary>
         /// Closes the underlying database connection
         /// </summary>
         public void Dispose()
         {
-            FConnection?.Dispose();
-            FConnection = null!;
+            if (FRequireDisposal)
+            {
+                connection?.Dispose();
+                connection = null!;
+            }
         }
 
         /// <inheritdoc/>
         public string? Get(string key)
         {
-            IDatabase db = FConnection.GetDatabase();
+            IDatabase db = connection.GetDatabase();
 
             //
             // db.StringGetWithExpiry(key) wont work here as it returns the time left instead of the original span.
             // 
-            // Also db.Touch() wont reset the expiration so we need to reset the expiration by hand.
+            // db.Touch() doesn't reset the expiration either so we need to do it by hand.
             //
 
             string? value = db.StringGet(key);
             if (value is not null)
             {
                 CacheEntry entry = serializer.Deserialize<CacheEntry>(value)!;
+
+                //
+                // The key might get expired while we reached here
+                //
+
                 if (db.KeyExpire(key, TimeSpan.FromTicks(entry.Expiration)))
                     return entry.Value;
             }
@@ -60,7 +76,7 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public bool Remove(string key)
         {
-            IDatabase db = FConnection.GetDatabase();
+            IDatabase db = connection.GetDatabase();
 
             return db.KeyDelete(key);
         }
@@ -68,7 +84,7 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public bool Set(string key, string value, TimeSpan slidingExpiration, DistributedCacheInsertionFlags flags)
         {
-            IDatabase db = FConnection.GetDatabase();
+            IDatabase db = connection.GetDatabase();
 
             return db.StringSet
             (
