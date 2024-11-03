@@ -58,7 +58,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         }
 
         [Test]
-        public void ToDict_ShouldAProperDict()
+        public void ToDict_ShouldConvertTheView()
         {
             Mock<IViewRepository> mockRepo = new(MockBehavior.Loose);
 
