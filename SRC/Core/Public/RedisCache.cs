@@ -5,18 +5,22 @@
 ********************************************************************************/
 using System;
 
+using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
 
+    using static Internals.EventIds;
+    using static Properties.Resources;
+
     /// <summary>
     /// Implements the <see cref="IDistributedCache"/> interface over Redis
     /// </summary>
     /// <param name="config"></param>
     /// <param name="serializer"></param>
-    public sealed class RedisCache(IConnectionMultiplexer connection, ISerializer serializer) : IDistributedCache
+    public sealed class RedisCache(IConnectionMultiplexer connection, ISerializer serializer, ILogger<RedisCache>? logger = null) : IDistributedCache
     {
         #region Private
         private readonly bool FRequireDisposal;
@@ -31,7 +35,7 @@ namespace Solti.Utils.Eventing
         /// <summary>
         /// Creates a new <see cref="RedisCache"/> instance.
         /// </summary>
-        public RedisCache(string config, ISerializer serializer) : this(ConnectionMultiplexer.Connect(config), serializer) =>
+        public RedisCache(string config, ISerializer serializer, ILogger<RedisCache>? logger = null) : this(ConnectionMultiplexer.Connect(config), serializer, logger) =>
             FRequireDisposal = true;
 
         /// <summary>
@@ -49,6 +53,11 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public string? Get(string key)
         {
+            if (key is null)
+                throw new ArgumentNullException(nameof(key));
+
+            logger?.LogInformation(Info.GET_CACHE_ITEM, LOG_GET_CACHE_ITEM, key);
+
             IDatabase db = connection.GetDatabase();
 
             //
@@ -61,6 +70,8 @@ namespace Solti.Utils.Eventing
             if (value is not null)
             {
                 CacheEntry entry = serializer.Deserialize<CacheEntry>(value)!;
+
+                logger?.LogInformation(Info.SET_CACHE_ITEM_EXPIRATION, LOG_SET_CACHE_ITEM_EXPIRATION, entry.Expiration, key);
 
                 //
                 // The key might get expired while we reached here
@@ -76,6 +87,11 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public bool Remove(string key)
         {
+            if (key is null)
+                throw new ArgumentNullException(nameof(key));
+
+            logger?.LogInformation(Info.REMOVE_CACHE_ITEM, LOG_REMOVE_CACHE_ITEM, key);
+
             IDatabase db = connection.GetDatabase();
 
             return db.KeyDelete(key);
@@ -84,6 +100,14 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public bool Set(string key, string value, TimeSpan slidingExpiration, DistributedCacheInsertionFlags flags)
         {
+            if (key is null)
+                throw new ArgumentNullException(nameof(key));
+
+            if (value is null)
+                throw new ArgumentNullException(nameof(value));
+
+            logger?.LogInformation(Info.SET_CACHE_ITEM, LOG_SET_CACHE_ITEM, key, slidingExpiration, flags);
+
             IDatabase db = connection.GetDatabase();
 
             return db.StringSet

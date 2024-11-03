@@ -35,6 +35,10 @@ namespace Solti.Utils.Eventing.Internals
             public static EventId CREATE_RAW_VIEW { get; } = new(507, nameof(CREATE_RAW_VIEW));
             public static EventId ACQUIRE_LOCK { get; } = new(508, nameof(ACQUIRE_LOCK));
             public static EventId RELEASE_LOCK { get; } = new(509, nameof(RELEASE_LOCK));
+            public static EventId GET_CACHE_ITEM { get; } = new(510, nameof(GET_CACHE_ITEM));
+            public static EventId SET_CACHE_ITEM_EXPIRATION { get; } = new(511, nameof(SET_CACHE_ITEM_EXPIRATION));
+            public static EventId REMOVE_CACHE_ITEM { get; } = new(512, nameof(REMOVE_CACHE_ITEM));
+            public static EventId SET_CACHE_ITEM { get; } = new(513, nameof(SET_CACHE_ITEM));
         }
     }
 }

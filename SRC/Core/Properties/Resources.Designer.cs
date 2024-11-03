@@ -295,6 +295,15 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Getting cache item for key: &quot;{0}&quot;.
+        /// </summary>
+        internal static string LOG_GET_CACHE_ITEM {
+            get {
+                return ResourceManager.GetString("LOG_GET_CACHE_ITEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initializing database.
         /// </summary>
         internal static string LOG_INIT_SCHEMA {
@@ -340,6 +349,15 @@ namespace Solti.Utils.Eventing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removing cache item: &quot;{0}&quot;.
+        /// </summary>
+        internal static string LOG_REMOVE_CACHE_ITEM {
+            get {
+                return ResourceManager.GetString("LOG_REMOVE_CACHE_ITEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replaying events for view: &quot;{0}&quot;.
         /// </summary>
         internal static string LOG_REPLAY_EVENTS {
@@ -354,6 +372,24 @@ namespace Solti.Utils.Eventing.Properties {
         internal static string LOG_SCHEMA_INITIALIZED {
             get {
                 return ResourceManager.GetString("LOG_SCHEMA_INITIALIZED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting cache value for: &quot;{0}&quot;. Expiration: &quot;{1}&quot;, Flags: &quot;{2}&quot;.
+        /// </summary>
+        internal static string LOG_SET_CACHE_ITEM {
+            get {
+                return ResourceManager.GetString("LOG_SET_CACHE_ITEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting expiration &quot;{0}&quot; for key: &quot;{1}&quot;.
+        /// </summary>
+        internal static string LOG_SET_CACHE_ITEM_EXPIRATION {
+            get {
+                return ResourceManager.GetString("LOG_SET_CACHE_ITEM_EXPIRATION", resourceCulture);
             }
         }
         

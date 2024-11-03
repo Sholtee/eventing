@@ -219,4 +219,16 @@
   <data name="ERR_FOREIGN_LOCK_RELEASE" xml:space="preserve">
     <value>Attempt to relese lock that doesn't belong to owner</value>
   </data>
+  <data name="LOG_GET_CACHE_ITEM" xml:space="preserve">
+    <value>Getting cache item for key: "{0}"</value>
+  </data>
+  <data name="LOG_SET_CACHE_ITEM_EXPIRATION" xml:space="preserve">
+    <value>Setting expiration "{0}" for key: "{1}"</value>
+  </data>
+  <data name="LOG_REMOVE_CACHE_ITEM" xml:space="preserve">
+    <value>Removing cache item: "{0}"</value>
+  </data>
+  <data name="LOG_SET_CACHE_ITEM" xml:space="preserve">
+    <value>Setting cache value for: "{0}". Expiration: "{1}", Flags: "{2}"</value>
+  </data>
 </root>
