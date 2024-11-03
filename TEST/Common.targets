@@ -1,37 +1,37 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-        <Authors>Denes Solti</Authors>
-        <Version>0.0.0</Version>
-        <Configurations>Debug;Release</Configurations>
+        <TargetFrameworks>net472;net8.0</TargetFrameworks>
+        <CheckEolTargetFramework>false</CheckEolTargetFramework>
+        <LangVersion>12</LangVersion>
         <OutputPath>..\..\BIN\$(Configuration)</OutputPath>
         <Nullable>enable</Nullable>
-        <LangVersion>12</LangVersion>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <Configurations>Debug;</Configurations>
+        <Optimize>false</Optimize>
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <NuGetAudit>true</NuGetAudit>
-        <NuGetAuditLevel>moderate</NuGetAuditLevel>
-        <NuGetAuditMode>all</NuGetAuditMode>
+        <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     </PropertyGroup>
-
+    
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.*">
+        <PackageReference Include="Moq" Version="4.*" />
+        <PackageReference Include="NUnit" Version="4.*" />
+        <PackageReference Include="NUnit.Analyzers" Version="4.*">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="PolySharp" Version="1.*">
+        <PackageReference Include="NUnit3TestAdapter" Version="4.*">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+        <PackageReference Include="NunitXml.TestLogger" Version="4.*" />
     </ItemGroup>
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-            <_Parameter1>Solti.Utils.Eventing.Tests</_Parameter1>
-        </AssemblyAttribute>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-            <_Parameter1>Solti.Utils.Eventing.Abstractions.Tests</_Parameter1>
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
-
 </Project>

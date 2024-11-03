@@ -9,10 +9,8 @@ using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 
-namespace Solti.Utils.Eventing.Tests
+namespace Solti.Utils.Eventing.Abstractions.Tests
 {
-    using Abstractions;
-
     using static Properties.Resources;
 
     public abstract class IReflectionModuleTests

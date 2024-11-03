@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-namespace Solti.Utils.Eventing.Tests
+namespace Solti.Utils.Eventing.Abstractions.Tests
 {
-    using Abstractions;
     using Properties;
 
     public abstract class IDistributedLockTests

@@ -9,10 +9,8 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-namespace Solti.Utils.Eventing.Tests
+namespace Solti.Utils.Eventing.Abstractions.Tests
 {
-    using Abstractions;
-
     public abstract class ISerializerTests
     {
         protected abstract ISerializer CreateInstance();

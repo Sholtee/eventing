@@ -12,6 +12,7 @@ using NUnit.Framework;
 namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions;
+    using Abstractions.Tests;
 
     using static Properties.Resources;
 

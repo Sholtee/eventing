@@ -1,11 +1,11 @@
 {
-  "bin": "\\BIN",
-  "solution": "\\Eventing.sln",
-  "app": "\\SRC\\Core\\Eventing.csproj",
-  "vendor": "\\Vendor",
-  "tests": "\\TEST\\Eventing.Tests.csproj",
-  "coverage": ["Solti.Utils.Eventing.dll"],
-  "artifacts": "\\Artifacts",
-  "docsbranch": "gh-pages",
-  "CI": "AppVeyor"
+    "bin": "\\BIN",
+    "solution": "\\Eventing.sln",
+    "app": "\\SRC\\Core\\Eventing.csproj",
+    "vendor": "\\Vendor",
+    "tests": "\\TEST\\*\\*.Tests.csproj",
+    "coverage": [ "Solti.Utils.Eventing.dll" ],
+    "artifacts": "\\Artifacts",
+    "docsbranch": "gh-pages",
+    "CI": "AppVeyor"
 }

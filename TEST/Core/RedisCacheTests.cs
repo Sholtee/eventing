@@ -16,6 +16,7 @@ using static System.String;
 namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions;
+    using Abstractions.Tests;
 
     using static Internals.EventIds;
     using static Properties.Resources;

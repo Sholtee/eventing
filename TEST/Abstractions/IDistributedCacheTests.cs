@@ -8,10 +8,8 @@ using System.Threading;
 
 using NUnit.Framework;
 
-namespace Solti.Utils.Eventing.Tests
+namespace Solti.Utils.Eventing.Abstractions.Tests
 {
-    using Abstractions;
-
     public abstract class IDistributedCacheTests
     {
         private IDistributedCache FCache = null!;

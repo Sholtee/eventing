@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Solti.Utils.Eventing.Abstractions.Tests</AssemblyName>
+        <RootNamespace>Solti.Utils.Eventing.Abstractions.Tests</RootNamespace>
+        <NoWarn>CA1305;CA1707;CA1863;CA2008;</NoWarn>
+    </PropertyGroup>
+
+    <Import Project="..\Common.targets" />
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\SRC\Core\Eventing.csproj" />
+    </ItemGroup>
+</Project>

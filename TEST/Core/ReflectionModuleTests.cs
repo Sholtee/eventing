@@ -3,13 +3,12 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-using System;
-
 using NUnit.Framework;
 
 namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions;
+    using Abstractions.Tests;
 
     [TestFixture]
     public class ReflectionModuleTests : IReflectionModuleTests
