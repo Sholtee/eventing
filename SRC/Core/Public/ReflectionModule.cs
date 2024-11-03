@@ -87,6 +87,19 @@ namespace Solti.Utils.Eventing
 
             return compiler.Register
             (
+                //
+                // (flowId, repo, out config) =>
+                // {
+                //     ViewInterceptor interceptor = new();
+                //     config = interceptor;
+                //     return new ProxyView([interceptor])
+                //     {
+                //         FlowId = flowId,
+                //         OwnerRepository = repo
+                //     };
+                // }
+                //
+
                 Expression.Lambda<CreateRawViewDelegate<TView>>
                 (
                     Expression.Block
@@ -142,7 +155,7 @@ namespace Solti.Utils.Eventing
                     throw new InvalidOperationException(ERR_HAS_RETVAL).WithData(("method", method.Name));
 
                 ParameterExpression
-                    self = Expression.Parameter(viewType, nameof(self)),
+                    view = Expression.Parameter(viewType, nameof(view)),
                     args = Expression.Parameter(typeof(string), nameof(args)),
                     serializer = Expression.Parameter(typeof(ISerializer), nameof(serializer)),
                     argsArray = Expression.Variable(typeof(object?[]), nameof(argsArray));
@@ -172,7 +185,7 @@ namespace Solti.Utils.Eventing
                                 ),
                                 Expression.Call
                                 (
-                                    self,
+                                    view,
                                     method,
                                     argTypes.Select
                                     (
@@ -184,7 +197,7 @@ namespace Solti.Utils.Eventing
                                     )
                                 )
                             ),
-                            parameters: [self, args, serializer]
+                            parameters: [view, args, serializer]
                         )
                     )
                 );
