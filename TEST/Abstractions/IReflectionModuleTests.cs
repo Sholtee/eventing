@@ -4,18 +4,20 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Reflection;
 
 using Moq;
 using NUnit.Framework;
 
 namespace Solti.Utils.Eventing.Abstractions.Tests
 {
-    using static Properties.Resources;
+    using static Eventing.Properties.Resources;
 
     public abstract class IReflectionModuleTests
     {
-        protected internal class View : ViewBase
+        protected internal class View(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
             public Action? AnnotatedCallback { get; set; }
 
@@ -25,7 +27,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             public virtual void NotAnnotated(string param) { }
         }
 
-        protected abstract IReflectionModule<TView> CreateInstance<TView>() where TView: ViewBase, new();
+        protected abstract IReflectionModule<TView> CreateInstance<TView>() where TView: ViewBase;
 
         [Test]
         public void Eventing_ShouldPersistTheState()
@@ -51,7 +53,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         {
             Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
 
-            View view = CreateInstance<View>().CreateRawView(null!, mockRepo.Object, out IEventfulViewConfig viewConfig);
+            View view = CreateInstance<View>().CreateRawView("flowId", mockRepo.Object, out IEventfulViewConfig viewConfig);
 
             viewConfig.EventingDisabled = true;
             view.Annotated(1);
@@ -73,14 +75,23 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         }
 
         [Test]
+        public void Views_ShouldBeAnnotatedByGeneratedCodeAttribute()
+        {
+            using View view = CreateInstance<View>().CreateRawView("flowid", new Mock<IViewRepository<View>>().Object, out _);
+
+            Assert.That(view.GetType().GetCustomAttribute<GeneratedCodeAttribute>(), Is.Not.Null);
+        }
+
+        [Test]
         public void EventProcessors_ShouldCreateAProcessorFunctionForEachEvent()
         {
-            Mock<View> mockView = new(MockBehavior.Strict);
+            Mock<View> mockView = new(MockBehavior.Strict, "flowId", new Mock<IViewRepository>(MockBehavior.Strict).Object);
             mockView.Setup(v => v.Annotated(1986));
 
             IReadOnlyDictionary<string, ProcessEventDelegate<View>> dict = CreateInstance<View>().EventProcessors;
 
-            Assert.That(dict.Count, Is.EqualTo(1));
+            Assert.That(dict.Count, Is.EqualTo(2));
+            Assert.That(dict, Does.ContainKey("@init-view"));
             Assert.That(dict, Does.ContainKey("some-event"));
 
             dict["some-event"](mockView.Object, "[1986]", JsonSerializer.Instance);
@@ -88,7 +99,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             mockView.Verify(v => v.Annotated(1986), Times.Once);
         }
 
-        internal class ViewHavingDuplicateEvent : ViewBase
+        internal class ViewHavingDuplicateEvent(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
             [Event(Id = "some-event")]
             public virtual void Annotated(int param) { }
@@ -104,7 +115,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_DUPLICATE_EVENT_ID, "some-event")));
         }
 
-        internal class ViewHavingNonVirtualEvent : ViewBase
+        internal class ViewHavingNonVirtualEvent(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
             [Event(Id = "some-event")]
             public void Annotated(int param) => _ = this;
@@ -117,7 +128,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_NOT_VIRTUAL, nameof(ViewHavingNonVirtualEvent.Annotated))));
         }
 
-        internal sealed class SealedView : ViewBase
+        internal sealed class SealedView(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
             [Event(Id = "some-event")]
             public void Annotated(int param)  => _ = this;
@@ -130,7 +141,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             Assert.That(ex.Message, Is.EqualTo(ERR_CANNOT_BE_INTERCEPTED));
         }
 
-        internal class ViewReturningAValue1 : ViewBase
+        internal class ViewReturningAValue1(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
             [Event(Id = "some-event")]
             public virtual string Annotated(int param) => "cica";
@@ -139,7 +150,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             public virtual void Annotated(out string param) => param = "cica";
         }
 
-        internal class ViewReturningAValue2 : ViewBase
+        internal class ViewReturningAValue2(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
             [Event(Id = "some-event")]
             public virtual void Annotated(out string param) => param = "cica";
@@ -153,6 +164,18 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 
             ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewReturningAValue2>().CreateRawView("flowid", new Mock<IViewRepository<ViewReturningAValue2>>(MockBehavior.Strict).Object, out _));
             Assert.That(ex.Message, Is.EqualTo(string.Format(ERR_HAS_RETVAL, nameof(ViewReturningAValue2.Annotated))));
+        }
+
+        internal class ViewHavingNastyCotr(string flowId, IViewRepository ownerRepository, object extra) : ViewBase(flowId, ownerRepository)
+        {
+            public object Extra { get; } = extra;
+        }
+
+        [Test]
+        public void Ctor_ShouldThrowOnIncompatibleCtorLayout()
+        {
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => CreateInstance<ViewHavingNastyCotr>().CreateRawView("flowid", new Mock<IViewRepository<ViewHavingNastyCotr>>(MockBehavior.Strict).Object, out _));
+            Assert.That(ex.Message, Is.EqualTo(ERR_NO_COMPATIBLE_CTOR));
         }
     }
 }

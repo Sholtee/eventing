@@ -4,8 +4,8 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -24,14 +24,10 @@ namespace Solti.Utils.Eventing
     /// <summary>
     /// Module holding the reflection related stuffs
     /// </summary>
-    public sealed class ReflectionModule<TView>: Singleton<ReflectionModule<TView>>, IReflectionModule<TView> where TView : ViewBase, new()
+    public sealed class ReflectionModule<TView>: Singleton<ReflectionModule<TView>>, IReflectionModule<TView> where TView : ViewBase
     {
         #region Private
         private static readonly MethodInfo FDeserializeMultiTypeArray = MethodInfoExtractor.Extract<ISerializer>(static s => s.Deserialize(null!, null!));
-
-        private static readonly PropertyInfo
-            FFlowId = PropertyInfoExtractor.Extract<TView, string>(static v => v.FlowId),
-            FOwnerRepo = PropertyInfoExtractor.Extract<TView, object>(static v => v.OwnerRepository);
 
         private sealed class ViewInterceptor : IInterceptor, IEventfulViewConfig
         {
@@ -64,21 +60,32 @@ namespace Solti.Utils.Eventing
 
         private sealed class MyProxyGenerator : ProxyGenerator
         {
+            private ProxyGenerationOptions Options { get; }
+
+            private MyProxyGenerator()
+            {
+                Options = new ProxyGenerationOptions();
+                Options.AdditionalAttributes.Add
+                (
+                    new CustomAttributeInfo
+                    (
+                        typeof(GeneratedCodeAttribute).GetConstructors().Single(),
+                        [nameof(ReflectionModule<TView>), null]
+                    )
+                );
+            }
+
             //
             // CreateClassProxy() uses Activator.CreateInstance() which is... uhm... slow?
             //
 
-            public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [], ProxyGenerationOptions.Default);
+            public Type CreateProxyClass<T>() => CreateClassProxyType(typeof(T), [], Options);
+
+            public static MyProxyGenerator Instance { get; } = new();
         }
 
         private static FutureDelegate<CreateRawViewDelegate<TView>> CreateInterceptorFactory(DelegateCompiler compiler) 
         {
-            MyProxyGenerator proxyGenerator = new();
-            Type t = proxyGenerator.CreateProxyClass<TView>();
-
-            ConstructorInfo ctor = t.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, [typeof(IInterceptor[])], null);
-            Debug.Assert(ctor is not null, "View constructor not found");
-
             ParameterExpression
                 flowId = Expression.Parameter(typeof(string), nameof(flowId)),
                 ownerRepo = Expression.Parameter(typeof(IViewRepository<TView>), nameof(ownerRepo)),
@@ -92,11 +99,7 @@ namespace Solti.Utils.Eventing
                 // {
                 //     ViewInterceptor interceptor = new();
                 //     config = interceptor;
-                //     return new ProxyView([interceptor])
-                //     {
-                //         FlowId = flowId,
-                //         OwnerRepository = repo
-                //     };
+                //     return new ProxyView([interceptor], flowId, repo);
                 // }
                 //
 
@@ -108,15 +111,21 @@ namespace Solti.Utils.Eventing
                         variables: [interceptor],
                         Expression.Assign(interceptor, Expression.New(typeof(ViewInterceptor))),
                         Expression.Assign(config, interceptor),
-                        Expression.MemberInit
+                        Expression.New
                         (
-                            Expression.New
-                            (
-                                ctor,
-                                Expression.NewArrayInit(typeof(IInterceptor), interceptor)
-                            ),
-                            Expression.Bind(FFlowId, flowId),
-                            Expression.Bind(FOwnerRepo, ownerRepo)
+                            MyProxyGenerator
+                                .Instance
+                                .CreateProxyClass<TView>()
+                                .GetConstructor
+                                (
+                                    BindingFlags.Public | BindingFlags.Instance,
+                                    null,
+                                    [typeof(IInterceptor[]), typeof(string), typeof(IViewRepository)],
+                                    null
+                                ) ?? throw new InvalidOperationException(ERR_NO_COMPATIBLE_CTOR),
+                            Expression.NewArrayInit(typeof(IInterceptor), interceptor),
+                            flowId,
+                            ownerRepo
                         )
                     ),
                     flowId,
@@ -135,7 +144,7 @@ namespace Solti.Utils.Eventing
 
             Dictionary<string, FutureDelegate<ProcessEventDelegate<TView>>> processors = [];
           
-            foreach (MethodInfo method in viewType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            foreach (MethodInfo method in viewType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
             {
                 EventAttribute? evtAttr = method.GetCustomAttribute<EventAttribute>();
                 if (evtAttr is null)

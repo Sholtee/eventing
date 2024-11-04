@@ -36,13 +36,13 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Creates a new raw view.
         /// </summary>
         /// <remarks>If the <paramref name="flowId"/> is null, the system will assign a unique value for it</remarks>
-        ViewBase Create(string? flowId);
+        ViewBase Create(string? flowId, object? tag = null);
     }
 
     /// <summary>
     /// Represents an abstract repository to store view instances.
     /// </summary>
-    public interface IViewRepository<TView>: IViewRepository where TView : ViewBase, new()
+    public interface IViewRepository<TView>: IViewRepository where TView : ViewBase
     {
         /// <summary>
         /// Persits the given state
@@ -59,6 +59,6 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Creates a new raw view.
         /// </summary>
         /// <remarks>If the <paramref name="flowId"/> is null, the system will assign a unique value for it</remarks>
-        new TView Create(string? flowId);
+        new TView Create(string? flowId, object? tag = null);
     }
 }

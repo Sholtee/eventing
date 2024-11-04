@@ -3,7 +3,6 @@
 *                                                                               *
 * Author: Denes Solti                                                           *
 ********************************************************************************/
-using System;
 using System.Collections.Generic;
 
 namespace Solti.Utils.Eventing.Abstractions
@@ -11,7 +10,7 @@ namespace Solti.Utils.Eventing.Abstractions
     /// <summary>
     /// Function to crate <typeparamref name="TView"/> instaces.
     /// </summary>
-    public delegate TView CreateRawViewDelegate<TView>(string flowId, IViewRepository<TView> repo, out IEventfulViewConfig config) where TView : ViewBase, new();
+    public delegate TView CreateRawViewDelegate<TView>(string flowId, IViewRepository<TView> repo, out IEventfulViewConfig config) where TView : ViewBase;
 
     /// <summary>
     /// Event processor belonging to a particular event.
@@ -21,7 +20,7 @@ namespace Solti.Utils.Eventing.Abstractions
     /// <summary>
     /// Contract of reflection related dependencies.
     /// </summary>
-    public interface IReflectionModule<TView> where TView : ViewBase, new()
+    public interface IReflectionModule<TView> where TView : ViewBase
     {
         /// <summary>
         /// Event processors belonging to the given <typeparamref name="TView"/>.

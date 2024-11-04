@@ -20,7 +20,7 @@ namespace Solti.Utils.Eventing
     /// <summary>
     /// View repository
     /// </summary>
-    public class ViewRepository<TView>: IViewRepository<TView> where TView: ViewBase, new()
+    public class ViewRepository<TView>: IViewRepository<TView> where TView: ViewBase
     {
         internal const string SCHEMA_INIT_LOCK_NAME = "SCHEMA_INIT_LOCK";
 
@@ -239,7 +239,7 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public TView Create(string? flowId)
+        public TView Create(string? flowId, object? tag)
         {
             flowId ??= CreateGuid();
 
@@ -255,7 +255,10 @@ namespace Solti.Utils.Eventing
 
                 Logger?.LogInformation(Info.CREATE_RAW_VIEW, LOG_CREATE_RAW_VIEW, flowId);
 
-                return ReflectionModule.CreateRawView(flowId, this, out _);
+                TView view = ReflectionModule.CreateRawView(flowId, this, out _);
+                view.Initialize(typeof(TView).FullName, tag);
+
+                return view;
             }
             catch(Exception e)
             {
@@ -271,6 +274,6 @@ namespace Solti.Utils.Eventing
 
         ViewBase IViewRepository.Materialize(string flowId) => Materialize(flowId);
 
-        ViewBase IViewRepository.Create(string? flowId) => Create(flowId);
+        ViewBase IViewRepository.Create(string? flowId, object? tag) => Create(flowId, tag);
     }
 }

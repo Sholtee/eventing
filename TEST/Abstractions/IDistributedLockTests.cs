@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Solti.Utils.Eventing.Abstractions.Tests
 {
-    using Properties;
+    using Eventing.Properties;
 
     public abstract class IDistributedLockTests
     {

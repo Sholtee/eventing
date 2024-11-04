@@ -71,10 +71,8 @@ namespace Solti.Utils.Eventing
             {
                 switch (reader.TokenType)
                 {
-                    //
-                    // For "null"s the system wont call the converter
-                    //
-
+                    case JsonTokenType.Null:
+                        return null;
                     case JsonTokenType.False:
                         return false;
                     case JsonTokenType.True:
