@@ -58,7 +58,7 @@
   <h6><strong>Assembly</strong>: Solti.Utils.Eventing.dll</h6>
   <h5 id="Solti_Utils_Eventing_ViewRepository_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ViewRepository&lt;TView&gt; : Object, IViewRepository&lt;TView&gt;, IViewRepository where TView : ViewBase, new()</code></pre>
+    <pre><code class="lang-csharp hljs">public class ViewRepository&lt;TView&gt; : Object, IViewRepository&lt;TView&gt;, IViewRepository where TView : ViewBase</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -364,12 +364,12 @@
     </tbody>
   </table>
   <a id="Solti_Utils_Eventing_ViewRepository_1_Create_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Create*"></a>
-  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Create_System_String_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Create(System.String)">Create(String)</h4>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Create_System_String_System_Object_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Create(System.String,System.Object)">Create(String, Object)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TView Create(string flowId)</code></pre>
+    <pre><code class="lang-csharp hljs">public TView Create(string flowId, object tag)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -384,6 +384,11 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">tag</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -481,12 +486,12 @@
   <h3 id="eii">Explicit Interface Implementations
   </h3>
   <a id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create*"></a>
-  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String)">IViewRepository.Create(String)</h4>
+  <h4 id="Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_System_Object_" data-uid="Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String,System.Object)">IViewRepository.Create(String, Object)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">ViewBase IViewRepository.Create(string flowId)</code></pre>
+    <pre><code class="lang-csharp hljs">ViewBase IViewRepository.Create(string flowId, object tag)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -501,6 +506,11 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">tag</span></td>
         <td></td>
       </tr>
     </tbody>

@@ -505,12 +505,12 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.IViewRepository.Close
   fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Close
   nameWithType: IViewRepository.Close
-- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
-  name: Create(String)
-  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_
-  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
-  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
-  nameWithType: IViewRepository.Create(String)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String,System.Object)
+  name: Create(String, Object)
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_System_Object_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String,System.Object)
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String, System.Object)
+  nameWithType: IViewRepository.Create(String, Object)
 - uid: Solti.Utils.Eventing.Abstractions.IViewRepository.Create*
   name: Create
   href: Solti.Utils.Eventing.Abstractions.IViewRepository.html#Solti_Utils_Eventing_Abstractions_IViewRepository_Create_
@@ -553,14 +553,14 @@ references:
   fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView)
   nameWithType: IViewRepository<TView>
   nameWithType.vb: IViewRepository(Of TView)
-- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create(System.String)
-  name: Create(String)
-  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Create_System_String_
-  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create(System.String)
-  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>.Create(System.String)
-  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Create(System.String)
-  nameWithType: IViewRepository<TView>.Create(String)
-  nameWithType.vb: IViewRepository(Of TView).Create(String)
+- uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create(System.String,System.Object)
+  name: Create(String, Object)
+  href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Create_System_String_System_Object_
+  commentId: M:Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create(System.String,System.Object)
+  fullName: Solti.Utils.Eventing.Abstractions.IViewRepository<TView>.Create(System.String, System.Object)
+  fullName.vb: Solti.Utils.Eventing.Abstractions.IViewRepository(Of TView).Create(System.String, System.Object)
+  nameWithType: IViewRepository<TView>.Create(String, Object)
+  nameWithType.vb: IViewRepository(Of TView).Create(String, Object)
 - uid: Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create*
   name: Create
   href: Solti.Utils.Eventing.Abstractions.IViewRepository-1.html#Solti_Utils_Eventing_Abstractions_IViewRepository_1_Create_
@@ -681,12 +681,12 @@ references:
   commentId: T:Solti.Utils.Eventing.Abstractions.ViewBase
   fullName: Solti.Utils.Eventing.Abstractions.ViewBase
   nameWithType: ViewBase
-- uid: Solti.Utils.Eventing.Abstractions.ViewBase.#ctor
-  name: ViewBase()
-  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase__ctor
-  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.#ctor
-  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.ViewBase()
-  nameWithType: ViewBase.ViewBase()
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.#ctor(System.String,Solti.Utils.Eventing.Abstractions.IViewRepository)
+  name: ViewBase(String, IViewRepository)
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase__ctor_System_String_Solti_Utils_Eventing_Abstractions_IViewRepository_
+  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.#ctor(System.String,Solti.Utils.Eventing.Abstractions.IViewRepository)
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.ViewBase(System.String, Solti.Utils.Eventing.Abstractions.IViewRepository)
+  nameWithType: ViewBase.ViewBase(String, IViewRepository)
 - uid: Solti.Utils.Eventing.Abstractions.ViewBase.#ctor*
   name: ViewBase
   href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase__ctor_
@@ -768,6 +768,18 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
   fullName: Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository
   nameWithType: ViewBase.OwnerRepository
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.Tag
+  name: Tag
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Tag
+  commentId: P:Solti.Utils.Eventing.Abstractions.ViewBase.Tag
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Tag
+  nameWithType: ViewBase.Tag
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.Tag*
+  name: Tag
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Tag_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.Tag
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Tag
+  nameWithType: ViewBase.Tag
 - uid: Solti.Utils.Eventing.Abstractions.ViewBase.ToDict
   name: ToDict()
   href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_ToDict
@@ -1148,14 +1160,14 @@ references:
   fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Close
   nameWithType: ViewRepository<TView>.Close
   nameWithType.vb: ViewRepository(Of TView).Close
-- uid: Solti.Utils.Eventing.ViewRepository`1.Create(System.String)
-  name: Create(String)
-  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Create_System_String_
-  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Create(System.String)
-  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Create(System.String)
-  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Create(System.String)
-  nameWithType: ViewRepository<TView>.Create(String)
-  nameWithType.vb: ViewRepository(Of TView).Create(String)
+- uid: Solti.Utils.Eventing.ViewRepository`1.Create(System.String,System.Object)
+  name: Create(String, Object)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Create_System_String_System_Object_
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Create(System.String,System.Object)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Create(System.String, System.Object)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Create(System.String, System.Object)
+  nameWithType: ViewRepository<TView>.Create(String, Object)
+  nameWithType.vb: ViewRepository(Of TView).Create(String, Object)
 - uid: Solti.Utils.Eventing.ViewRepository`1.Create*
   name: Create
   href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Create_
@@ -1309,15 +1321,15 @@ references:
   fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Serializer
   nameWithType: ViewRepository<TView>.Serializer
   nameWithType.vb: ViewRepository(Of TView).Serializer
-- uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String)
-  name: IViewRepository.Create(String)
-  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_
-  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String)
-  name.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(String)
-  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
-  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String)
-  nameWithType: ViewRepository<TView>.IViewRepository.Create(String)
-  nameWithType.vb: ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Create(String)
+- uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String,System.Object)
+  name: IViewRepository.Create(String, Object)
+  href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_System_Object_
+  commentId: M:Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create(System.String,System.Object)
+  name.vb: Solti.Utils.Eventing.Abstractions.IViewRepository.Create(String, Object)
+  fullName: Solti.Utils.Eventing.ViewRepository<TView>.Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String, System.Object)
+  fullName.vb: Solti.Utils.Eventing.ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String, System.Object)
+  nameWithType: ViewRepository<TView>.IViewRepository.Create(String, Object)
+  nameWithType.vb: ViewRepository(Of TView).Solti.Utils.Eventing.Abstractions.IViewRepository.Create(String, Object)
 - uid: Solti.Utils.Eventing.ViewRepository`1.Solti#Utils#Eventing#Abstractions#IViewRepository#Create*
   name: IViewRepository.Create
   href: Solti.Utils.Eventing.ViewRepository-1.html#Solti_Utils_Eventing_ViewRepository_1_Solti_Utils_Eventing_Abstractions_IViewRepository_Create_
