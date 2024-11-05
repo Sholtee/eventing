@@ -5,7 +5,6 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -24,7 +23,12 @@ namespace Solti.Utils.Eventing
     public sealed class JsonSerializer : Singleton<JsonSerializer>, ISerializer
     {
         #region Private
-        private sealed class MultiTypeArrayConverter(IReadOnlyList<Type> ElementTypes) : JsonConverter<object?[]>
+#if DEBUG
+        internal
+#else
+        private
+#endif
+        sealed class MultiTypeArrayConverter(IReadOnlyList<Type> elementTypes) : JsonConverter<object?[]>
         {
             public override object?[] Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {
@@ -37,7 +41,7 @@ namespace Solti.Utils.Eventing
                     options = new JsonSerializerOptions(options);
                     options.Converters.Remove(this);
 
-                    object?[] result = new object?[ElementTypes.Count];
+                    object?[] result = new object?[elementTypes.Count];
 
                     for (int i = 0; reader.Read(); i++)
                     {
@@ -52,75 +56,76 @@ namespace Solti.Utils.Eventing
                         if (i == result.Length)
                             throw new JsonException(ERR_ARRAY_LENGTH_NOT_MATCH);
 
-                        result[i] = SerializerCore.Deserialize(ref reader, ElementTypes[i], options);
+                        result[i] = SerializerCore.Deserialize(ref reader, elementTypes[i], options);
                     }
                 }
 
                 throw new JsonException(ERR_MALFORMED_ARRAY);
             }
 
-            [ExcludeFromCodeCoverage]
             public override void Write(Utf8JsonWriter writer, object?[] value, JsonSerializerOptions options) => throw new NotImplementedException();
         }
-
-        private sealed class ObjectConverter : JsonConverter<object>
+#if DEBUG
+        internal
+#else
+        private
+#endif
+        sealed class ObjectConverter : JsonConverter<object>
         {
-            private ObjectConverter() { }
-
-            public override object? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            private bool ReadArray(ref Utf8JsonReader reader, JsonSerializerOptions options, out object array)
             {
-                switch (reader.TokenType)
+                for (List<object?> list = []; reader.Read();)
                 {
-                    case JsonTokenType.Null:
-                        return null;
-                    case JsonTokenType.False:
-                        return false;
-                    case JsonTokenType.True:
+                    if (reader.TokenType == JsonTokenType.EndArray)
+                    {
+                        array = list;
                         return true;
-                    case JsonTokenType.String:
-                        return reader.GetString();
-                    case JsonTokenType.Number:
-                        if (reader.TryGetInt32(out int i))
-                            return i;
-                        if (reader.TryGetDouble(out double d))
-                            return d;
-                        break;
-                    case JsonTokenType.StartArray:
-                        for (List<object?> list = []; reader.Read();)
-                        {
-                            if (reader.TokenType == JsonTokenType.EndArray)
-                                return list;
-                            list.Add(Read(ref reader, typeof(object), options));
-                        }
-                        break;
-                    case JsonTokenType.StartObject:
-                        for (Dictionary<string, object?> dict = []; reader.Read();)
-                        {
-                            if (reader.TokenType is JsonTokenType.EndObject)
-                                return dict;
-
-                            if (reader.TokenType is JsonTokenType.PropertyName)
-                            {
-                                string key = reader.GetString()!;
-
-                                reader.Read();
-                                dict.Add(key, Read(ref reader, typeof(object), options));
-                                continue;
-                            }
-
-                            break;
-                        }
-                        break;
+                    }
+                    list.Add(Read(ref reader, typeof(object), options));
                 }
 
-                //
-                // It might be an assert as I couldn't manage to get here
-                //
-
-                throw new JsonException(ERR_MALFORMED_OBJECT);
+                array = null!;
+                return false;
             }
 
-            [ExcludeFromCodeCoverage]
+            private bool ReadObject(ref Utf8JsonReader reader, JsonSerializerOptions options, out object obj)
+            {
+                for (Dictionary<string, object?> dict = []; reader.Read();)
+                {
+                    if (reader.TokenType is JsonTokenType.EndObject)
+                    {
+                        obj = dict;
+                        return true;
+                    }
+
+                    if (reader.TokenType is JsonTokenType.PropertyName)
+                    {
+                        string key = reader.GetString()!;
+
+                        reader.Read();
+                        dict.Add(key, Read(ref reader, typeof(object), options));
+                        continue;
+                    }
+
+                    break;
+                }
+
+                obj = null!;
+                return false;
+            }
+
+            public override object? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => reader.TokenType switch
+            {
+                JsonTokenType.Null => null,
+                JsonTokenType.False => false,
+                JsonTokenType.True => true,
+                JsonTokenType.String => reader.GetString(),
+                JsonTokenType.Number => reader.TryGetInt32(out int i) ? i : reader.GetDouble(),
+                JsonTokenType.StartArray when ReadArray(ref reader, options, out object array) => array,
+                JsonTokenType.StartObject when ReadObject(ref reader, options, out object obj) => obj,
+                _ => throw new JsonException(ERR_MALFORMED_OBJECT)
+            };
+
             public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options) => throw new NotImplementedException();
 
             public static ObjectConverter Instance { get; } = new();

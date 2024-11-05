@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
 
 using NUnit.Framework;
@@ -39,5 +40,37 @@ namespace Solti.Utils.Eventing.Tests
             JsonException ex = Assert.Throws<JsonException>(() => JsonSerializer.Instance.Deserialize(str, types))!;
             Assert.That(ex.Message, Is.EqualTo(err));
         }
+
+        [Test]
+        public void ObjectConverter_ShouldThrowOnInvalidObject([Values("{", "[", "{/*comment*/")] string input)
+        {
+            JsonSerializer.ObjectConverter converter = new();
+
+            JsonException err = Assert.Throws<JsonException>(() =>
+            {
+                Utf8JsonReader rdr = new  // must be here (CS8175)
+                (
+                    Encoding.UTF8.GetBytes(input),
+                    isFinalBlock: false,
+                    new JsonReaderState
+                    (
+                        new JsonReaderOptions
+                        {
+                            CommentHandling = JsonCommentHandling.Allow
+                        }
+                    )
+                );
+                rdr.Read();
+                converter.Read(ref rdr, null!, null!);
+            });
+
+            Assert.That(err.Message, Is.EqualTo(ERR_MALFORMED_OBJECT));
+        }
+
+        [Test]
+        public void ObjectConverter_ShouldThrowOnWriteCall() => Assert.Throws<NotImplementedException>(() => new JsonSerializer.ObjectConverter().Write(null!, null!, null!));
+
+        [Test]
+        public void MultiTypeArrayConverter_ShouldThrowOnWriteCall() => Assert.Throws<NotImplementedException>(() => new JsonSerializer.MultiTypeArrayConverter(null!).Write(null!, null!, null!));
     }
 }
