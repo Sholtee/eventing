@@ -42,6 +42,29 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
+        public void MultiTypeArrayConverter_ShouldThrowOnInvalidArray([Values("[", "[1,")] string input)
+        {
+            JsonSerializer.MultiTypeArrayConverter converter = new([typeof(int)]);
+
+            JsonException err = Assert.Throws<JsonException>(() =>
+            {
+                Utf8JsonReader rdr = new  // must be here (CS8175)
+                (
+                    Encoding.UTF8.GetBytes(input),
+                    isFinalBlock: false,
+                    default
+                );
+                rdr.Read();
+                converter.Read(ref rdr, null!, JsonSerializerOptions.Default);
+            });
+
+            Assert.That(err.Message, Is.EqualTo(ERR_MALFORMED_ARRAY));
+        }
+
+        [Test]
+        public void MultiTypeArrayConverter_ShouldThrowOnWriteCall() => Assert.Throws<NotImplementedException>(() => new JsonSerializer.MultiTypeArrayConverter(null!).Write(null!, null!, null!));
+
+        [Test]
         public void ObjectConverter_ShouldThrowOnInvalidObject([Values("{", "[", "{/*comment*/")] string input)
         {
             JsonSerializer.ObjectConverter converter = new();
@@ -69,8 +92,5 @@ namespace Solti.Utils.Eventing.Tests
 
         [Test]
         public void ObjectConverter_ShouldThrowOnWriteCall() => Assert.Throws<NotImplementedException>(() => new JsonSerializer.ObjectConverter().Write(null!, null!, null!));
-
-        [Test]
-        public void MultiTypeArrayConverter_ShouldThrowOnWriteCall() => Assert.Throws<NotImplementedException>(() => new JsonSerializer.MultiTypeArrayConverter(null!).Write(null!, null!, null!));
     }
 }
