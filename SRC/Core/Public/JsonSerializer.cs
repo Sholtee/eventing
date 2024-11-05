@@ -120,7 +120,7 @@ namespace Solti.Utils.Eventing
                 JsonTokenType.False => false,
                 JsonTokenType.True => true,
                 JsonTokenType.String => reader.GetString(),
-                JsonTokenType.Number => reader.TryGetInt32(out int i) ? i : reader.GetDouble(),
+                JsonTokenType.Number => reader.TryGetInt32(out int i) ? i : (object) reader.GetDouble(),
                 JsonTokenType.StartArray when ReadArray(ref reader, options, out object array) => array,
                 JsonTokenType.StartObject when ReadObject(ref reader, options, out object obj) => obj,
                 _ => throw new JsonException(ERR_MALFORMED_OBJECT)
