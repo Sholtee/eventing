@@ -88,6 +88,9 @@ namespace Solti.Utils.Eventing.Abstractions
         [Event(Id = "@init-view")]
         internal virtual void Initialize(string classNameOfThis, object? tag)
         {
+            if (classNameOfThis is null)
+                throw new ArgumentNullException(nameof(classNameOfThis));
+
             //
             // Skip the proxy types
             //

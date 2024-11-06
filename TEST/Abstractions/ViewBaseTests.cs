@@ -103,13 +103,28 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         }
 
         [Test]
-        public void Dispose_ShouldCloseTheView()
+        public void Initialize_ShouldBeNullChecked()
+        {
+            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
+            Assert.Throws<ArgumentNullException>(() => view.Initialize(null!, "tag"));
+        }
+
+        [Test]
+        public void Ctor_ShouldBeNullChecked()
+        {
+            Assert.Throws<ArgumentNullException>(() => new TestView(null!, new Mock<IViewRepository>(MockBehavior.Loose).Object));
+            Assert.Throws<ArgumentNullException>(() => new TestView("flowId", null!));
+        }
+
+        [Test]
+        public void Dispose_ShouldCloseTheView([Values(1, 5)] int callCount)
         {
             Mock<IViewRepository> mockRepo = new(MockBehavior.Strict);
             mockRepo.Setup(r => r.Close("flowId"));
 
-            TestView view;
-            using (view = new TestView("flowId", mockRepo.Object)) { }
+            TestView view = new("flowId", mockRepo.Object);
+            for (int i = 0; i < callCount; i++)
+                view.Dispose();
 
             Assert.That(view.Disposed, Is.True);
             mockRepo.Verify(r => r.Close("flowId"), Times.Once);
