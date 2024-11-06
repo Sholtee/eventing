@@ -4,7 +4,6 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 
 using Moq;
@@ -14,17 +13,15 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 {
     using Properties;
 
-    [TestFixture]
-    public class ViewBaseTests
+    public abstract class ViewBaseTests
     {
+        private static TestView CreateView(string flowId, IViewRepository<TestView> ownerRepository) => new(flowId, ownerRepository);
+
         internal class TestView(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
         }
 
-        [GeneratedCode("some tool", "some version")]  // mimic the proxying
-        internal class TestViewProxy(string flowId, IViewRepository ownerRepository) : TestView(flowId, ownerRepository)
-        {
-        }
+        protected abstract TView CreateProxyView<TView>(string flowId, IViewRepository<TView> ownerRepository) where TView : ViewBase;
 
         [Test]
         public void FromDict_ShouldBeNullChecked()
@@ -83,30 +80,24 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             Assert.That(view.ToDict(), Is.EquivalentTo(new Dictionary<string, object?> { { "FlowId", "flowId" }, { "Tag", null } }));
         }
 
-        public static IEnumerable<ViewBase> Initialize_Paramz
-        {
-            get
-            {
-                yield return new TestView("flowId", new Mock<IViewRepository>(MockBehavior.Strict).Object);
-
-                //
-                // Proxy should not affect the invocation
-                //
-
-                yield return new TestViewProxy("flowId", new Mock<IViewRepository>(MockBehavior.Strict).Object);
-            }
-        }
-
         [Test]
-        public void Initialize_ShouldSetTheTag([ValueSource(nameof(Initialize_Paramz))] ViewBase view)
+        public void Initialize_ShouldSetTheTag([Values(true, false)] bool requireProxy)
         {
+            Func<string, IViewRepository<TestView>, TestView> factory = requireProxy ? CreateProxyView<TestView> : CreateView;
+
+            using TestView view = factory("flowId", new Mock<IViewRepository<TestView>>(MockBehavior.Loose).Object);
+
             Assert.DoesNotThrow(() => view.Initialize(typeof(TestView).FullName!, "tag"));
             Assert.That(view.Tag, Is.EqualTo("tag"));
         }
 
         [Test]
-        public void Initialize_ShouldThrowOnTypeNameMismatch([ValueSource(nameof(Initialize_Paramz))] ViewBase view)
+        public void Initialize_ShouldThrowOnTypeNameMismatch([Values(true, false)] bool requireProxy)
         {
+            Func<string, IViewRepository<TestView>, TestView> factory = requireProxy ? CreateProxyView<TestView> : CreateView;
+
+            using TestView view = factory("flowId", new Mock<IViewRepository<TestView>>(MockBehavior.Loose).Object);
+
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => view.Initialize("invalid", "tag"));
             Assert.That(ex.Message, Is.EqualTo(Resources.ERR_VIEW_TYPE_NOT_MATCH));
         }
@@ -117,10 +108,10 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             Mock<IViewRepository> mockRepo = new(MockBehavior.Strict);
             mockRepo.Setup(r => r.Close("flowId"));
 
-            using (TestView view = new("flowId", mockRepo.Object))
-            {
-            }
+            TestView view;
+            using (view = new TestView("flowId", mockRepo.Object)) { }
 
+            Assert.That(view.Disposed, Is.True);
             mockRepo.Verify(r => r.Close("flowId"), Times.Once);
         }
     }
