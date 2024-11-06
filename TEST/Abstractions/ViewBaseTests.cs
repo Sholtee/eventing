@@ -26,9 +26,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         [Test]
         public void FromDict_ShouldBeNullChecked()
         {
-            Mock<IViewRepository> mockRepo = new(MockBehavior.Loose);
-
-            using TestView view = new("flowId", mockRepo.Object);
+            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Assert.Throws<ArgumentNullException>(() => view.FromDict(null!));
         }
@@ -48,9 +46,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         [TestCaseSource(nameof(FromDict_ShouldVerifyTheFlowId_Paramz))]
         public void FromDict_ShouldVerifyTheFlowId(IDictionary<string, object?> dict, bool expected)
         {
-            Mock<IViewRepository> mockRepo = new(MockBehavior.Loose);
-
-            using TestView view = new("flowId", mockRepo.Object);
+            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Assert.That(view.FromDict(dict), Is.EqualTo(expected));
         }
@@ -58,9 +54,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         [Test]
         public void FromDict_ShouldSetTheTag([Values(true, false)] bool available)
         {
-            Mock<IViewRepository> mockRepo = new(MockBehavior.Loose);
-
-            using TestView view = new("flowId", mockRepo.Object);
+            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Dictionary<string, object?> d = new() { { "FlowId", "flowId" } };
             if (available)
@@ -73,9 +67,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         [Test]
         public void ToDict_ShouldConvertTheView()
         {
-            Mock<IViewRepository> mockRepo = new(MockBehavior.Loose);
-
-            using TestView view = new("flowId", mockRepo.Object);
+            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Assert.That(view.ToDict(), Is.EquivalentTo(new Dictionary<string, object?> { { "FlowId", "flowId" }, { "Tag", null } }));
         }
@@ -128,6 +120,16 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 
             Assert.That(view.Disposed, Is.True);
             mockRepo.Verify(r => r.Close("flowId"), Times.Once);
+        }
+
+        [Test]
+        public void CheckDisposed_ShouldThrowIfTheViewHadBeenDisposed()
+        {
+            TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
+
+            Assert.DoesNotThrow(view.CheckDisposed);
+            view.Dispose();
+            Assert.Throws<ObjectDisposedException>(view.CheckDisposed);
         }
     }
 }
