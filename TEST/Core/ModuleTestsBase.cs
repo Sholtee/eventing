@@ -15,33 +15,33 @@ namespace Solti.Utils.Eventing.Tests
 {
     public class ModuleTestsBase
     {
-        #pragma warning disable NUnit1032
         private ICompositeService FService;
-        #pragma warning restore NUnit1032
 
         [OneTimeSetUp]
         public virtual void SetupFixture()
         {
-            FService = new Builder()
+            CompositeBuilder bldr = new Builder()
                 .UseContainer()
                 .UseCompose()
                 .FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Infra", "test-db.yml"))
                 .RemoveOrphans()
-                .WaitForPort("redis-local", "6379/tcp")
                 //.WaitForPort("dynamodb-local", "8000/tcp")
-                .Build()
-                .Start();
+                .WaitForPort("redis-local", "6379/tcp");
+
+            //
+            // Reuse the stack in the cloud
+            //
+
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI")))
+                bldr.KeepRunning();
+
+            FService = bldr.Build().Start();
         }
 
         [OneTimeTearDown]
         public virtual void TearDownFixture()
         {
-            //
-            // Reuse the stack in the cloud
-            //
-
-            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI")))
-                FService.Dispose();
+            FService.Dispose();
             FService = null!;
         }
 
