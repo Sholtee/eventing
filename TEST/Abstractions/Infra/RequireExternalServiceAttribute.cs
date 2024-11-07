@@ -53,10 +53,15 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 
                 FService = bldr.Build().Start();
 
-                for (int i = 1; i <= RetryCount && !TryConnect(); i++)
+                for (int i = 0; i < RetryCount; i++)
                 {
                     Thread.Sleep(TimeSpan.FromSeconds(i * 5));
+
+                    if (TryConnect())
+                        return;
                 }
+
+                throw new TimeoutException($"Failed to start: {image}");
             }
             else SetupTest();
         }
