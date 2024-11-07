@@ -21,37 +21,9 @@ namespace Solti.Utils.Eventing.Tests
     using static Internals.EventIds;
     using static Properties.Resources;
 
-    [TestFixture]
+    [TestFixture, RequireRedis]
     public class RedisCacheTests: IDistributedCacheTests
     {
-        private ModuleTestsBase FContainerHost;
-
-        [OneTimeSetUp]
-        public void SetupFixture()
-        {
-            FContainerHost = new ModuleTestsBase();
-            FContainerHost.SetupFixture();
-        }
-
-        [OneTimeTearDown]
-        public void TearDownFixture()
-        {
-            FContainerHost.TearDownFixture();
-            FContainerHost = null!;
-        }
-
-        public override void SetupTest()
-        {
-            FContainerHost.SetupTest();
-            base.SetupTest();
-        }
-
-        public override void TearDownTest()
-        {
-            base.TearDownTest();
-            FContainerHost.TearDownTest();
-        }
-
         protected override IDistributedCache CreateInstance() => new RedisCache("localhost", JsonSerializer.Instance);
 
         [Test]

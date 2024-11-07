@@ -21,31 +21,14 @@ namespace Solti.Utils.Eventing.Tests
     using static Internals.EventIds;
     using static Properties.Resources;
 
-    [TestFixture]
+    [TestFixture, RequireRedis]
     public class DistributedLockTests: IDistributedLockTests
     {
-        private ModuleTestsBase FContainerHost = null!;
-
         private RedisCache FRedisCache = null!;
-
-        [OneTimeSetUp]
-        public void SetupFixture()
-        {
-            FContainerHost = new ModuleTestsBase();
-            FContainerHost.SetupFixture();
-        }
-
-        [OneTimeTearDown]
-        public void TearDownFixture()
-        {
-            FContainerHost.TearDownFixture();
-            FContainerHost = null!;
-        }
 
         [SetUp]
         public void SetupTest()
         {
-            FContainerHost.SetupTest();
             FRedisCache = new RedisCache("localhost", JsonSerializer.Instance);
         }
 
@@ -54,8 +37,6 @@ namespace Solti.Utils.Eventing.Tests
         {
             FRedisCache.Dispose();
             FRedisCache = null!;
-
-            FContainerHost.TearDownTest();
         }
 
         protected override IDistributedLock CreateInstance() => new DistributedLock(FRedisCache, JsonSerializer.Instance);

@@ -3,10 +3,14 @@
     <PropertyGroup>
         <AssemblyName>Solti.Utils.Eventing.Abstractions.Tests</AssemblyName>
         <RootNamespace>Solti.Utils.Eventing.Abstractions.Tests</RootNamespace>
-        <NoWarn>CA1062;CA1305;CA1707;CA1863;CA2000;CA2008;</NoWarn>
+        <NoWarn>CA1062;CA1305;CA1307;CA1707;CA1863;CA2000;CA2008;</NoWarn>
     </PropertyGroup>
 
     <Import Project="..\Common.targets" />
+
+    <ItemGroup>
+        <PackageReference Include="Ductus.FluentDocker" Version="2.*" />
+    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\SRC\Core\Eventing.csproj" />
