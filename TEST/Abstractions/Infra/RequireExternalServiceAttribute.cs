@@ -18,7 +18,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
     [AttributeUsage(AttributeTargets.Class)]
     public abstract class RequireExternalServiceAttribute(string image, int exposePort, params KeyValuePair<string, string>[] envVars) : Attribute, ITestAction
     {
-        private IContainerService FService = null!;
+        private IContainerService? FService;
 
         public virtual void SetupTest() { }
 
