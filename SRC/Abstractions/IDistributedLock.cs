@@ -26,7 +26,7 @@ namespace Solti.Utils.Eventing.Abstractions
         void Release(string key, string ownerId);
 
         /// <summary>
-        /// Returns whether the given lock is held be the provided owner.
+        /// Returns whether the given lock is held by the provided owner.
         /// </summary>
         bool IsHeld(string key, string ownerId);
     }
