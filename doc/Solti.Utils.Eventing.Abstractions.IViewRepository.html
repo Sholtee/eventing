@@ -42,7 +42,8 @@
   
   <h1 id="Solti_Utils_Eventing_Abstractions_IViewRepository" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository" class="text-break">Interface IViewRepository
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Represents an abstract, untyped repository to store view instances.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Eventing.Abstractions.html">Solti.Utils.Eventing.Abstractions</a></h6>
   <h6><strong>Assembly</strong>: Solti.Utils.Eventing.Abstractions.dll</h6>
@@ -54,7 +55,8 @@
   </h3>
   <a id="Solti_Utils_Eventing_Abstractions_IViewRepository_Close_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository.Close*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IViewRepository_Close_System_String_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository.Close(System.String)">Close(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Closes the underlying session.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -77,9 +79,14 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Solti_Utils_Eventing_Abstractions_IViewRepository_Close_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>After calling this method you should discard the view that belongs to the given <code data-dev-comment-type="paramref" class="paramref">flowId</code>.
+You don&apos;t need to call this method directly. It is done by the system when calling the <span class="xref">System.IDisposable.Dispose</span> method on views</p>
+</div>
   <a id="Solti_Utils_Eventing_Abstractions_IViewRepository_Create_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository.Create*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_System_Object_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository.Create(System.String,System.Object)">Create(String, Object)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a new raw view.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -122,9 +129,13 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Solti_Utils_Eventing_Abstractions_IViewRepository_Create_System_String_System_Object__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>If the <code data-dev-comment-type="paramref" class="paramref">flowId</code> is null, the system will assign a unique value for it</p>
+</div>
   <a id="Solti_Utils_Eventing_Abstractions_IViewRepository_Materialize_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IViewRepository_Materialize_System_String_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository.Materialize(System.String)">Materialize(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Materializes the view belongs to the given <code data-dev-comment-type="paramref" class="paramref">flowId</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -164,7 +175,8 @@
   </table>
   <a id="Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository.Persist*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_Solti_Utils_Eventing_Abstractions_ViewBase_System_String_System_Object___" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository.Persist(Solti.Utils.Eventing.Abstractions.ViewBase,System.String,System.Object[])">Persist(ViewBase, String, Object[])</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Persits the given state</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -197,6 +209,9 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Solti_Utils_Eventing_Abstractions_IViewRepository_Persist_Solti_Utils_Eventing_Abstractions_ViewBase_System_String_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>You don&apos;t need to call this method directly. It is done by the system when calling eventized methods on the <code data-dev-comment-type="paramref" class="paramref">view</code></p>
+</div>
 </article>
           </div>
           

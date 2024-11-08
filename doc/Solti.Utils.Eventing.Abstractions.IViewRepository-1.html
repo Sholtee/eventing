@@ -42,7 +42,8 @@
   
   <h1 id="Solti_Utils_Eventing_Abstractions_IViewRepository_1" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository`1" class="text-break">Interface IViewRepository&lt;TView&gt;
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Represents an abstract repository to store view instances.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -78,7 +79,8 @@
   </h3>
   <a id="Solti_Utils_Eventing_Abstractions_IViewRepository_1_Create_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IViewRepository_1_Create_System_String_System_Object_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository`1.Create(System.String,System.Object)">Create(String, Object)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a new raw view.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -121,9 +123,13 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Solti_Utils_Eventing_Abstractions_IViewRepository_1_Create_System_String_System_Object__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>If the <code data-dev-comment-type="paramref" class="paramref">flowId</code> is null, the system will assign a unique value for it</p>
+</div>
   <a id="Solti_Utils_Eventing_Abstractions_IViewRepository_1_Materialize_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository`1.Materialize*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IViewRepository_1_Materialize_System_String_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository`1.Materialize(System.String)">Materialize(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Materializes the view belongs to the given <code data-dev-comment-type="paramref" class="paramref">flowId</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -163,7 +169,8 @@
   </table>
   <a id="Solti_Utils_Eventing_Abstractions_IViewRepository_1_Persist_" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository`1.Persist*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IViewRepository_1_Persist__0_System_String_System_Object___" data-uid="Solti.Utils.Eventing.Abstractions.IViewRepository`1.Persist(`0,System.String,System.Object[])">Persist(TView, String, Object[])</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Persits the given state</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -196,6 +203,9 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Solti_Utils_Eventing_Abstractions_IViewRepository_1_Persist__0_System_String_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>You don&apos;t need to call this method directly. It is done by the system when calling eventized methods on the <code data-dev-comment-type="paramref" class="paramref">view</code></p>
+</div>
 </article>
           </div>
           

@@ -42,7 +42,8 @@
   
   <h1 id="Solti_Utils_Eventing_Abstractions_IEventStore" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore" class="text-break">Interface IEventStore
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Describes the contract of event stores</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Eventing.Abstractions.html">Solti.Utils.Eventing.Abstractions</a></h6>
   <h6><strong>Assembly</strong>: Solti.Utils.Eventing.Abstractions.dll</h6>
@@ -54,7 +55,8 @@
   </h3>
   <a id="Solti_Utils_Eventing_Abstractions_IEventStore_Features_" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.Features*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IEventStore_Features" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.Features">Features</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Features of this instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -77,7 +79,8 @@
   </table>
   <a id="Solti_Utils_Eventing_Abstractions_IEventStore_SchemaInitialized_" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.SchemaInitialized*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IEventStore_SchemaInitialized" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.SchemaInitialized">SchemaInitialized</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Determines if the underlying data schema had been initialized.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -102,7 +105,8 @@
   </h3>
   <a id="Solti_Utils_Eventing_Abstractions_IEventStore_InitSchema_" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IEventStore_InitSchema" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema">InitSchema()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes the schema in the underlying data store.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -110,7 +114,8 @@
   </div>
   <a id="Solti_Utils_Eventing_Abstractions_IEventStore_QueryEvents_" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IEventStore_QueryEvents_System_String_" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents(System.String)">QueryEvents(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the events associated with the given <code data-dev-comment-type="paramref" class="paramref">flowId</code></p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -148,9 +153,13 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Solti_Utils_Eventing_Abstractions_IEventStore_QueryEvents_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This method returns an enumerable to support deferred queries.</p>
+</div>
   <a id="Solti_Utils_Eventing_Abstractions_IEventStore_SetEvent_" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.SetEvent*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IEventStore_SetEvent_Solti_Utils_Eventing_Abstractions_Event_" data-uid="Solti.Utils.Eventing.Abstractions.IEventStore.SetEvent(Solti.Utils.Eventing.Abstractions.Event)">SetEvent(Event)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Pushes a new event into the store.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">

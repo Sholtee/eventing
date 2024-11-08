@@ -42,7 +42,8 @@
   
   <h1 id="Solti_Utils_Eventing_Abstractions_IDistributedLock" data-uid="Solti.Utils.Eventing.Abstractions.IDistributedLock" class="text-break">Interface IDistributedLock
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Defines the contract of global locks</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Eventing.Abstractions.html">Solti.Utils.Eventing.Abstractions</a></h6>
   <h6><strong>Assembly</strong>: Solti.Utils.Eventing.Abstractions.dll</h6>
@@ -54,7 +55,8 @@
   </h3>
   <a id="Solti_Utils_Eventing_Abstractions_IDistributedLock_Acquire_" data-uid="Solti.Utils.Eventing.Abstractions.IDistributedLock.Acquire*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IDistributedLock_Acquire_System_String_System_String_System_TimeSpan_" data-uid="Solti.Utils.Eventing.Abstractions.IDistributedLock.Acquire(System.String,System.String,System.TimeSpan)">Acquire(String, String, TimeSpan)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a global lock over the given <code data-dev-comment-type="paramref" class="paramref">key</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -87,9 +89,29 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Solti_Utils_Eventing_Abstractions_IDistributedLock_Acquire_System_String_System_String_System_TimeSpan__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p><code data-dev-comment-type="paramref" class="paramref">ownerId</code> is to help identifying the owner the lock</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.TimeoutException</span></td>
+        <td><p>If the lock could not be aquired in the given period of time.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <a id="Solti_Utils_Eventing_Abstractions_IDistributedLock_IsHeld_" data-uid="Solti.Utils.Eventing.Abstractions.IDistributedLock.IsHeld*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IDistributedLock_IsHeld_System_String_System_String_" data-uid="Solti.Utils.Eventing.Abstractions.IDistributedLock.IsHeld(System.String,System.String)">IsHeld(String, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns whether the given lock is held be the provided owner.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -134,7 +156,8 @@
   </table>
   <a id="Solti_Utils_Eventing_Abstractions_IDistributedLock_Release_" data-uid="Solti.Utils.Eventing.Abstractions.IDistributedLock.Release*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_IDistributedLock_Release_System_String_System_String_" data-uid="Solti.Utils.Eventing.Abstractions.IDistributedLock.Release(System.String,System.String)">Release(String, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Releases a global lock that is assigned to the given <code data-dev-comment-type="paramref" class="paramref">key</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -159,6 +182,22 @@
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">ownerId</span></td>
         <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>If the <code data-dev-comment-type="paramref" class="paramref">key</code> is not assigned to the <code data-dev-comment-type="paramref" class="paramref">ownerId</code></p>
+</td>
       </tr>
     </tbody>
   </table>

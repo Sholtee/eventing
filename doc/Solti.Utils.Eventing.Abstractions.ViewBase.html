@@ -42,7 +42,8 @@
   
   <h1 id="Solti_Utils_Eventing_Abstractions_ViewBase" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase" class="text-break">Class ViewBase
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>The base of materialized views</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -59,11 +60,15 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public abstract class ViewBase : Object</code></pre>
   </div>
+  <h5 id="Solti_Utils_Eventing_Abstractions_ViewBase_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>A view also represents a session being carried out on a perticular flow. Therefore, disposing the view closes the underlying session too</p>
+</div>
   <h3 id="constructors">Constructors
   </h3>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase__ctor_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.#ctor*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase__ctor_System_String_Solti_Utils_Eventing_Abstractions_IViewRepository_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.#ctor(System.String,Solti.Utils.Eventing.Abstractions.IViewRepository)">ViewBase(String, IViewRepository)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The base of materialized views</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -91,11 +96,15 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Solti_Utils_Eventing_Abstractions_ViewBase__ctor_System_String_Solti_Utils_Eventing_Abstractions_IViewRepository__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>A view also represents a session being carried out on a perticular flow. Therefore, disposing the view closes the underlying session too</p>
+</div>
   <h3 id="properties">Properties
   </h3>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_Disposed_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.Disposed*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_Disposed" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.Disposed">Disposed</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns true if this instance has been disposed.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -118,7 +127,8 @@
   </table>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_FlowId_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.FlowId*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_FlowId" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.FlowId">FlowId</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The unique id if this view.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -141,7 +151,8 @@
   </table>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_OwnerRepository_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_OwnerRepository" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.OwnerRepository">OwnerRepository</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The repository that owns this view.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -164,7 +175,8 @@
   </table>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_Tag_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.Tag*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_Tag" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.Tag">Tag</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Immutable user data associated with this event in initialization phase.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -189,7 +201,8 @@
   </h3>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_CheckDisposed_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_CheckDisposed" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed">CheckDisposed()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Throws an <span class="xref">System.ObjectDisposedException</span> if the instance had already been disposed.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -197,7 +210,8 @@
   </div>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_Dispose_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.Dispose*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_Dispose" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Disposes this view by releasing the lock on it</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -205,7 +219,8 @@
   </div>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_FromDict_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.FromDict*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_FromDict_System_Collections_Generic_IDictionary_System_String_System_Object__" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.FromDict(System.Collections.Generic.IDictionary{System.String,System.Object})">FromDict(IDictionary&lt;String, Object&gt;)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Setups the view actual state from the given <code data-dev-comment-type="paramref" class="paramref">dict</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -245,7 +260,8 @@
   </table>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_ToDict_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.ToDict*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_ToDict" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.ToDict">ToDict()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Converts this view to a dictionary.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
