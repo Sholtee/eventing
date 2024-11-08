@@ -7,9 +7,15 @@ using System;
 
 namespace Solti.Utils.Eventing.Abstractions
 {
+    /// <summary>
+    /// Specifies the cache behavior when inserting new items.
+    /// </summary>
     [Flags]
     public enum DistributedCacheInsertionFlags
     {
+        /// <summary>
+        /// No flags specified.
+        /// </summary>
         None = 0,
         /// <summary>
         /// Allow entry to be overwritten if exists already. It also resets the sliding expiration

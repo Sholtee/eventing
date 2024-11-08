@@ -18,8 +18,6 @@ namespace Solti.Utils.Eventing
     /// <summary>
     /// Implements the <see cref="IDistributedCache"/> interface over Redis
     /// </summary>
-    /// <param name="config"></param>
-    /// <param name="serializer"></param>
     public sealed class RedisCache(IConnectionMultiplexer connection, ISerializer serializer, ILogger<RedisCache>? logger = null) : IDistributedCache
     {
         #region Private

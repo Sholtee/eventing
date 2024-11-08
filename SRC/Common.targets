@@ -12,6 +12,7 @@
         <NuGetAudit>true</NuGetAudit>
         <NuGetAuditLevel>moderate</NuGetAuditLevel>
         <NuGetAuditMode>all</NuGetAuditMode>
+        <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
