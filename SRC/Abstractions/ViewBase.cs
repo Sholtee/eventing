@@ -11,12 +11,13 @@ using System.Reflection;
 namespace Solti.Utils.Eventing.Abstractions
 {
     using Properties;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// The base of materialized views
     /// </summary>
     /// <remarks>A view also represents a session being carried out on a perticular flow. Therefore, disposing the view closes the underlying session too</remarks>
-    public abstract class ViewBase(string flowId, IViewRepository ownerRepository) : IDisposable
+    public abstract class ViewBase(string flowId, IViewRepository ownerRepository) : IDisposable, IAsyncDisposable
     {
         /// <summary>
         /// The unique id if this view.
@@ -111,11 +112,19 @@ namespace Solti.Utils.Eventing.Abstractions
         /// <summary>
         /// Disposes this view by releasing the lock on it
         /// </summary>
-        public virtual void Dispose()
+        public virtual void Dispose() => DisposeAsync()
+            .AsTask()
+            .GetAwaiter()
+            .GetResult();
+
+        /// <summary>
+        /// Disposes this view asynchronously by releasing the lock on it
+        /// </summary>
+        public virtual async ValueTask DisposeAsync()
         {
             if (!Disposed)
             {
-                OwnerRepository.Close(FlowId);
+                await OwnerRepository.Close(FlowId);
                 Disposed = true;
             }
         }

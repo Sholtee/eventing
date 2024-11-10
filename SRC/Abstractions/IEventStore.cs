@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Solti.Utils.Eventing.Abstractions
 {
@@ -60,22 +61,22 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Gets the events associated with the given <paramref name="flowId"/>
         /// </summary>
         /// <remarks>This method returns an enumerable to support deferred queries.</remarks>
-        IEnumerable<Event> QueryEvents(string flowId);
+        IAsyncEnumerable<Event> QueryEvents(string flowId);
 
         /// <summary>
         /// Pushes a new event into the store.
         /// </summary>
-        void SetEvent(Event @event);
+        Task SetEvent(Event @event);
 
         /// <summary>
         /// Initializes the schema in the underlying data store.
         /// </summary>
-        void InitSchema();
+        Task InitSchema();
 
         /// <summary>
         /// Determines if the underlying data schema had been initialized.
         /// </summary>
-        bool SchemaInitialized { get; }
+        Task<bool> SchemaInitialized { get; }
 
         /// <summary>
         /// Features of this instance.

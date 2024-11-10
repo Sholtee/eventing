@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
@@ -49,7 +50,7 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public string? Get(string key)
+        public async Task<string?> Get(string key)
         {
             if (key is null)
                 throw new ArgumentNullException(nameof(key));
@@ -64,7 +65,7 @@ namespace Solti.Utils.Eventing
             // db.Touch() doesn't reset the expiration either so we need to do it by hand.
             //
 
-            string? value = db.StringGet(key);
+            string? value = await db.StringGetAsync(key);
             if (value is not null)
             {
                 CacheEntry entry = serializer.Deserialize<CacheEntry>(value)!;
@@ -75,7 +76,7 @@ namespace Solti.Utils.Eventing
                 // The key might get expired while we reached here
                 //
 
-                if (db.KeyExpire(key, TimeSpan.FromTicks(entry.Expiration)))
+                if (await db.KeyExpireAsync(key, TimeSpan.FromTicks(entry.Expiration)))
                     return entry.Value;
             }
 
@@ -83,7 +84,7 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public bool Remove(string key)
+        public Task<bool> Remove(string key)
         {
             if (key is null)
                 throw new ArgumentNullException(nameof(key));
@@ -92,11 +93,11 @@ namespace Solti.Utils.Eventing
 
             IDatabase db = connection.GetDatabase();
 
-            return db.KeyDelete(key);
+            return db.KeyDeleteAsync(key);
         }
 
         /// <inheritdoc/>
-        public bool Set(string key, string value, TimeSpan slidingExpiration, DistributedCacheInsertionFlags flags)
+        public Task<bool> Set(string key, string value, TimeSpan slidingExpiration, DistributedCacheInsertionFlags flags)
         {
             if (key is null)
                 throw new ArgumentNullException(nameof(key));
@@ -108,7 +109,7 @@ namespace Solti.Utils.Eventing
 
             IDatabase db = connection.GetDatabase();
 
-            return db.StringSet
+            return db.StringSetAsync
             (
                 key,
                 serializer.Serialize

@@ -5,7 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -42,7 +42,7 @@ namespace Solti.Utils.Eventing.Tests
         protected override IDistributedLock CreateInstance() => new DistributedLock(FRedisCache, JsonSerializer.Instance);
 
         [Test]
-        public void Test_Flow([Values(10000)] int lockTimeout, [Values(true, false)] bool hasLogger)
+        public async Task Test_Flow([Values(10000)] int lockTimeout, [Values(true, false)] bool hasLogger)
         {
             string entry = JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } });
 
@@ -64,26 +64,26 @@ namespace Solti.Utils.Eventing.Tests
             mockCache
                 .InSequence(seq)
                 .Setup(c => c.Set("lock_key", entry, timeout, DistributedCacheInsertionFlags.None))
-                .Returns(true);
+                .Returns(Task.FromResult(true));
             mockCache
                 .InSequence(seq)
                 .Setup(c => c.Get("lock_key"))
-                .Returns(entry);
+                .Returns(Task.FromResult((string?) entry));
             mockLogger?
                 .InSequence(seq)
                 .Setup(l => l.Log(LogLevel.Information, Info.RELEASE_LOCK, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_RELEASE_LOCK, "key", "owner")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
             mockCache
                 .InSequence(seq)
                 .Setup(c => c.Remove("lock_key"))
-                .Returns(true);
+                .Returns(Task.FromResult(true));
 
-            @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1));
+            await @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1));
 
             mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once);
             mockCache.Verify(c => c.Remove(It.IsAny<string>()), Times.Never);
             mockCache.Verify(c => c.Get(It.IsAny<string>()), Times.Never);
 
-            @lock.Release("key", "owner");
+            await @lock.Release("key", "owner");
 
             mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Once); // Acquire
             mockCache.Verify(c => c.Get(It.IsAny<string>()), Times.Once);  // IsHeld()
@@ -93,7 +93,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Acquire_ShouldBlock2([Values(20)] int pollingInterval)
         {
-            Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
+            Mock<Func<TimeSpan, Task>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
             TimeSpan delay = TimeSpan.FromMilliseconds(pollingInterval);
@@ -107,12 +107,12 @@ namespace Solti.Utils.Eventing.Tests
 
             mockSleep
                 .Setup(s => s.Invoke(delay))
-                .Callback<TimeSpan>(_ => sleepCalled++);
+                .Returns<TimeSpan>(_ => { sleepCalled++; return Task.CompletedTask; });
             mockCache
                 .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
-                .Returns<string, string, TimeSpan, DistributedCacheInsertionFlags>((_, _, _, _) => sleepCalled > 1);
+                .Returns<string, string, TimeSpan, DistributedCacheInsertionFlags>((_, _, _, _) => Task.FromResult(sleepCalled > 1));
 
-            Assert.DoesNotThrow(() => @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1)));
+            Assert.DoesNotThrowAsync(() => @lock.Acquire("key", "owner", TimeSpan.FromSeconds(1)));
 
             mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Exactly(3));
             mockSleep.Verify(s => s.Invoke(It.IsAny<TimeSpan>()), Times.Exactly(2));
@@ -121,7 +121,7 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Acquire_ShouldTimeout2([Values(true, false)] bool hasLogger)
         {
-            Mock<Action<TimeSpan>> mockSleep = new(MockBehavior.Strict);
+            Mock<Func<TimeSpan, Task>> mockSleep = new(MockBehavior.Strict);
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
 
             Mock<ILogger<DistributedLock>>? mockLogger = hasLogger ? new(MockBehavior.Strict) : null;
@@ -134,12 +134,12 @@ namespace Solti.Utils.Eventing.Tests
 
             mockSleep
                 .Setup(s => s.Invoke(@lock.PollingInterval))
-                .Callback<TimeSpan>(Thread.Sleep);
+                .Returns<TimeSpan>(Task.Delay);
             mockCache
                 .Setup(c => c.Set("lock_key", It.Is<string>(s => s == JsonSerializer.Instance.Serialize(new Dictionary<string, string> { { "OwnerId", "owner" } })), @lock.LockTimeout, DistributedCacheInsertionFlags.None))
-                .Returns(false);
+                .Returns(Task.FromResult(false));
 
-            Assert.Throws<TimeoutException>(() => @lock.Acquire("key", "owner", TimeSpan.FromMilliseconds(10 * @lock.PollingInterval.Milliseconds)));
+            Assert.ThrowsAsync<TimeoutException>(() => @lock.Acquire("key", "owner", TimeSpan.FromMilliseconds(10 * @lock.PollingInterval.Milliseconds)));
 
             mockCache.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>(), It.IsAny<DistributedCacheInsertionFlags>()), Times.Between(8, 10, Moq.Range.Inclusive));
             mockSleep.Verify(s => s.Invoke(It.IsAny<TimeSpan>()), Times.Between(8, 10, Moq.Range.Inclusive));
@@ -156,16 +156,16 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(IsHeld_ShouldDetermineIfTheHoldIsOwnedByTheCurrentApp_Params))]
-        public void IsHeld_ShouldDetermineIfTheLockIsOwnedByTheCaller(string cacheRetVal, bool expected)
+        public async Task IsHeld_ShouldDetermineIfTheLockIsOwnedByTheCaller(string cacheRetVal, bool expected)
         {
             Mock<IDistributedCache> mockCache = new(MockBehavior.Strict);
             mockCache
                 .Setup(c => c.Get(It.IsAny<string>()))
-                .Returns(cacheRetVal);
+                .Returns(Task.FromResult<string?>(cacheRetVal));
 
             DistributedLock @lock = new(mockCache.Object, JsonSerializer.Instance);
 
-            Assert.That(@lock.IsHeld("key", "owner"), Is.EqualTo(expected));
+            Assert.That(await @lock.IsHeld("key", "owner"), Is.EqualTo(expected));
         }
 
         [Test]
@@ -183,16 +183,16 @@ namespace Solti.Utils.Eventing.Tests
             mockCache
                 .InSequence(seq)
                 .Setup(c => c.Get("lock_key"))  // IsHeld()
-                .Returns(entry);
+                .Returns(Task.FromResult<string?>(entry));
             mockLogger?
                 .InSequence(seq)
                 .Setup(l => l.Log(LogLevel.Information, Info.RELEASE_LOCK, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_RELEASE_LOCK, "key", "owner")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
             mockCache
                 .InSequence(seq)
                 .Setup(c => c.Remove("lock_key"))
-                .Returns(true);
+                .Returns(Task.FromResult(true));
 
-            Assert.DoesNotThrow(() => @lock.Release("key", "owner"));
+            Assert.DoesNotThrowAsync(() => @lock.Release("key", "owner"));
 
             mockCache.Verify(c => c.Remove("lock_key"), Times.Once);
         }
@@ -212,12 +212,12 @@ namespace Solti.Utils.Eventing.Tests
             mockCache
                 .InSequence(seq)
                 .Setup(c => c.Get("lock_key"))  // IsHeld()
-                .Returns(entry);
+                .Returns(Task.FromResult<string?>(entry));
             mockLogger?
                 .InSequence(seq)
                 .Setup(l => l.Log(LogLevel.Warning, Warning.FOREIGN_LOCK_RELEASE, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_FOREIGN_LOCK_RELEASE, "key", "unknown")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => @lock.Release("key", "unknown"));
+            InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => @lock.Release("key", "unknown"));
             Assert.That(ex.Message, Is.EqualTo(ERR_FOREIGN_LOCK_RELEASE));
 
             mockCache.Verify(c => c.Get("lock_key"), Times.Once);

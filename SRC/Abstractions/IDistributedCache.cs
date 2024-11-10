@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.Threading.Tasks;
 
 namespace Solti.Utils.Eventing.Abstractions
 {
@@ -32,16 +33,16 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Sets or updates an entry in the cache.
         /// </summary>
         /// <returns>If the operation was successful</returns>
-        bool Set(string key, string value, TimeSpan slidingExpiration, DistributedCacheInsertionFlags flags);
+        Task<bool> Set(string key, string value, TimeSpan slidingExpiration, DistributedCacheInsertionFlags flags);
 
         /// <summary>
         /// Gets the value from the cache associated with the given <paramref name="key"/>
         /// </summary>
-        string? Get(string key);
+        Task<string?> Get(string key);
 
         /// <summary>
         /// Removesthe given key.
         /// </summary>
-        bool Remove(string key);
+        Task<bool> Remove(string key);
     }
 }

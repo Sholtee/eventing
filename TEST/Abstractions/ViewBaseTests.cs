@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Moq;
 using NUnit.Framework;
@@ -112,11 +113,29 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         public void Dispose_ShouldCloseTheView([Values(1, 5)] int callCount)
         {
             Mock<IViewRepository> mockRepo = new(MockBehavior.Strict);
-            mockRepo.Setup(r => r.Close("flowId"));
+            mockRepo
+                .Setup(r => r.Close("flowId"))
+                .Returns(Task.CompletedTask);
 
             TestView view = new("flowId", mockRepo.Object);
             for (int i = 0; i < callCount; i++)
                 view.Dispose();
+
+            Assert.That(view.Disposed, Is.True);
+            mockRepo.Verify(r => r.Close("flowId"), Times.Once);
+        }
+
+        [Test]
+        public async Task DisposeAsync_ShouldCloseTheView([Values(1, 5)] int callCount)
+        {
+            Mock<IViewRepository> mockRepo = new(MockBehavior.Strict);
+            mockRepo
+                .Setup(r => r.Close("flowId"))
+                .Returns(Task.CompletedTask);
+
+            TestView view = new("flowId", mockRepo.Object);
+            for (int i = 0; i < callCount; i++)
+                await view.DisposeAsync();
 
             Assert.That(view.Disposed, Is.True);
             mockRepo.Verify(r => r.Close("flowId"), Times.Once);

@@ -29,13 +29,13 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             }
         }
 
-        protected IDisposable ScopedLock(string key, TimeSpan timeout)
+        protected async Task<IDisposable> ScopedLock(string key, TimeSpan timeout)
         {
             IDistributedLock @lock = CreateInstance();
 
             string ownerId = Guid.NewGuid().ToString("D");
 
-            @lock.Acquire(key, ownerId, timeout);
+            await @lock.Acquire(key, ownerId, timeout);
             return new Scope(@lock, key, ownerId);
         }
 
@@ -53,14 +53,14 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             }
 
             Assert.DoesNotThrow(() => Task.WaitAll(tasks));
-       
-            void Worker()
+
+            async Task Worker()
             {
-                using IDisposable scope = ScopedLock("mylock", TimeSpan.FromMinutes(1));
+                using IDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
 
                 Assert.That(lockHeld, Is.False);
                 lockHeld = true;
-                Thread.Sleep(100); // wait for the other tasks
+                await Task.Delay(100); // wait for the other tasks
                 lockHeld = false;
             }
         }
@@ -70,57 +70,57 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         {
             using ManualResetEventSlim evt = new();
 
-            Task t = Task.Factory.StartNew(() =>
+            Task t = Task.Factory.StartNew(async () =>
             {
-                using IDisposable scope = ScopedLock("mylock", TimeSpan.FromMinutes(1));
+                using IDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
                 evt.Wait();
             });
             t.Wait(100); // make sure the thread has grabed the lock
 
-            Assert.Throws<TimeoutException>(() => ScopedLock("mylock", TimeSpan.FromMilliseconds(10)));
+            Assert.ThrowsAsync<TimeoutException>(() => ScopedLock("mylock", TimeSpan.FromMilliseconds(10)));
 
             evt.Set();
             t.Wait();
         }
 
         [Test]
-        public void Acquire_ShouldBlockOnNestedInvocation()
+        public async Task Acquire_ShouldBlockOnNestedInvocation()
         {
-            using IDisposable scope = ScopedLock("mylock", TimeSpan.FromMinutes(1));
+            using IDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
 
-            Assert.Throws<TimeoutException>(() => ScopedLock("mylock", TimeSpan.FromMilliseconds(10)));
+            Assert.ThrowsAsync<TimeoutException>(() => ScopedLock("mylock", TimeSpan.FromMilliseconds(10)));
         }
 
         [Test]
-        public void IsHeld_ShouldDetermineIfTheLockIsOwnedByTheCaller([Values("owner_1", "owner_2")] string ownerId)
+        public async Task IsHeld_ShouldDetermineIfTheLockIsOwnedByTheCaller([Values("owner_1", "owner_2")] string ownerId)
         {
             IDistributedLock @lock = CreateInstance();
 
-            @lock.Acquire("mylock", ownerId, TimeSpan.FromMinutes(1));
+            await @lock.Acquire("mylock", ownerId, TimeSpan.FromMinutes(1));
             try
             {
-                Assert.That(@lock.IsHeld("mylock", "owner_1"), Is.EqualTo(ownerId == "owner_1"));
+                Assert.That(await @lock.IsHeld("mylock", "owner_1"), Is.EqualTo(ownerId == "owner_1"));
             }
             finally
             {
-                @lock.Release("mylock", ownerId);
+                await @lock.Release("mylock", ownerId);
             }
         }
 
         [Test]
-        public void Release_ShouldThrowIfTheLockIsNotHeld()
+        public async Task Release_ShouldThrowIfTheLockIsNotHeld()
         {
             IDistributedLock @lock = CreateInstance();
 
-            @lock.Acquire("mylock", "owner_1", TimeSpan.FromMinutes(1));
+            await @lock.Acquire("mylock", "owner_1", TimeSpan.FromMinutes(1));
             try
             {
-                InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => @lock.Release("mylock", "unknown"))!;
+                InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => @lock.Release("mylock", "unknown"))!;
                 Assert.That(ex.Message, Is.EqualTo(Resources.ERR_FOREIGN_LOCK_RELEASE));
             }
             finally
             {
-                @lock.Release("mylock", "owner_1");
+                await @lock.Release("mylock", "owner_1");
             }
         }
 
@@ -129,8 +129,8 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         {
             IDistributedLock @lock = CreateInstance();
 
-            Assert.Throws<ArgumentNullException>(() => @lock.Acquire(null!, "notnull", TimeSpan.Zero));
-            Assert.Throws<ArgumentNullException>(() => @lock.Acquire("notnull", null!, TimeSpan.Zero));
+            Assert.ThrowsAsync<ArgumentNullException>(() => @lock.Acquire(null!, "notnull", TimeSpan.Zero));
+            Assert.ThrowsAsync<ArgumentNullException>(() => @lock.Acquire("notnull", null!, TimeSpan.Zero));
         }
 
         [Test]
@@ -138,8 +138,8 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         {
             IDistributedLock @lock = CreateInstance();
 
-            Assert.Throws<ArgumentNullException>(() => @lock.IsHeld(null!, "notnull"));
-            Assert.Throws<ArgumentNullException>(() => @lock.IsHeld("notnull", null!));
+            Assert.ThrowsAsync<ArgumentNullException>(() => @lock.IsHeld(null!, "notnull"));
+            Assert.ThrowsAsync<ArgumentNullException>(() => @lock.IsHeld("notnull", null!));
         }
 
         [Test]
@@ -147,8 +147,8 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         {
             IDistributedLock @lock = CreateInstance();
 
-            Assert.Throws<ArgumentNullException>(() => @lock.Release(null!, "notnull"));
-            Assert.Throws<ArgumentNullException>(() => @lock.Release("notnull", null!));
+            Assert.ThrowsAsync<ArgumentNullException>(() => @lock.Release(null!, "notnull"));
+            Assert.ThrowsAsync<ArgumentNullException>(() => @lock.Release("notnull", null!));
         }
     }
 }

@@ -4,7 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
-using System.Threading;
+using System.Threading.Tasks;
 
 using NUnit.Framework;
 
@@ -25,82 +25,82 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 
 
         [Test]
-        public void Get_ShouldReturnTheProperValue([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        public async Task Get_ShouldReturnTheProperValue([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
         {
-            FCache.Set("key", "value", TimeSpan.FromSeconds(1), flags);
-            Assert.That(FCache.Get("key"), Is.EqualTo("value"));
+            await FCache.Set("key", "value", TimeSpan.FromSeconds(1), flags);
+            Assert.That(await FCache.Get("key"), Is.EqualTo("value"));
         }
 
         [Test]
-        public void Get_ShouldReturnNullIfTheKeyNotFound() => Assert.That(FCache.Get("invalid"), Is.Null);
+        public async Task Get_ShouldReturnNullIfTheKeyNotFound() => Assert.That(await FCache.Get("invalid"), Is.Null);
 
         [Test]
-        public void Get_ShouldReturnNullIfTheKeyExpired([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        public async Task Get_ShouldReturnNullIfTheKeyExpired([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
         {
-            FCache.Set("key", "value", TimeSpan.FromMilliseconds(1), flags);
-            Thread.Sleep(TimeSpan.FromMilliseconds(20));
-            Assert.That(FCache.Get("key"), Is.Null);
+            await FCache.Set("key", "value", TimeSpan.FromMilliseconds(1), flags);
+            await Task.Delay(TimeSpan.FromMilliseconds(20));
+            Assert.That(await FCache.Get("key"), Is.Null);
         }
 
         [Test]
-        public void Get_ShouldUpdateTheSlidingExpiration()
+        public async Task Get_ShouldUpdateTheSlidingExpiration()
         {
-            FCache.Set("key", "value", TimeSpan.FromMilliseconds(200), DistributedCacheInsertionFlags.AllowOverwrite);
-            Thread.Sleep(150);
-            FCache.Get("key");
-            Thread.Sleep(150);
-            Assert.That(FCache.Get("key"), Is.EqualTo("value"));
+            await FCache.Set("key", "value", TimeSpan.FromMilliseconds(200), DistributedCacheInsertionFlags.AllowOverwrite);
+            await Task.Delay(150);
+            await FCache.Get("key");
+            await Task.Delay(150);
+            Assert.That(await FCache.Get("key"), Is.EqualTo("value"));
         }
 
         [Test]
-        public void Set_ShouldOverwrite()
+        public async Task Set_ShouldOverwrite()
         {
-            Assert.That(FCache.Set("key", "value1", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.AllowOverwrite));
-            Assert.That(FCache.Set("key", "value2", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.AllowOverwrite));
-            Assert.That(FCache.Get("key"), Is.EqualTo("value2"));
+            Assert.That(await FCache.Set("key", "value1", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.AllowOverwrite));
+            Assert.That(await FCache.Set("key", "value2", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.AllowOverwrite));
+            Assert.That(await FCache.Get("key"), Is.EqualTo("value2"));
         }
 
         [Test]
-        public void Set_ShouldOverwriteExpiredKey()
+        public async Task Set_ShouldOverwriteExpiredKey()
         {
-            Assert.That(FCache.Set("key", "value1", TimeSpan.FromMilliseconds(10), DistributedCacheInsertionFlags.None));
-            Thread.Sleep(20);
-            Assert.That(FCache.Set("key", "value2", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.None));
-            Assert.That(FCache.Get("key"), Is.EqualTo("value2"));
+            Assert.That(await FCache.Set("key", "value1", TimeSpan.FromMilliseconds(10), DistributedCacheInsertionFlags.None));
+            await Task.Delay(20);
+            Assert.That(await FCache.Set("key", "value2", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.None));
+            Assert.That(await FCache.Get("key"), Is.EqualTo("value2"));
         }
 
         [Test]
-        public void Set_ShouldSkipUpdate()
+        public async Task Set_ShouldSkipUpdate()
         {
-            Assert.That(FCache.Set("key", "value1", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.None));
-            Assert.That(FCache.Set("key", "value2", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.None), Is.False);
-            Assert.That(FCache.Get("key"), Is.EqualTo("value1"));
+            Assert.That(await FCache.Set("key", "value1", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.None));
+            Assert.That(await FCache.Set("key", "value2", TimeSpan.FromSeconds(1), DistributedCacheInsertionFlags.None), Is.False);
+            Assert.That(await FCache.Get("key"), Is.EqualTo("value1"));
         }
 
         [Test]
-        public void Remove_ShouldRemoveTheEntry([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        public async Task Remove_ShouldRemoveTheEntry([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
         {
-            FCache.Set("key", "value", TimeSpan.FromSeconds(1), flags);
-            Assert.That(FCache.Remove("key"));
-            Assert.That(FCache.Get("key"), Is.Null);
-            Assert.That(FCache.Remove("key"), Is.False);
+            await FCache.Set("key", "value", TimeSpan.FromSeconds(1), flags);
+            Assert.That(await FCache.Remove("key"));
+            Assert.That(await FCache.Get("key"), Is.Null);
+            Assert.That(await FCache.Remove("key"), Is.False);
         }
 
         [Test]
-        public void Remove_ShouldReturnFalseOnExpiredEntry([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        public async Task Remove_ShouldReturnFalseOnExpiredEntry([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
         {
-            FCache.Set("key", "value", TimeSpan.FromMilliseconds(1), flags);
-            Thread.Sleep(10);
-            Assert.That(FCache.Remove("key"), Is.False);
+            await FCache.Set("key", "value", TimeSpan.FromMilliseconds(1), flags);
+            await Task.Delay(10);
+            Assert.That(await FCache.Remove("key"), Is.False);
         }
 
         [Test]
-        public void RemovedEntry_CanBeReset([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
+        public async Task RemovedEntry_CanBeReset([Values(DistributedCacheInsertionFlags.None, DistributedCacheInsertionFlags.AllowOverwrite)] DistributedCacheInsertionFlags flags)
         {
-            FCache.Set("key", "value1", TimeSpan.FromSeconds(1), flags);
-            FCache.Remove("key");
-            Assert.That(FCache.Set("key", "value2", TimeSpan.FromSeconds(1), flags));
-            Assert.That(FCache.Get("key"), Is.EqualTo("value2"));
+            await FCache.Set("key", "value1", TimeSpan.FromSeconds(1), flags);
+            await FCache.Remove("key");
+            Assert.That(await FCache.Set("key", "value2", TimeSpan.FromSeconds(1), flags));
+            Assert.That(await FCache.Get("key"), Is.EqualTo("value2"));
         }
     }
 }

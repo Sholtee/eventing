@@ -7,6 +7,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 using Moq;
 using NUnit.Framework;
@@ -40,7 +41,10 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 
             MockSequence seq = new();
             mockCallback.InSequence(seq).Setup(cb => cb.Invoke());
-            mockRepo.InSequence(seq).Setup(r => r.Persist((ViewBase) view, "some-event", new object[] { 1 }));
+            mockRepo
+                .InSequence(seq)
+                .Setup(r => r.Persist((ViewBase) view, "some-event", new object[] { 1 }))
+                .Returns(Task.CompletedTask);
            
             Assert.DoesNotThrow(() => view.Annotated(1));
 
@@ -65,7 +69,9 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         public void Views_ShouldThrowAfterDispose()
         {
             Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
-            mockRepo.Setup(r => r.Close("flowid"));
+            mockRepo
+                .Setup(r => r.Close("flowid"))
+                .Returns(Task.CompletedTask);
 
             View view = CreateInstance<View>().CreateRawView("flowid", mockRepo.Object, out _);
             view.Dispose();
