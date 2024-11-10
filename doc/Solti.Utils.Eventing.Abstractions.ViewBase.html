@@ -53,6 +53,7 @@
   <div class="implements">
     <h5>Implements</h5>
     <div><span class="xref">System.IDisposable</span></div>
+    <div><span class="xref">System.IAsyncDisposable</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Eventing.Abstractions.html">Solti.Utils.Eventing.Abstractions</a></h6>
   <h6><strong>Assembly</strong>: Solti.Utils.Eventing.Abstractions.dll</h6>
@@ -217,6 +218,30 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public virtual void Dispose()</code></pre>
   </div>
+  <a id="Solti_Utils_Eventing_Abstractions_ViewBase_DisposeAsync_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync*"></a>
+  <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_DisposeAsync" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync">DisposeAsync()</h4>
+  <div class="markdown level1 summary"><p>Disposes this view asynchronously by releasing the lock on it</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual ValueTask DisposeAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.ValueTask</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <a id="Solti_Utils_Eventing_Abstractions_ViewBase_FromDict_" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.FromDict*"></a>
   <h4 id="Solti_Utils_Eventing_Abstractions_ViewBase_FromDict_System_Collections_Generic_IDictionary_System_String_System_Object__" data-uid="Solti.Utils.Eventing.Abstractions.ViewBase.FromDict(System.Collections.Generic.IDictionary{System.String,System.Object})">FromDict(IDictionary&lt;String, Object&gt;)</h4>
   <div class="markdown level1 summary"><p>Setups the view actual state from the given <code data-dev-comment-type="paramref" class="paramref">dict</code>.</p>
@@ -285,6 +310,9 @@
   <h3 id="implements">Implements</h3>
   <div>
       <span class="xref">System.IDisposable</span>
+  </div>
+  <div>
+      <span class="xref">System.IAsyncDisposable</span>
   </div>
 </article>
           </div>

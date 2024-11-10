@@ -717,6 +717,18 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
   fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
   nameWithType: ViewBase.Dispose
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync
+  name: DisposeAsync()
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_DisposeAsync
+  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync()
+  nameWithType: ViewBase.DisposeAsync()
+- uid: Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync*
+  name: DisposeAsync
+  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_DisposeAsync_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync
+  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync
+  nameWithType: ViewBase.DisposeAsync
 - uid: Solti.Utils.Eventing.Abstractions.ViewBase.Disposed
   name: Disposed
   href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Disposed
@@ -807,15 +819,15 @@ references:
   fullName.vb: Solti.Utils.Eventing.DistributedLock.DistributedLock(Solti.Utils.Eventing.Abstractions.IDistributedCache, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger(Of Solti.Utils.Eventing.DistributedLock))
   nameWithType: DistributedLock.DistributedLock(IDistributedCache, ISerializer, ILogger<DistributedLock>)
   nameWithType.vb: DistributedLock.DistributedLock(IDistributedCache, ISerializer, ILogger(Of DistributedLock))
-- uid: Solti.Utils.Eventing.DistributedLock.#ctor(Solti.Utils.Eventing.Abstractions.IDistributedCache,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.DistributedLock},System.Action{System.TimeSpan})
-  name: DistributedLock(IDistributedCache, ISerializer, ILogger<DistributedLock>, Action<TimeSpan>)
-  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock__ctor_Solti_Utils_Eventing_Abstractions_IDistributedCache_Solti_Utils_Eventing_Abstractions_ISerializer_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_DistributedLock__System_Action_System_TimeSpan__
-  commentId: M:Solti.Utils.Eventing.DistributedLock.#ctor(Solti.Utils.Eventing.Abstractions.IDistributedCache,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.DistributedLock},System.Action{System.TimeSpan})
-  name.vb: DistributedLock(IDistributedCache, ISerializer, ILogger(Of DistributedLock), Action(Of TimeSpan))
-  fullName: Solti.Utils.Eventing.DistributedLock.DistributedLock(Solti.Utils.Eventing.Abstractions.IDistributedCache, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger<Solti.Utils.Eventing.DistributedLock>, System.Action<System.TimeSpan>)
-  fullName.vb: Solti.Utils.Eventing.DistributedLock.DistributedLock(Solti.Utils.Eventing.Abstractions.IDistributedCache, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger(Of Solti.Utils.Eventing.DistributedLock), System.Action(Of System.TimeSpan))
-  nameWithType: DistributedLock.DistributedLock(IDistributedCache, ISerializer, ILogger<DistributedLock>, Action<TimeSpan>)
-  nameWithType.vb: DistributedLock.DistributedLock(IDistributedCache, ISerializer, ILogger(Of DistributedLock), Action(Of TimeSpan))
+- uid: Solti.Utils.Eventing.DistributedLock.#ctor(Solti.Utils.Eventing.Abstractions.IDistributedCache,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.DistributedLock},System.Func{System.TimeSpan,System.Threading.Tasks.Task})
+  name: DistributedLock(IDistributedCache, ISerializer, ILogger<DistributedLock>, Func<TimeSpan, Task>)
+  href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock__ctor_Solti_Utils_Eventing_Abstractions_IDistributedCache_Solti_Utils_Eventing_Abstractions_ISerializer_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_DistributedLock__System_Func_System_TimeSpan_System_Threading_Tasks_Task__
+  commentId: M:Solti.Utils.Eventing.DistributedLock.#ctor(Solti.Utils.Eventing.Abstractions.IDistributedCache,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.DistributedLock},System.Func{System.TimeSpan,System.Threading.Tasks.Task})
+  name.vb: DistributedLock(IDistributedCache, ISerializer, ILogger(Of DistributedLock), Func(Of TimeSpan, Task))
+  fullName: Solti.Utils.Eventing.DistributedLock.DistributedLock(Solti.Utils.Eventing.Abstractions.IDistributedCache, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger<Solti.Utils.Eventing.DistributedLock>, System.Func<System.TimeSpan, System.Threading.Tasks.Task>)
+  fullName.vb: Solti.Utils.Eventing.DistributedLock.DistributedLock(Solti.Utils.Eventing.Abstractions.IDistributedCache, Solti.Utils.Eventing.Abstractions.ISerializer, Microsoft.Extensions.Logging.ILogger(Of Solti.Utils.Eventing.DistributedLock), System.Func(Of System.TimeSpan, System.Threading.Tasks.Task))
+  nameWithType: DistributedLock.DistributedLock(IDistributedCache, ISerializer, ILogger<DistributedLock>, Func<TimeSpan, Task>)
+  nameWithType.vb: DistributedLock.DistributedLock(IDistributedCache, ISerializer, ILogger(Of DistributedLock), Func(Of TimeSpan, Task))
 - uid: Solti.Utils.Eventing.DistributedLock.#ctor*
   name: DistributedLock
   href: Solti.Utils.Eventing.DistributedLock.html#Solti_Utils_Eventing_DistributedLock__ctor_

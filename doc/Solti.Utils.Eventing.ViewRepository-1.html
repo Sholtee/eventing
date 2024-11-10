@@ -356,7 +356,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Close(string flowId)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task Close(string flowId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -371,6 +371,21 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -386,7 +401,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TView Create(string flowId, object tag)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;TView&gt; Create(string flowId, object tag)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -420,7 +435,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">TView</span></td>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;TView&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -435,7 +450,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TView Materialize(string flowId)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;TView&gt; Materialize(string flowId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -464,7 +479,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">TView</span></td>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;TView&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -476,7 +491,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Persist(TView view, string eventId, object[] args)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task Persist(TView view, string eventId, object[] args)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -501,6 +516,21 @@ You don&apos;t need to call this method directly. It is done by the system when 
       <tr>
         <td><span class="xref">System.Object</span>[]</td>
         <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -516,7 +546,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">ViewBase IViewRepository.Create(string flowId, object tag)</code></pre>
+    <pre><code class="lang-csharp hljs">Task&lt;ViewBase&gt; IViewRepository.Create(string flowId, object tag)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -550,7 +580,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ViewBase.html">ViewBase</a></td>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="Solti.Utils.Eventing.Abstractions.ViewBase.html">ViewBase</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -561,7 +591,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">ViewBase IViewRepository.Materialize(string flowId)</code></pre>
+    <pre><code class="lang-csharp hljs">Task&lt;ViewBase&gt; IViewRepository.Materialize(string flowId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -590,7 +620,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ViewBase.html">ViewBase</a></td>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="Solti.Utils.Eventing.Abstractions.ViewBase.html">ViewBase</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -601,7 +631,7 @@ You don&apos;t need to call this method directly. It is done by the system when 
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">void IViewRepository.Persist(ViewBase view, string eventId, object[] args)</code></pre>
+    <pre><code class="lang-csharp hljs">Task IViewRepository.Persist(ViewBase view, string eventId, object[] args)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -626,6 +656,21 @@ You don&apos;t need to call this method directly. It is done by the system when 
       <tr>
         <td><span class="xref">System.Object</span>[]</td>
         <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
         <td></td>
       </tr>
     </tbody>
