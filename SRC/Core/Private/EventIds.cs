@@ -20,7 +20,7 @@ namespace Solti.Utils.Eventing.Internals
         {
             public static EventId CACHING_DISABLED { get; } = new(300, nameof(CACHING_DISABLED));
             public static EventId ACQUIRE_LOCK_TIMEOUT { get; } = new(301, nameof(ACQUIRE_LOCK_TIMEOUT));
-            public static EventId FOREIGN_LOCK_RELEASE { get; } = new(301, nameof(FOREIGN_LOCK_RELEASE));
+            public static EventId FOREIGN_LOCK_RELEASE { get; } = new(302, nameof(FOREIGN_LOCK_RELEASE));
         }
 
         public static class Info
