@@ -28,7 +28,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 
         public abstract void CloseConnection();
 
-        public int RetryCount { get; init; } = 5;
+        public int RetryCount { get; init; } = 10;
 
         public ActionTargets Targets { get; } = ActionTargets.Test | ActionTargets.Suite;
 
