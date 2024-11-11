@@ -24,6 +24,12 @@ namespace Solti.Utils.Eventing.Tests
     [TestFixture]
     public class ViewRepositoryTests
     {
+        [SetUp]
+        public void SetupTest() => ViewRepository<View>.FSchemaInitialized = false;
+
+        [TearDown]
+        public void TearDownTest() => ViewRepository<View>.FSchemaInitialized = false;
+
         public class View(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
             public int Param { get; set; }
@@ -69,12 +75,6 @@ namespace Solti.Utils.Eventing.Tests
             }
         }
 
-        [SetUp]
-        public void SetupTest() => ViewRepository<View>.ResetGlobalState();
-
-        [TearDown]
-        public void TearDownTest() => ViewRepository<View>.ResetGlobalState();
-
         [Test]
         public async Task Materialize_ShouldReplayEvents([ValueSource(nameof(MaterializeFns))] Func<ViewRepository<View>, string, Task<View>> materialize, [ValueSource(nameof(Materialize_ShouldReplayEvents_Order))] (EventStoreFeatures Features, int Expected) order, [Values(true, false)] bool hasLogger)
         {
@@ -116,7 +116,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release("flowId", It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
 
             using View view = await materialize(repo, "flowId");
 
@@ -164,7 +164,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release("flowId", It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object, logger: mockLogger?.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, cache: mockCache.Object, logger: mockLogger?.Object);
 
             using View view = await materialize(repo, "flowId");
 
@@ -188,7 +188,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Materialize_ShouldThrowOnLayoutMismatch([ValueSource(nameof(MaterializeFns))] Func<ViewRepository<View>, string, Task<View>> materialize, [ValueSource(nameof(Materialize_ShouldThrowOnLayoutMismatch_InvalidCacheValues))] object? invalidCacheValue, [Values(true, false)] bool hasLogger)
+        public async Task Materialize_ShouldThrowOnLayoutMismatch([ValueSource(nameof(MaterializeFns))] Func<ViewRepository<View>, string, Task<View>> materialize, [ValueSource(nameof(Materialize_ShouldThrowOnLayoutMismatch_InvalidCacheValues))] object? invalidCacheValue, [Values(true, false)] bool hasLogger)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -219,7 +219,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release("flowId", It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object, logger: mockLogger?.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, cache: mockCache.Object, logger: mockLogger?.Object);
 
             InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => materialize(repo, "flowId"));
             Assert.That(ex.Message, Is.EqualTo(ERR_LAYOUT_MISMATCH));
@@ -231,7 +231,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(MaterializeFns))]
-        public void Materialize_ShouldThrowOnInvalidFlowId(Func<ViewRepository<View>, string, Task<View>> materialize)
+        public async Task Materialize_ShouldThrowOnInvalidFlowId(Func<ViewRepository<View>, string, Task<View>> materialize)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -257,7 +257,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release("flowId", It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             ArgumentException ex = Assert.ThrowsAsync<ArgumentException>(() => materialize(repo, "flowId"))!;
             Assert.That(ex.Message, Does.StartWith(Format(ERR_INVALID_FLOW_ID, "flowId")));
@@ -267,7 +267,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(MaterializeFns))]
-        public void Materialize_ShouldThrowOnTypeMismatch(Func<ViewRepository<View>, string, Task<View>> materialize)
+        public async Task Materialize_ShouldThrowOnTypeMismatch(Func<ViewRepository<View>, string, Task<View>> materialize)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -293,7 +293,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release("flowId", It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => materialize(repo, "flowId"));
             Assert.That(ex.Message, Is.EqualTo(Abstractions.Properties.Resources.ERR_VIEW_TYPE_NOT_MATCH));
@@ -323,10 +323,8 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release("flowId", It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object)
-            {
-                LockTimeout = timeout
-            };
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object);
+            repo.LockTimeout = timeout;
 
             using (View view = await materialize(repo, "flowId"))
             {
@@ -337,7 +335,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(MaterializeFns))]
-        public void Materialize_ShouldRevertTheLock(Func<ViewRepository<View>, string, Task<View>> materialize)
+        public async Task Materialize_ShouldRevertTheLock(Func<ViewRepository<View>, string, Task<View>> materialize)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -358,7 +356,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release("flowId", It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object);
 
             Assert.ThrowsAsync<ArgumentException>(() => materialize(repo, "flowId"));
 
@@ -367,7 +365,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(MaterializeFns))]
-        public void Materialize_ShouldThrowOnInvalidEventId(Func<ViewRepository<View>, string, Task<View>> materialize)
+        public async Task Materialize_ShouldThrowOnInvalidEventId(Func<ViewRepository<View>, string, Task<View>> materialize)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -388,14 +386,14 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release("flowId", It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object);
 
             InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => materialize(repo, "flowId"))!;
             Assert.That(ex.Message, Is.EqualTo(Format(ERR_INVALID_EVENT_ID, "invalid")));
         }
 
         [TestCaseSource(nameof(MaterializeFns))]
-        public void Materialize_ShouldThrowOnNullFlowId(Func<ViewRepository<View>, string, Task<View>> materialize)
+        public async Task Materialize_ShouldThrowOnNullFlowId(Func<ViewRepository<View>, string, Task<View>> materialize)
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
@@ -403,7 +401,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Returns(Task.FromResult(true));
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object);
 
             Assert.ThrowsAsync<ArgumentNullException>(() => materialize(repo, null!));
         }
@@ -418,7 +416,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [TestCaseSource(nameof(PersistFns))]
-        public void Persist_ShouldThrowIfTheLockIsNotOwned(Func<ViewRepository<View>, View, string, object?[], Task> persist)
+        public async Task Persist_ShouldThrowIfTheLockIsNotOwned(Func<ViewRepository<View>, View, string, object?[], Task> persist)
         {
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
@@ -430,14 +428,14 @@ namespace Solti.Utils.Eventing.Tests
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(Task.FromResult(true));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object);
 
             InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => persist(repo, new View("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object), "event", []));
             Assert.That(ex.Message, Is.EqualTo(ERR_NO_LOCK));
         }
 
         [TestCaseSource(nameof(PersistFns))]
-        public void Persist_ShouldBeNullSafe(Func<ViewRepository<View>, View, string, object?[], Task> persist)
+        public async Task Persist_ShouldBeNullSafe(Func<ViewRepository<View>, View, string, object?[], Task> persist)
         {
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
@@ -445,7 +443,7 @@ namespace Solti.Utils.Eventing.Tests
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(Task.FromResult(true));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object);
 
             Assert.ThrowsAsync<ArgumentNullException>(() => persist(repo, null!, "event", []));
             Assert.ThrowsAsync<ArgumentNullException>(() => persist(repo, new View("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object), null!, []));
@@ -453,7 +451,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Persist_ShouldStoreTheEvent([ValueSource(nameof(PersistFns))] Func<ViewRepository<View>, View, string, object?[], Task> persist, [Values(null, 10000)] int? cacheExpiration, [Values(true, false)] bool hasLogger)
+        public async Task Persist_ShouldStoreTheEvent([ValueSource(nameof(PersistFns))] Func<ViewRepository<View>, View, string, object?[], Task> persist, [Values(null, 10000)] int? cacheExpiration, [Values(true, false)] bool hasLogger)
         {
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
@@ -476,7 +474,7 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedCache>? mockCache = cacheExpiration.HasValue ? new(MockBehavior.Strict) : null;
             
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache?.Object, logger: mockLogger?.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, cache: mockCache?.Object, logger: mockLogger?.Object);
             if (cacheExpiration.HasValue)
                 repo.CacheEntryExpiration = TimeSpan.FromMilliseconds(cacheExpiration.Value);
 
@@ -508,7 +506,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Persist_ShouldRevertTheCacheOnDbError([ValueSource(nameof(PersistFns))] Func<ViewRepository<View>, View, string, object?[], Task> persist, [Values(true, false)] bool hasCache, [Values(true, false)] bool hasLogger)
+        public async Task Persist_ShouldRevertTheCacheOnDbError([ValueSource(nameof(PersistFns))] Func<ViewRepository<View>, View, string, object?[], Task> persist, [Values(true, false)] bool hasCache, [Values(true, false)] bool hasLogger)
         {
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
@@ -538,7 +536,7 @@ namespace Solti.Utils.Eventing.Tests
             mockLogger?
                 .Setup(l => l.Log(LogLevel.Information, Info.INSERT_EVENT, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_INSERT_EVENT, "some-event", "flowId")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, cache: mockCache?.Object, logger: mockLogger?.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, cache: mockCache?.Object, logger: mockLogger?.Object);
 
             MockSequence seq = new();
 
@@ -588,7 +586,7 @@ namespace Solti.Utils.Eventing.Tests
             mockLogger?
                 .Setup(l => l.Log(LogLevel.Warning, Warning.CACHING_DISABLED, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == LOG_CACHING_DISABLED), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
 
             MockSequence seq = new();
 
@@ -620,7 +618,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Create_ShouldThrowOnExistingFlowId([ValueSource(nameof(CreateFns))] Func<ViewRepository<View>, string, object?, Task<View>> create, [Values(true, false)] bool hasLogger)
+        public async Task Create_ShouldThrowOnExistingFlowId([ValueSource(nameof(CreateFns))] Func<ViewRepository<View>, string, object?, Task<View>> create, [Values(true, false)] bool hasLogger)
         {
             Mock<IDistributedLock> mockLock = new(MockBehavior.Strict);
             mockLock
@@ -639,7 +637,7 @@ namespace Solti.Utils.Eventing.Tests
             mockLogger?
                 .Setup(l => l.Log(LogLevel.Warning, Warning.CACHING_DISABLED, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == LOG_CACHING_DISABLED), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
 
             MockSequence seq = new();
 
@@ -665,25 +663,25 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<IDistributedLock> mockLock = new(MockBehavior.Loose);
 
-            ViewRepository<View> repo = new(mockEventStore.Object, mockLock.Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object);
             await repo.Close("flowId");
             mockLock.Verify(l => l.Release("flowId", It.IsAny<string>()), Times.Once);
         }
 
         [Test]
-        public void Close_ShouldBeNullChecked()
+        public async Task Close_ShouldBeNullChecked()
         {
             Mock<IEventStore> mockEventStore = new(MockBehavior.Strict);
             mockEventStore
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(Task.FromResult(true));
 
-            ViewRepository<View> repo = new(mockEventStore.Object, new Mock<IDistributedLock>(MockBehavior.Loose).Object);
+            ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, new Mock<IDistributedLock>(MockBehavior.Loose).Object);
             Assert.ThrowsAsync<ArgumentNullException>(() => repo.Close(null!));
         }
 
         [Test]
-        public void Ctor_ShouldInitTheDatabase([Values(true, false)] bool hasLogger)
+        public async Task Ctor_ShouldInitTheDatabase([Values(true, false)] bool hasLogger)
         {
             MockSequence seq = new();
 
@@ -723,8 +721,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release(ViewRepository<View>.SCHEMA_INIT_LOCK_NAME, It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            ViewRepository<View> repo  = new(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
-            repo.WaitUntilInitized();
+            ViewRepository<View> repo  = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
 
             Assert.That(schemaInitialized, Is.True);
             mockLock.Verify(l => l.Acquire(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Once);
@@ -735,8 +732,8 @@ namespace Solti.Utils.Eventing.Tests
         [Test]
         public void Ctor_ShouldBeNullChecked()
         {
-            Assert.Throws<ArgumentNullException>(() => new ViewRepository<View>(null!, new Mock<IDistributedLock>().Object));
-            Assert.Throws<ArgumentNullException>(() => new ViewRepository<View>(new Mock<IEventStore>().Object, null!));
+            Assert.ThrowsAsync<ArgumentNullException>(() => ViewRepository<View>.Create(null!, new Mock<IDistributedLock>().Object));
+            Assert.ThrowsAsync<ArgumentNullException>(() => ViewRepository<View>.Create(new Mock<IEventStore>().Object, null!));
         }
     }
 }

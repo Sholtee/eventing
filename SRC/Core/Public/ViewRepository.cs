@@ -23,7 +23,20 @@ namespace Solti.Utils.Eventing
     /// </summary>
     public class ViewRepository<TView>: IViewRepository<TView> where TView: ViewBase
     {
-        internal const string SCHEMA_INIT_LOCK_NAME = "SCHEMA_INIT_LOCK";
+        #region Private
+#if DEBUG
+        internal
+#else
+        private
+#endif
+            const string SCHEMA_INIT_LOCK_NAME = "SCHEMA_INIT_LOCK";
+
+#if DEBUG
+        internal
+#else
+        private
+#endif
+            static bool FSchemaInitialized;
 
         private static string CreateGuid() => Guid.NewGuid().ToString("D");
 
@@ -31,16 +44,7 @@ namespace Solti.Utils.Eventing
             ? await t
             : default;
 
-        private static Task FEnsureSchemaInitialized = null!;
-#if DEBUG
-        internal static void ResetGlobalState() => FEnsureSchemaInitialized = null!;
-
-        internal void WaitUntilInitized() => FEnsureSchemaInitialized.Wait();
-#endif
-        /// <summary>
-        /// Creates a new <see cref="ViewRepository{TView}"/> instance
-        /// </summary>
-        public ViewRepository(IEventStore eventStore, IDistributedLock @lock, ISerializer? serializer = null, IReflectionModule<TView>? reflectionModule = null, IDistributedCache? cache = null, ILogger<ViewRepository<TView>>? logger = null)
+        private ViewRepository(IEventStore eventStore, IDistributedLock @lock, ISerializer? serializer = null, IReflectionModule<TView>? reflectionModule = null, IDistributedCache? cache = null, ILogger<ViewRepository<TView>>? logger = null)
         {
             EventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             Lock = @lock ?? throw new ArgumentNullException(nameof(@lock));
@@ -52,37 +56,41 @@ namespace Solti.Utils.Eventing
             Cache = cache;
             if (Cache is null)
                 Logger?.LogWarning(Warning.CACHING_DISABLED, LOG_CACHING_DISABLED);
-   
+
             RepositoryId = CreateGuid();
+        }
 
-            //
-            // Reuse the same task to avoid multiple initialization checks
-            //
-            // FIXME: In case of faulty task a failed state will be persisted 
-            //
-
-            FEnsureSchemaInitialized ??= EnsureSchemaInitialized();
-
-            async Task EnsureSchemaInitialized()
+        private async Task EnsureSchemaInitialized()
+        {
+            if (!FSchemaInitialized && !await EventStore.SchemaInitialized)
             {
-                if (!await EventStore.SchemaInitialized)
+                await Lock.Acquire(SCHEMA_INIT_LOCK_NAME, RepositoryId, LockTimeout);
+                try
                 {
-                    await Lock.Acquire(SCHEMA_INIT_LOCK_NAME, RepositoryId, LockTimeout);
-                    try
+                    if (!await EventStore.SchemaInitialized)
                     {
-                        if (!await EventStore.SchemaInitialized)
-                        {
-                            Logger?.LogInformation(Info.INIT_SCHEMA, LOG_INIT_SCHEMA);
-                            await EventStore.InitSchema();
-                            Logger?.LogInformation(Info.SCHEMA_INITIALIZED, LOG_SCHEMA_INITIALIZED);
-                        }
-                    }
-                    finally
-                    {
-                        await Lock.Release(SCHEMA_INIT_LOCK_NAME, RepositoryId);
+                        Logger?.LogInformation(Info.INIT_SCHEMA, LOG_INIT_SCHEMA);
+                        await EventStore.InitSchema();
+                        Logger?.LogInformation(Info.SCHEMA_INITIALIZED, LOG_SCHEMA_INITIALIZED);
                     }
                 }
+                finally
+                {
+                    await Lock.Release(SCHEMA_INIT_LOCK_NAME, RepositoryId);
+                }
             }
+            FSchemaInitialized = true;
+        }
+        #endregion
+
+        /// <summary>
+        /// Creates a new <see cref="ViewRepository{TView}"/> instance
+        /// </summary>
+        public static async Task<ViewRepository<TView>> Create(IEventStore eventStore, IDistributedLock @lock, ISerializer? serializer = null, IReflectionModule<TView>? reflectionModule = null, IDistributedCache? cache = null, ILogger<ViewRepository<TView>>? logger = null)
+        {
+            ViewRepository<TView> repo = new(eventStore, @lock, serializer, reflectionModule, cache, logger);
+            await repo.EnsureSchemaInitialized();
+            return repo;
         }
 
         /// <summary>
@@ -145,8 +153,6 @@ namespace Solti.Utils.Eventing
             if (!await Lock.IsHeld(view.FlowId, RepositoryId))
                 throw new InvalidOperationException(ERR_NO_LOCK);
 
-            await FEnsureSchemaInitialized;
-
             Logger?.LogInformation(Info.UPDATE_CACHE, LOG_UPDATE_CACHE, view.FlowId);
 
             await AwaitPossibleNull
@@ -191,9 +197,9 @@ namespace Solti.Utils.Eventing
                 // the 100% coverage: https://stackoverflow.com/questions/40422362/can-this-method-reach-100-code-coverage
                 //
 
-                #if DEBUG
+#if DEBUG
                     e
-                #endif
+#endif
                 ;
             }
         }
@@ -204,8 +210,6 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public async Task<TView> Materialize(string flowId)
         {
-            await FEnsureSchemaInitialized;
-
             //
             // Lock the flow
             //
@@ -277,9 +281,9 @@ namespace Solti.Utils.Eventing
                 await Lock.Release(flowId, RepositoryId);
 
                 throw
-                #if DEBUG
+#if DEBUG
                     e
-                #endif
+#endif
                 ;
             }
         }
@@ -288,8 +292,6 @@ namespace Solti.Utils.Eventing
         public async Task<TView> Create(string? flowId, object? tag)
         {
             flowId ??= CreateGuid();
-
-            await FEnsureSchemaInitialized;
 
             //
             // Lock the flow
@@ -315,9 +317,9 @@ namespace Solti.Utils.Eventing
                 await Lock.Release(flowId, RepositoryId);
 
                 throw
-                #if DEBUG
+#if DEBUG
                     e
-                #endif
+#endif
                 ;
             }
         }
