@@ -25,9 +25,9 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         protected abstract TView CreateProxyView<TView>(string flowId, IViewRepository<TView> ownerRepository) where TView : ViewBase;
 
         [Test]
-        public void FromDict_ShouldBeNullChecked()
+        public async Task FromDict_ShouldBeNullChecked()
         {
-            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
+            await using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Assert.Throws<ArgumentNullException>(() => view.FromDict(null!));
         }
@@ -45,17 +45,17 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         }
 
         [TestCaseSource(nameof(FromDict_ShouldVerifyTheFlowId_Paramz))]
-        public void FromDict_ShouldVerifyTheFlowId(IDictionary<string, object?> dict, bool expected)
+        public async Task FromDict_ShouldVerifyTheFlowId(IDictionary<string, object?> dict, bool expected)
         {
-            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
+            await using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Assert.That(view.FromDict(dict), Is.EqualTo(expected));
         }
 
         [Test]
-        public void FromDict_ShouldSetTheTag([Values(true, false)] bool available)
+        public async Task FromDict_ShouldSetTheTag([Values(true, false)] bool available)
         {
-            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
+            await using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Dictionary<string, object?> d = new() { { "FlowId", "flowId" } };
             if (available)
@@ -66,39 +66,39 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         }
 
         [Test]
-        public void ToDict_ShouldConvertTheView()
+        public async Task ToDict_ShouldConvertTheView()
         {
-            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
+            await using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Assert.That(view.ToDict(), Is.EquivalentTo(new Dictionary<string, object?> { { "FlowId", "flowId" }, { "Tag", null } }));
         }
 
         [Test]
-        public void Initialize_ShouldSetTheTag([Values(true, false)] bool requireProxy)
+        public async Task Initialize_ShouldSetTheTag([Values(true, false)] bool requireProxy)
         {
             Func<string, IViewRepository<TestView>, TestView> factory = requireProxy ? CreateProxyView<TestView> : CreateView;
 
-            using TestView view = factory("flowId", new Mock<IViewRepository<TestView>>(MockBehavior.Loose).Object);
+            await using TestView view = factory("flowId", new Mock<IViewRepository<TestView>>(MockBehavior.Loose).Object);
 
             Assert.DoesNotThrow(() => view.Initialize(typeof(TestView).FullName!, "tag"));
             Assert.That(view.Tag, Is.EqualTo("tag"));
         }
 
         [Test]
-        public void Initialize_ShouldThrowOnTypeNameMismatch([Values(true, false)] bool requireProxy)
+        public async Task Initialize_ShouldThrowOnTypeNameMismatch([Values(true, false)] bool requireProxy)
         {
             Func<string, IViewRepository<TestView>, TestView> factory = requireProxy ? CreateProxyView<TestView> : CreateView;
 
-            using TestView view = factory("flowId", new Mock<IViewRepository<TestView>>(MockBehavior.Loose).Object);
+            await using TestView view = factory("flowId", new Mock<IViewRepository<TestView>>(MockBehavior.Loose).Object);
 
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => view.Initialize("invalid", "tag"));
             Assert.That(ex.Message, Is.EqualTo(Resources.ERR_VIEW_TYPE_NOT_MATCH));
         }
 
         [Test]
-        public void Initialize_ShouldBeNullChecked()
+        public async Task Initialize_ShouldBeNullChecked()
         {
-            using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
+            await using TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
             Assert.Throws<ArgumentNullException>(() => view.Initialize(null!, "tag"));
         }
 
@@ -107,22 +107,6 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         {
             Assert.Throws<ArgumentNullException>(() => new TestView(null!, new Mock<IViewRepository>(MockBehavior.Loose).Object));
             Assert.Throws<ArgumentNullException>(() => new TestView("flowId", null!));
-        }
-
-        [Test]
-        public void Dispose_ShouldCloseTheView([Values(1, 5)] int callCount)
-        {
-            Mock<IViewRepository> mockRepo = new(MockBehavior.Strict);
-            mockRepo
-                .Setup(r => r.Close("flowId"))
-                .Returns(Task.CompletedTask);
-
-            TestView view = new("flowId", mockRepo.Object);
-            for (int i = 0; i < callCount; i++)
-                view.Dispose();
-
-            Assert.That(view.Disposed, Is.True);
-            mockRepo.Verify(r => r.Close("flowId"), Times.Once);
         }
 
         [Test]
@@ -142,12 +126,12 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         }
 
         [Test]
-        public void CheckDisposed_ShouldThrowIfTheViewHadBeenDisposed()
+        public async Task CheckDisposed_ShouldThrowIfTheViewHadBeenDisposed()
         {
             TestView view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object);
 
             Assert.DoesNotThrow(view.CheckDisposed);
-            view.Dispose();
+            await view.DisposeAsync();
             Assert.Throws<ObjectDisposedException>(view.CheckDisposed);
         }
     }

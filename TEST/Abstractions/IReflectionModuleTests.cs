@@ -66,7 +66,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         }
 
         [Test]
-        public void Views_ShouldThrowAfterDispose()
+        public async Task Views_ShouldThrowAfterDispose()
         {
             Mock<IViewRepository<View>> mockRepo = new(MockBehavior.Strict);
             mockRepo
@@ -74,16 +74,16 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
                 .Returns(Task.CompletedTask);
 
             View view = CreateInstance<View>().CreateRawView("flowid", mockRepo.Object, out _);
-            view.Dispose();
+            await view.DisposeAsync();
 
             Assert.Throws<ObjectDisposedException>(() => view.Annotated(123));
-            Assert.Throws<ObjectDisposedException>(view.Dispose);
+            Assert.ThrowsAsync<ObjectDisposedException>(async () => await view.DisposeAsync());
         }
 
         [Test]
-        public void Views_ShouldBeAnnotatedByGeneratedCodeAttribute()
+        public async Task Views_ShouldBeAnnotatedByGeneratedCodeAttribute()
         {
-            using View view = CreateInstance<View>().CreateRawView("flowid", new Mock<IViewRepository<View>>().Object, out _);
+            await using View view = CreateInstance<View>().CreateRawView("flowid", new Mock<IViewRepository<View>>().Object, out _);
 
             Assert.That(view.GetType().GetCustomAttribute<GeneratedCodeAttribute>(), Is.Not.Null);
         }

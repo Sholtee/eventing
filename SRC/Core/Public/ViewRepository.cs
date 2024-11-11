@@ -196,7 +196,6 @@ namespace Solti.Utils.Eventing
                 // Simple rethrowing creates a dead branch in the state machine making impossible to reach
                 // the 100% coverage: https://stackoverflow.com/questions/40422362/can-this-method-reach-100-code-coverage
                 //
-
 #if DEBUG
                     e
 #endif

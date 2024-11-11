@@ -118,7 +118,7 @@ namespace Solti.Utils.Eventing.Tests
 
             ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, logger: mockLogger?.Object);
 
-            using View view = await materialize(repo, "flowId");
+            await using View view = await materialize(repo, "flowId");
 
             Assert.That(view, Is.Not.Null);
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
@@ -148,13 +148,13 @@ namespace Solti.Utils.Eventing.Tests
             mockCache
                 .InSequence(seq)
                 .Setup(c => c.Get("flowId"))
-                .Returns<string>(static _ =>
+                .Returns<string>(async static _ =>
                 {
-                    using View view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object)
+                    await using View view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object)
                     {
                         Param = 1986
                     };
-                    return Task.FromResult<string?>(JsonSerializer.Instance.Serialize(view.ToDict()));
+                    return JsonSerializer.Instance.Serialize(view.ToDict());
                 });
             mockLogger?
                 .InSequence(seq)
@@ -166,7 +166,7 @@ namespace Solti.Utils.Eventing.Tests
 
             ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, cache: mockCache.Object, logger: mockLogger?.Object);
 
-            using View view = await materialize(repo, "flowId");
+            await using View view = await materialize(repo, "flowId");
 
             Assert.That(view, Is.Not.Null);
             Assert.That(view.FlowId, Is.EqualTo("flowId"));
@@ -326,7 +326,7 @@ namespace Solti.Utils.Eventing.Tests
             ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object);
             repo.LockTimeout = timeout;
 
-            using (View view = await materialize(repo, "flowId"))
+            await using (View view = await materialize(repo, "flowId"))
             {
                 mockLock.Verify(l => l.Acquire("flowId", It.IsAny<string>(), timeout), Times.Once);
                 mockLock.Verify(l => l.Release(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
@@ -467,7 +467,7 @@ namespace Solti.Utils.Eventing.Tests
             mockLogger?
                 .Setup(l => l.Log(LogLevel.Warning, Warning.CACHING_DISABLED, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == LOG_CACHING_DISABLED), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            using View view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object)
+            await using View view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object)
             {
                 Param = 1986
             };
@@ -521,7 +521,7 @@ namespace Solti.Utils.Eventing.Tests
                 .SetupGet(s => s.SchemaInitialized)
                 .Returns(Task.FromResult(true));
 
-            using View view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object)
+            await using View view = new("flowId", new Mock<IViewRepository>(MockBehavior.Loose).Object)
             {
                 Param = 1986
             };
@@ -606,7 +606,7 @@ namespace Solti.Utils.Eventing.Tests
                 .Setup(l => l.Release(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            using View view = await create(repo, flowId, tag);
+            await using View view = await create(repo, flowId, tag);
 
             Assert.That(view, Is.Not.Null);
             Assert.That(view.OwnerRepository, Is.EqualTo(repo));

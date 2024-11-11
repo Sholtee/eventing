@@ -17,7 +17,7 @@ namespace Solti.Utils.Eventing.Abstractions
     /// The base of materialized views
     /// </summary>
     /// <remarks>A view also represents a session being carried out on a perticular flow. Therefore, disposing the view closes the underlying session too</remarks>
-    public abstract class ViewBase(string flowId, IViewRepository ownerRepository) : IDisposable, IAsyncDisposable
+    public abstract class ViewBase(string flowId, IViewRepository ownerRepository) : IAsyncDisposable
     {
         /// <summary>
         /// The unique id if this view.
@@ -108,14 +108,6 @@ namespace Solti.Utils.Eventing.Abstractions
 
             Tag = tag;
         }
-
-        /// <summary>
-        /// Disposes this view by releasing the lock on it
-        /// </summary>
-        public virtual void Dispose() => DisposeAsync()
-            .AsTask()
-            .GetAwaiter()
-            .GetResult();
 
         /// <summary>
         /// Disposes this view asynchronously by releasing the lock on it
