@@ -705,18 +705,6 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed
   fullName: Solti.Utils.Eventing.Abstractions.ViewBase.CheckDisposed
   nameWithType: ViewBase.CheckDisposed
-- uid: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
-  name: Dispose()
-  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Dispose
-  commentId: M:Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
-  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose()
-  nameWithType: ViewBase.Dispose()
-- uid: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose*
-  name: Dispose
-  href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_Dispose_
-  commentId: Overload:Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
-  fullName: Solti.Utils.Eventing.Abstractions.ViewBase.Dispose
-  nameWithType: ViewBase.Dispose
 - uid: Solti.Utils.Eventing.Abstractions.ViewBase.DisposeAsync
   name: DisposeAsync()
   href: Solti.Utils.Eventing.Abstractions.ViewBase.html#Solti_Utils_Eventing_Abstractions_ViewBase_DisposeAsync
