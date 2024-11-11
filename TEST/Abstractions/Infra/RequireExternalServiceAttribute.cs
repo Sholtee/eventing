@@ -36,22 +36,14 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         {
             if (test.IsSuite)
             {
-                ContainerBuilder bldr = new Builder()
+                FService = new Builder()
                     .UseContainer()
                     .UseImage(image)
                     .WithName($"test_{image.Substring(0, image.IndexOf(':'))}")
-                    .ReuseIfExists()
                     .ExposePort(exposePort, exposePort)
-                    .WithEnvironment(envVars.Select(static envVar => $"{envVar.Key}={envVar.Value}").ToArray());
-
-                //
-                // Reuse the stack in the cloud
-                //
-
-                if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI")))
-                    bldr.KeepRunning();
-
-                FService = bldr.Build().Start();
+                    .WithEnvironment(envVars.Select(static envVar => $"{envVar.Key}={envVar.Value}").ToArray())
+                    .Build()
+                    .Start();
 
                 for (int i = 0; i < RetryCount; i++)
                 {
