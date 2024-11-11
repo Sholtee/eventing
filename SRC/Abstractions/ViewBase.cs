@@ -7,11 +7,11 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Solti.Utils.Eventing.Abstractions
 {
     using Properties;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// The base of materialized views
