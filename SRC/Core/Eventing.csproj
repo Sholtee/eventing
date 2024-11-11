@@ -2,6 +2,7 @@
     <PropertyGroup>
 	<AssemblyName>Solti.Utils.Eventing</AssemblyName>
 	<RootNamespace>Solti.Utils.Eventing</RootNamespace>
+    <NoWarn Condition="'$(Configuration)'=='Debug'">CA2200;</NoWarn>
     </PropertyGroup>
 
     <Import Project="..\Common.targets" />

@@ -184,14 +184,17 @@ namespace Solti.Utils.Eventing
 
                 await AwaitPossibleNull(Cache?.Remove(view.FlowId));
 
+                throw
+
                 //
                 // Simple rethrowing creates a dead branch in the state machine making impossible to reach
                 // the 100% coverage: https://stackoverflow.com/questions/40422362/can-this-method-reach-100-code-coverage
                 //
 
-#pragma warning disable CA2200
-                throw e;
-#pragma warning restore CA2200
+                #if DEBUG
+                    e
+                #endif
+                ;
             }
         }
 
@@ -273,9 +276,11 @@ namespace Solti.Utils.Eventing
  
                 await Lock.Release(flowId, RepositoryId);
 
-#pragma warning disable CA2200
-                throw e;
-#pragma warning restore CA2200
+                throw
+                #if DEBUG
+                    e
+                #endif
+                ;
             }
         }
 
@@ -309,9 +314,11 @@ namespace Solti.Utils.Eventing
 
                 await Lock.Release(flowId, RepositoryId);
 
-#pragma warning disable CA2200
-                throw e;
-#pragma warning restore CA2200
+                throw
+                #if DEBUG
+                    e
+                #endif
+                ;
             }
         }
 
