@@ -6,7 +6,7 @@
 namespace Solti.Utils.Eventing.Abstractions
 {
     /// <summary>
-    /// Config interfce over the view proxy
+    /// Config interface over the view proxy
     /// </summary>
     public interface IEventfulViewConfig
     {
