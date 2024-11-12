@@ -18,6 +18,7 @@ namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions;
 
+    using static Abstractions.Properties.Resources;
     using static Internals.EventIds;
     using static Properties.Resources;
 
@@ -296,7 +297,7 @@ namespace Solti.Utils.Eventing.Tests
             ViewRepository<View> repo = await ViewRepository<View>.Create(mockEventStore.Object, mockLock.Object, cache: mockCache.Object);
 
             InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => materialize(repo, "flowId"));
-            Assert.That(ex.Message, Is.EqualTo(Abstractions.Properties.Resources.ERR_VIEW_TYPE_NOT_MATCH));
+            Assert.That(ex.Message, Is.EqualTo(ERR_VIEW_TYPE_NOT_MATCH));
         }
 
         [Test]

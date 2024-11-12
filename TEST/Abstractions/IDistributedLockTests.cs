@@ -11,25 +11,14 @@ using NUnit.Framework;
 
 namespace Solti.Utils.Eventing.Abstractions.Tests
 {
-    using Eventing.Properties;
-
     public abstract class IDistributedLockTests
     {
-        private sealed class Scope(IDistributedLock @lock, string key, string ownerId) : IDisposable
+        private sealed class Scope(IDistributedLock @lock, string key, string ownerId) : IAsyncDisposable
         {
-            public bool Disposed { get; private set; }
-
-            public void Dispose()
-            {
-                if (!Disposed)
-                {
-                    @lock.Release(key, ownerId);
-                    Disposed = true;
-                }
-            }
+            public async ValueTask DisposeAsync() => await @lock.Release(key, ownerId);
         }
 
-        protected async Task<IDisposable> ScopedLock(string key, TimeSpan timeout)
+        protected async Task<IAsyncDisposable> ScopedLock(string key, TimeSpan timeout)
         {
             IDistributedLock @lock = CreateInstance();
 
@@ -56,7 +45,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 
             async Task Worker()
             {
-                using IDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
+                await using IAsyncDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
 
                 Assert.That(lockHeld, Is.False);
                 lockHeld = true;
@@ -72,7 +61,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 
             Task t = Task.Factory.StartNew(async () =>
             {
-                using IDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
+                await using IAsyncDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
                 evt.Wait();
             });
             t.Wait(100); // make sure the thread has grabed the lock
@@ -86,7 +75,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         [Test]
         public async Task Acquire_ShouldBlockOnNestedInvocation()
         {
-            using IDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
+            await using IAsyncDisposable scope = await ScopedLock("mylock", TimeSpan.FromMinutes(1));
 
             Assert.ThrowsAsync<TimeoutException>(() => ScopedLock("mylock", TimeSpan.FromMilliseconds(10)));
         }
@@ -115,8 +104,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             await @lock.Acquire("mylock", "owner_1", TimeSpan.FromMinutes(1));
             try
             {
-                InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => @lock.Release("mylock", "unknown"))!;
-                Assert.That(ex.Message, Is.EqualTo(Resources.ERR_FOREIGN_LOCK_RELEASE));
+                Assert.ThrowsAsync<InvalidOperationException>(() => @lock.Release("mylock", "unknown"));
             }
             finally
             {

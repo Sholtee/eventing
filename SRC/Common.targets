@@ -26,13 +26,4 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-            <_Parameter1>Solti.Utils.Eventing.Tests</_Parameter1>
-        </AssemblyAttribute>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-            <_Parameter1>Solti.Utils.Eventing.Abstractions.Tests</_Parameter1>
-        </AssemblyAttribute>
-    </ItemGroup>
-
 </Project>
