@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventing.Abstractions.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventing.Tests", "TEST\Core\Eventing.Tests.csproj", "{097466C4-A0DF-4405-9864-3E092AE251DE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventing.DynamoDB", "SRC\DynamoDB\Eventing.DynamoDB.csproj", "{9306B90D-343E-4735-9263-E86398F00793}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventing.DynamoDB.Tests", "TEST\DynamoDB\Eventing.DynamoDB.Tests.csproj", "{3B8244B5-E198-4D25-8CDB-97819211D9DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{097466C4-A0DF-4405-9864-3E092AE251DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{097466C4-A0DF-4405-9864-3E092AE251DE}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{097466C4-A0DF-4405-9864-3E092AE251DE}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{9306B90D-343E-4735-9263-E86398F00793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9306B90D-343E-4735-9263-E86398F00793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9306B90D-343E-4735-9263-E86398F00793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9306B90D-343E-4735-9263-E86398F00793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B8244B5-E198-4D25-8CDB-97819211D9DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B8244B5-E198-4D25-8CDB-97819211D9DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B8244B5-E198-4D25-8CDB-97819211D9DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B8244B5-E198-4D25-8CDB-97819211D9DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
