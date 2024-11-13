@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.*" />
+      <PackageReference Include="Solti.Utils.Primitives" Version="8.*" />
     </ItemGroup>
 
     <ItemGroup>

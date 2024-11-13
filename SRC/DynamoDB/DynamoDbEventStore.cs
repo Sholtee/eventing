@@ -5,6 +5,7 @@
 ********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ using Amazon.DynamoDBv2.Model;
 namespace Solti.Utils.Eventing
 {
     using Abstractions;
+    using Primitives.Patterns;
 
     using static Properties.Resources;
 
@@ -39,6 +41,14 @@ namespace Solti.Utils.Eventing
             new AttributeDefinition { AttributeName = FLOW_ID, AttributeType = ScalarAttributeType.S },
             new AttributeDefinition { AttributeName = CREATED_UTC, AttributeType = ScalarAttributeType.N }
         ];
+
+        private sealed class KeySchemaElementComparer: Singleton<KeySchemaElementComparer>, IEqualityComparer<KeySchemaElement>
+        {
+            public bool Equals(KeySchemaElement x, KeySchemaElement y) => x.AttributeName == y.AttributeName && x.KeyType == y.KeyType;
+
+            [ExcludeFromCodeCoverage]
+            public int GetHashCode(KeySchemaElement obj) => throw new NotImplementedException();
+        }
 
         private readonly bool FRequireDisose;
 
@@ -110,7 +120,7 @@ namespace Solti.Utils.Eventing
                         return false;
                     }
 
-                    if (!response.Table.KeySchema.All(FSchema.Contains))
+                    if (!response.Table.KeySchema.All(static key => FSchema.Contains(key, KeySchemaElementComparer.Instance)))
                         throw new InvalidOperationException(ERR_SCHEMA_LAYOUT_MISMATCH);
 
                     return true;                  
