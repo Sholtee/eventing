@@ -82,5 +82,10 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Features of this instance.
         /// </summary>
         EventStoreFeatures Features { get; }
+
+        /// <summary>
+        /// Page size to be used when querying events.
+        /// </summary>
+        int PageSize { get; set; }
     }
 }
