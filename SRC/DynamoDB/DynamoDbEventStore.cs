@@ -52,8 +52,6 @@ namespace Solti.Utils.Eventing
 
         private readonly bool FRequireDisose;
 
-        private readonly string FTableName;
-
         private IAmazonDynamoDB FDb;
 
         /// <summary>
@@ -88,9 +86,9 @@ namespace Solti.Utils.Eventing
         {
             FDb = db ?? throw new ArgumentNullException(nameof(db));
 
-            FTableName = "event-data";
+            TableName = "event-data";
             if (!string.IsNullOrEmpty(appName))
-                FTableName = $"{appName}-{FTableName}";
+                TableName = $"{appName}-{TableName}";
         }
 
         /// <summary>
@@ -112,8 +110,7 @@ namespace Solti.Utils.Eventing
 
                     try
                     {
-
-                        response = await FDb.DescribeTableAsync(new DescribeTableRequest(FTableName));
+                        response = await FDb.DescribeTableAsync(new DescribeTableRequest(TableName));
                     }
                     catch (ResourceNotFoundException)
                     {
@@ -131,7 +128,7 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public Task InitSchema() => FDb.CreateTableAsync
         (
-            FTableName,
+            TableName,
             FSchema.ToList(),
             FAttributes.ToList(),
             Throughput
@@ -158,7 +155,7 @@ namespace Solti.Utils.Eventing
             {
                 QueryResponse response = await FDb.QueryAsync(new QueryRequest
                 {
-                    TableName         = FTableName,
+                    TableName         = TableName,
                     ExclusiveStartKey = startKey,
                     KeyConditions     = keyCondition,
                     Limit             = PageSize,
@@ -177,7 +174,7 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public Task SetEvent(Event @event) => FDb.PutItemAsync
         (
-            FTableName,
+            TableName,
             MapEvent(@event ?? throw new ArgumentNullException(nameof(@event)))
         );
 
@@ -186,6 +183,11 @@ namespace Solti.Utils.Eventing
 
         /// <inheritdoc/>
         public int PageSize { get; set; } = 10;
+
+        /// <summary>
+        /// Table name used by this instance.
+        /// </summary>
+        public string TableName { get; }
 
         /// <summary>
         /// Throughput to be assigned when initializing the schema
