@@ -52,17 +52,15 @@ namespace Solti.Utils.Eventing
 
         private readonly bool FRequireDisose;
 
-        private IAmazonDynamoDB FDb;
-
         /// <summary>
         /// Override this method if you want to customize the data being inserted.
         /// </summary>
         protected virtual Dictionary<string, AttributeValue> MapEvent(Event @event) => new()
         {
-            { FLOW_ID,     new AttributeValue(@event.FlowId) },
-            { CREATED_UTC, new AttributeValue(@event.CreatedUtc.Ticks.ToString()) },
-            { EVENT_ID,    new AttributeValue(@event.EventId) },
-            { ARGS,        new AttributeValue(@event.Arguments) }
+            { FLOW_ID,     new AttributeValue { S = @event.FlowId } },
+            { CREATED_UTC, new AttributeValue { N = @event.CreatedUtc.Ticks.ToString() } },
+            { EVENT_ID,    new AttributeValue { S = @event.EventId} },
+            { ARGS,        new AttributeValue { S = @event.Arguments } }
         };
 
         /// <summary>
@@ -75,16 +73,16 @@ namespace Solti.Utils.Eventing
             Arguments  = @event[ARGS].S,
             CreatedUtc = new DateTime
             (
-                ticks: long.Parse(@event[CREATED_UTC].S)
+                ticks: long.Parse(@event[CREATED_UTC].N)
             )
         };
 
         /// <summary>
         /// Creates a new <see cref="DynamoDbEventStore"/> instance using a pre-configured client.
         /// </summary>
-        public DynamoDbEventStore(IAmazonDynamoDB db, string? appName)
+        public DynamoDbEventStore(IAmazonDynamoDB db, string? appName = null)
         {
-            FDb = db ?? throw new ArgumentNullException(nameof(db));
+            DB = db ?? throw new ArgumentNullException(nameof(db));
 
             TableName = "event-data";
             if (!string.IsNullOrEmpty(appName))
@@ -110,7 +108,7 @@ namespace Solti.Utils.Eventing
 
                     try
                     {
-                        response = await FDb.DescribeTableAsync(new DescribeTableRequest(TableName));
+                        response = await DB.DescribeTableAsync(new DescribeTableRequest(TableName));
                     }
                     catch (ResourceNotFoundException)
                     {
@@ -126,7 +124,7 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public Task InitSchema() => FDb.CreateTableAsync
+        public Task InitSchema() => DB.CreateTableAsync
         (
             TableName,
             FSchema.ToList(),
@@ -144,7 +142,7 @@ namespace Solti.Utils.Eventing
                     new Condition
                     {
                         ComparisonOperator = ComparisonOperator.EQ,
-                        AttributeValueList = [new AttributeValue(flowId)]
+                        AttributeValueList = [new AttributeValue { S = flowId }]
                     }
                 }
             };
@@ -153,7 +151,7 @@ namespace Solti.Utils.Eventing
 
             do
             {
-                QueryResponse response = await FDb.QueryAsync(new QueryRequest
+                QueryResponse response = await DB.QueryAsync(new QueryRequest
                 {
                     TableName         = TableName,
                     ExclusiveStartKey = startKey,
@@ -172,7 +170,7 @@ namespace Solti.Utils.Eventing
         }
 
         /// <inheritdoc/>
-        public Task SetEvent(Event @event) => FDb.PutItemAsync
+        public Task SetEvent(Event @event) => DB.PutItemAsync
         (
             TableName,
             MapEvent(@event ?? throw new ArgumentNullException(nameof(@event)))
@@ -190,6 +188,11 @@ namespace Solti.Utils.Eventing
         public string TableName { get; }
 
         /// <summary>
+        /// The underlying database.
+        /// </summary>
+        public IAmazonDynamoDB DB { get; private set; }
+
+        /// <summary>
         /// Throughput to be assigned when initializing the schema
         /// </summary>
         public static ProvisionedThroughput Throughput { get; } = new() { ReadCapacityUnits = 1, WriteCapacityUnits = 1};
@@ -197,10 +200,10 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (FRequireDisose && FDb is not null)
+            if (FRequireDisose && DB is not null)
             {
-                FDb.Dispose();
-                FDb = null!;
+                DB.Dispose();
+                DB = null!;
             }
         }
     }
