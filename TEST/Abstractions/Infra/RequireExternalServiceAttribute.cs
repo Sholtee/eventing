@@ -4,8 +4,6 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 using Ductus.FluentDocker.Builders;
@@ -16,40 +14,42 @@ using NUnit.Framework.Interfaces;
 namespace Solti.Utils.Eventing.Abstractions.Tests
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public abstract class RequireExternalServiceAttribute(string image, int exposePort, params KeyValuePair<string, string>[] envVars) : Attribute, ITestAction
+    public abstract class RequireExternalServiceAttribute(string image, int exposePort, string name) : Attribute, ITestAction
     {
         private IContainerService? FService;
 
-        public virtual void SetupTest() { }
+        protected virtual ContainerBuilder TweakBuild(ContainerBuilder builder) => builder;
 
-        public virtual void TearDownTest() { }
+        protected virtual void SetupTest() { }
 
-        public abstract bool TryConnect();
+        protected virtual void TearDownTest() { }
 
-        public abstract void CloseConnection();
+        protected abstract bool TryConnect(object fixture);
+
+        protected abstract void CloseConnection();
 
         public int RetryCount { get; init; } = 10;
 
-        public ActionTargets Targets { get; } = ActionTargets.Test | ActionTargets.Suite;
+        ActionTargets ITestAction.Targets { get; } = ActionTargets.Test | ActionTargets.Suite;
 
-        public virtual void BeforeTest(ITest test)
+        void ITestAction.BeforeTest(ITest test)
         {
             if (test.IsSuite)
             {
-                FService = new Builder()
-                    .UseContainer()
-                    .UseImage(image)
-                    .WithName($"test_{image.Substring(0, image.IndexOf(':'))}")
-                    .ExposePort(exposePort, exposePort)
-                    .WithEnvironment(envVars.Select(static envVar => $"{envVar.Key}={envVar.Value}").ToArray())
-                    .Build()
-                    .Start();
+                FService = TweakBuild
+                (
+                    new Builder()
+                        .UseContainer()
+                        .UseImage(image)
+                        .WithName(name)
+                        .ExposePort(exposePort, exposePort)
+                ).Build().Start();
 
                 for (int i = 0; i < RetryCount; i++)
                 {
                     Thread.Sleep(TimeSpan.FromSeconds(i * 5));
 
-                    if (TryConnect())
+                    if (TryConnect(test.Fixture!))
                         return;
                 }
 
@@ -58,7 +58,7 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             else SetupTest();
         }
 
-        public virtual void AfterTest(ITest test)
+        void ITestAction.AfterTest(ITest test)
         {
             if (test.IsSuite)
             {
