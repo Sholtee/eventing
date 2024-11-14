@@ -22,7 +22,7 @@ namespace Solti.Utils.Eventing.Tests
     using static Internals.EventIds;
     using static Properties.Resources;
 
-    [TestFixture, RequireRedis]
+    [TestFixture, RequireRedis, NonParallelizable]
     public class RedisCacheTests: IDistributedCacheTests
     {
         protected override IDistributedCache CreateInstance() => new RedisCache("localhost", JsonSerializer.Instance);

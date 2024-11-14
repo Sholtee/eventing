@@ -18,7 +18,7 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
 
     using static Properties.Resources;
 
-    [TestFixture, RequireDynamoDB]
+    [TestFixture, RequireDynamoDB, NonParallelizable]
     public class DynamoDbEventStoreTests: IHasDynamoDbConnection
     {
         public IAmazonDynamoDB Connection { get; set; } = null!;
@@ -48,7 +48,7 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
                 new ProvisionedThroughput(1, 1)
             );
 
-            InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => store.SchemaInitialized);
+            InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => store.SchemaInitialized)!;
             Assert.That(ex.Message, Is.EqualTo(ERR_SCHEMA_LAYOUT_MISMATCH));
         }
 

@@ -21,7 +21,7 @@ namespace Solti.Utils.Eventing.Tests
     using static Internals.EventIds;
     using static Properties.Resources;
 
-    [TestFixture, RequireRedis]
+    [TestFixture, RequireRedis, NonParallelizable]
     public class DistributedLockTests: IDistributedLockTests
     {
         private RedisCache FRedisCache = null!;
