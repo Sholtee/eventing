@@ -90,7 +90,7 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
         public void Dispose_ShouldDisposeInternalClient()
         {
 
-            DynamoDbEventStore store = new(config: new AmazonDynamoDBConfig(), appName: null);
+            DynamoDbEventStore store = new(config: new AmazonDynamoDBConfig { ServiceURL = "http://localhost:8000" }, appName: null);
             store.Dispose();
 
             Assert.That(store.DB, Is.Null);
