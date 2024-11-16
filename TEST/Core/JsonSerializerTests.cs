@@ -56,7 +56,7 @@ namespace Solti.Utils.Eventing.Tests
                 );
                 rdr.Read();
                 converter.Read(ref rdr, null!, JsonSerializerOptions.Default);
-            });
+            })!;
 
             Assert.That(err.Message, Is.EqualTo(ERR_MALFORMED_ARRAY));
         }
@@ -85,7 +85,7 @@ namespace Solti.Utils.Eventing.Tests
                 );
                 rdr.Read();
                 converter.Read(ref rdr, null!, null!);
-            });
+            })!;
 
             Assert.That(err.Message, Is.EqualTo(ERR_MALFORMED_OBJECT));
         }
