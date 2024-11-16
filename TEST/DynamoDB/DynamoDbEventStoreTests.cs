@@ -95,5 +95,28 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
 
             Assert.That(store.DB, Is.Null);
         }
+
+        [Test]
+        public void Ctor_ShouldThrowOnNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => new DynamoDbEventStore(config: null!, appName: null));
+            Assert.Throws<ArgumentNullException>(() => new DynamoDbEventStore(db: null!, appName: null));
+        }
+
+        [Test]
+        public void SetEvent_ShouldThrowOnNull()
+        {
+            using DynamoDbEventStore store = new(Connection);
+
+            Assert.Throws<ArgumentNullException>(() => store.SetEvent(null!));
+        }
+
+        [Test]
+        public void CheckStoreFeatures()
+        {
+            using DynamoDbEventStore store = new(Connection);
+
+            Assert.That(store.Features, Is.EqualTo(EventStoreFeatures.OrderedQueries));
+        }
     }
 }
