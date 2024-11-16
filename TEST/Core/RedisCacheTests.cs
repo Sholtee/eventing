@@ -23,9 +23,11 @@ namespace Solti.Utils.Eventing.Tests
     using static Properties.Resources;
 
     [TestFixture, RequireRedis, NonParallelizable]
-    public class RedisCacheTests: IDistributedCacheTests
+    public class RedisCacheTests: IDistributedCacheTests, IHasRedisConnection
     {
-        protected override IDistributedCache CreateInstance() => new RedisCache("localhost", JsonSerializer.Instance);
+        public IConnectionMultiplexer RedisConnection { get; set; } = null!;
+
+        protected override IDistributedCache CreateInstance() => new RedisCache(RedisConnection, JsonSerializer.Instance);
 
         [Test]
         public void Dispose_ShouldNotDisposeExternalConnections()
@@ -36,6 +38,23 @@ namespace Solti.Utils.Eventing.Tests
             new RedisCache(mockConnection.Object, mockSerializer.Object).Dispose();
 
             mockConnection.Verify(c => c.Dispose(), Times.Never);
+        }
+
+        [Test]
+        public void Dispose_ShouldDisposeInternalConnections()
+        {
+            Mock<IConnectionMultiplexer> mockConnection = new(MockBehavior.Strict);
+            mockConnection
+                .Setup(c => c.Dispose());
+
+            Mock<ISerializer> mockSerializer = new(MockBehavior.Strict);
+
+            new RedisCache("localhost", mockSerializer.Object)
+            {
+                ConnectionOverride = mockConnection.Object
+            }.Dispose();
+
+            mockConnection.Verify(c => c.Dispose(), Times.Once);
         }
 
         [Test]

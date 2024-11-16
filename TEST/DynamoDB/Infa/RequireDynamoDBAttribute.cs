@@ -17,7 +17,7 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
 
     internal interface IHasDynamoDbConnection
     {
-        IAmazonDynamoDB Connection { get; set; }
+        IAmazonDynamoDB DynamoDbConnection { get; set; }
     }
 
     public sealed class RequireDynamoDBAttribute() : RequireExternalServiceAttribute("amazon/dynamodb-local:2.5.3", 8000, "test_dynamodb")
@@ -42,7 +42,7 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
                 GetResultSync(FConnection.ListTablesAsync());
 
                 if (fixture is IHasDynamoDbConnection hasDynamoDb)
-                    hasDynamoDb.Connection = FConnection;
+                    hasDynamoDb.DynamoDbConnection = FConnection;
 
                 return true;
             }

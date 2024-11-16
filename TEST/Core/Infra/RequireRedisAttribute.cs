@@ -14,7 +14,7 @@ namespace Solti.Utils.Eventing.Tests
 
     internal interface IHasRedisConnection
     {
-        IConnectionMultiplexer Connection { get; set; }
+        IConnectionMultiplexer RedisConnection { get; set; }
     }
 
     public sealed class RequireRedisAttribute() : RequireExternalServiceAttribute("redis:7.4.1", 6379, "test_redis")
@@ -28,7 +28,7 @@ namespace Solti.Utils.Eventing.Tests
                 FConnection = ConnectionMultiplexer.Connect("localhost,allowAdmin=true");
 
                 if (fixture is IHasRedisConnection hasRedisConnection)
-                    hasRedisConnection.Connection = FConnection;
+                    hasRedisConnection.RedisConnection = FConnection;
 
                 return true;
             }

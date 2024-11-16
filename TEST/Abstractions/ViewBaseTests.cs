@@ -4,6 +4,7 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,15 +15,17 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
 {
     using Properties;
 
-    public abstract class ViewBaseTests
+    [TestFixture]
+    public class ViewBaseTests
     {
-        private static TestView CreateView(string flowId, IViewRepository<TestView> ownerRepository) => new(flowId, ownerRepository);
-
-        internal class TestView(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
+        public class TestView(string flowId, IViewRepository ownerRepository) : ViewBase(flowId, ownerRepository)
         {
         }
 
-        protected abstract TView CreateProxyView<TView>(string flowId, IViewRepository<TView> ownerRepository) where TView : ViewBase;
+        [GeneratedCode("SomeTool", "SomeVersion")]
+        public class TestViewProxy(string flowId, IViewRepository ownerRepository) : TestView(flowId, ownerRepository)
+        {
+        }
 
         [Test]
         public async Task FromDict_ShouldBeNullChecked()
@@ -73,11 +76,18 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             Assert.That(view.ToDict(), Is.EquivalentTo(new Dictionary<string, object?> { { "FlowId", "flowId" }, { "Tag", null } }));
         }
 
-        [Test]
-        public async Task Initialize_ShouldSetTheTag([Values(true, false)] bool requireProxy)
+        public static IEnumerable<Func<string, IViewRepository<TestView>, TestView>> TestViewFactories
         {
-            Func<string, IViewRepository<TestView>, TestView> factory = requireProxy ? CreateProxyView<TestView> : CreateView;
+            get
+            {
+                yield return (flowId, repo) => new TestView(flowId,repo);
+                yield return (flowId, repo) => new TestViewProxy(flowId, repo);
+            }
+        }
 
+        [Test]
+        public async Task Initialize_ShouldSetTheTag([ValueSource(nameof(TestViewFactories))] Func<string, IViewRepository<TestView>, TestView> factory)
+        {
             await using TestView view = factory("flowId", new Mock<IViewRepository<TestView>>(MockBehavior.Loose).Object);
 
             Assert.DoesNotThrow(() => view.Initialize(typeof(TestView).FullName!, "tag"));
@@ -85,13 +95,11 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
         }
 
         [Test]
-        public async Task Initialize_ShouldThrowOnTypeNameMismatch([Values(true, false)] bool requireProxy)
+        public async Task Initialize_ShouldThrowOnTypeNameMismatch([ValueSource(nameof(TestViewFactories))] Func<string, IViewRepository<TestView>, TestView> factory)
         {
-            Func<string, IViewRepository<TestView>, TestView> factory = requireProxy ? CreateProxyView<TestView> : CreateView;
-
             await using TestView view = factory("flowId", new Mock<IViewRepository<TestView>>(MockBehavior.Loose).Object);
 
-            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => view.Initialize("invalid", "tag"));
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => view.Initialize("invalid", "tag"))!;
             Assert.That(ex.Message, Is.EqualTo(Resources.ERR_VIEW_TYPE_NOT_MATCH));
         }
 

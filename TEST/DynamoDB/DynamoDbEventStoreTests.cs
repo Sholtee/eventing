@@ -21,12 +21,12 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
     [TestFixture, RequireDynamoDB, NonParallelizable]
     public class DynamoDbEventStoreTests: IHasDynamoDbConnection
     {
-        public IAmazonDynamoDB Connection { get; set; } = null!;
+        public IAmazonDynamoDB DynamoDbConnection { get; set; } = null!;
 
         [Test]
         public async Task SchemaInitialized_ShouldReturnIfTheSchemaWasSetUp([Values(null, "testapp")] string? appName)
         {
-            using DynamoDbEventStore store = new(Connection, appName);
+            using DynamoDbEventStore store = new(DynamoDbConnection, appName);
 
             Assert.That(await store.SchemaInitialized, Is.False);
 
@@ -38,9 +38,9 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
         [Test]
         public async Task SchemaInitialized_ShouldThrowOnInvalidSchema([Values(null, "testapp")] string? appName)
         {
-            using DynamoDbEventStore store = new(Connection, appName);
+            using DynamoDbEventStore store = new(DynamoDbConnection, appName);
 
-            await Connection.CreateTableAsync
+            await DynamoDbConnection.CreateTableAsync
             (
                 store.TableName,
                 [new KeySchemaElement { AttributeName = "cica", KeyType = KeyType.HASH }],
@@ -55,7 +55,7 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
         [Test]
         public async Task QueryEvents_ShouldReturnOrderedResult([Values(1, 2, 3, 10)] int pageSize)
         {
-            using DynamoDbEventStore store = new(Connection);
+            using DynamoDbEventStore store = new(DynamoDbConnection);
 
             await store.InitSchema();
 
@@ -106,7 +106,7 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
         [Test]
         public void SetEvent_ShouldThrowOnNull()
         {
-            using DynamoDbEventStore store = new(Connection);
+            using DynamoDbEventStore store = new(DynamoDbConnection);
 
             Assert.Throws<ArgumentNullException>(() => store.SetEvent(null!));
         }
@@ -114,7 +114,7 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
         [Test]
         public void CheckStoreFeatures()
         {
-            using DynamoDbEventStore store = new(Connection);
+            using DynamoDbEventStore store = new(DynamoDbConnection);
 
             Assert.That(store.Features, Is.EqualTo(EventStoreFeatures.OrderedQueries));
         }
