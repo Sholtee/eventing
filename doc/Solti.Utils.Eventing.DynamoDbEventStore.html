@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class DynamoDbEventStore
+   | Solti.Utils.Eventing </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class DynamoDbEventStore
+   | Solti.Utils.Eventing ">
+    <meta name="generator" content="docfx 2.59.3.0">
+    
+    <link rel="shortcut icon" href="icon.png">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Solti.Utils.Eventing.DynamoDbEventStore">
+  
+  
+  <h1 id="Solti_Utils_Eventing_DynamoDbEventStore" data-uid="Solti.Utils.Eventing.DynamoDbEventStore" class="text-break">Class DynamoDbEventStore
+  </h1>
+  <div class="markdown level0 summary"><p>Implements the <a class="xref" href="Solti.Utils.Eventing.Abstractions.IEventStore.html">IEventStore</a> interface over AWS&apos;s DynamoDb</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">DynamoDbEventStore</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Solti.Utils.Eventing.Abstractions.IEventStore.html">IEventStore</a></div>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Solti.Utils.Eventing.html">Solti.Utils.Eventing</a></h6>
+  <h6><strong>Assembly</strong>: Solti.Utils.Eventing.DynamoDB.dll</h6>
+  <h5 id="Solti_Utils_Eventing_DynamoDbEventStore_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class DynamoDbEventStore : Object, IEventStore</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore__ctor_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.#ctor*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore__ctor_Amazon_DynamoDBv2_AmazonDynamoDBConfig_System_String_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.#ctor(Amazon.DynamoDBv2.AmazonDynamoDBConfig,System.String)">DynamoDbEventStore(AmazonDynamoDBConfig, String)</h4>
+  <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="Solti.Utils.Eventing.DynamoDbEventStore.html">DynamoDbEventStore</a> instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamoDbEventStore(AmazonDynamoDBConfig config, string appName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Amazon.DynamoDBv2.AmazonDynamoDBConfig</span></td>
+        <td><span class="parametername">config</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">appName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore__ctor_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.#ctor*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore__ctor_Amazon_DynamoDBv2_IAmazonDynamoDB_System_String_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.#ctor(Amazon.DynamoDBv2.IAmazonDynamoDB,System.String)">DynamoDbEventStore(IAmazonDynamoDB, String)</h4>
+  <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="Solti.Utils.Eventing.DynamoDbEventStore.html">DynamoDbEventStore</a> instance using a pre-configured client.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamoDbEventStore(IAmazonDynamoDB db, string appName = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Amazon.DynamoDBv2.IAmazonDynamoDB</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">appName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_DB_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.DB*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_DB" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.DB">DB</h4>
+  <div class="markdown level1 summary"><p>The underlying database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IAmazonDynamoDB DB { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Amazon.DynamoDBv2.IAmazonDynamoDB</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_Features_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.Features*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_Features" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.Features">Features</h4>
+  <div class="markdown level1 summary"><p>Features of this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EventStoreFeatures Features { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.EventStoreFeatures.html">EventStoreFeatures</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_PageSize_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.PageSize*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_PageSize" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.PageSize">PageSize</h4>
+  <div class="markdown level1 summary"><p>Page size to be used when querying events.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int PageSize { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_SchemaInitialized_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.SchemaInitialized*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_SchemaInitialized" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.SchemaInitialized">SchemaInitialized</h4>
+  <div class="markdown level1 summary"><p>Determines if the underlying data schema had been initialized.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; SchemaInitialized { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_TableName_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.TableName*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_TableName" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.TableName">TableName</h4>
+  <div class="markdown level1 summary"><p>Table name used by this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string TableName { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_Throughput_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.Throughput*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_Throughput" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.Throughput">Throughput</h4>
+  <div class="markdown level1 summary"><p>Throughput to be assigned when initializing the schema</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ProvisionedThroughput Throughput { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Amazon.DynamoDBv2.Model.ProvisionedThroughput</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_Dispose_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.Dispose*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_Dispose" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_InitSchema_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.InitSchema*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_InitSchema" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.InitSchema">InitSchema()</h4>
+  <div class="markdown level1 summary"><p>Initializes the schema in the underlying data store.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task InitSchema()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_MapEvent_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.MapEvent*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_MapEvent_Solti_Utils_Eventing_Abstractions_Event_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(Solti.Utils.Eventing.Abstractions.Event)">MapEvent(Event)</h4>
+  <div class="markdown level1 summary"><p>Override this method if you want to customize the data being inserted.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Dictionary&lt;string, AttributeValue&gt; MapEvent(Event event)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.Event.html">Event</a></td>
+        <td><span class="parametername">event</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">Amazon.DynamoDBv2.Model.AttributeValue</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_MapEvent_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.MapEvent*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_MapEvent_System_Collections_Generic_Dictionary_System_String_Amazon_DynamoDBv2_Model_AttributeValue__" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(System.Collections.Generic.Dictionary{System.String,Amazon.DynamoDBv2.Model.AttributeValue})">MapEvent(Dictionary&lt;String, AttributeValue&gt;)</h4>
+  <div class="markdown level1 summary"><p>Override this method if you want to retrieve customized data</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Event MapEvent(Dictionary&lt;string, AttributeValue&gt; event)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">Amazon.DynamoDBv2.Model.AttributeValue</span>&gt;</td>
+        <td><span class="parametername">event</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.Event.html">Event</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_QueryEvents_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.QueryEvents*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_QueryEvents_System_String_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.QueryEvents(System.String)">QueryEvents(String)</h4>
+  <div class="markdown level1 summary"><p>Gets the events associated with the given <code data-dev-comment-type="paramref" class="paramref">flowId</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IAsyncEnumerable&lt;Event&gt; QueryEvents(string flowId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">flowId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IAsyncEnumerable</span>&lt;<a class="xref" href="Solti.Utils.Eventing.Abstractions.Event.html">Event</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Solti_Utils_Eventing_DynamoDbEventStore_QueryEvents_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This method returns an enumerable to support deferred queries.</p>
+</div>
+  <a id="Solti_Utils_Eventing_DynamoDbEventStore_SetEvent_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.SetEvent*"></a>
+  <h4 id="Solti_Utils_Eventing_DynamoDbEventStore_SetEvent_Solti_Utils_Eventing_Abstractions_Event_" data-uid="Solti.Utils.Eventing.DynamoDbEventStore.SetEvent(Solti.Utils.Eventing.Abstractions.Event)">SetEvent(Event)</h4>
+  <div class="markdown level1 summary"><p>Pushes a new event into the store.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SetEvent(Event event)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.Event.html">Event</a></td>
+        <td><span class="parametername">event</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Solti.Utils.Eventing.Abstractions.IEventStore.html">IEventStore</a>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>

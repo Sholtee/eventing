@@ -131,6 +131,18 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.#ctor
   fullName: Solti.Utils.Eventing.Abstractions.Event.Event
   nameWithType: Event.Event
+- uid: Solti.Utils.Eventing.Abstractions.Event.{Clone}$
+  name: <Clone>$()
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__Clone__
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.{Clone}$
+  fullName: Solti.Utils.Eventing.Abstractions.Event.<Clone>$()
+  nameWithType: Event.<Clone>$()
+- uid: Solti.Utils.Eventing.Abstractions.Event.{Clone}$*
+  name: <Clone>$
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event__Clone___
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.{Clone}$
+  fullName: Solti.Utils.Eventing.Abstractions.Event.<Clone>$
+  nameWithType: Event.<Clone>$
 - uid: Solti.Utils.Eventing.Abstractions.Event.Arguments
   name: Arguments
   href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Arguments
@@ -155,6 +167,24 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
   fullName: Solti.Utils.Eventing.Abstractions.Event.CreatedUtc
   nameWithType: Event.CreatedUtc
+- uid: Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
+  name: Equals(Event)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals(Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: Event.Equals(Event)
+- uid: Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
+  name: Equals(Object)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_System_Object_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals(System.Object)
+  nameWithType: Event.Equals(Object)
+- uid: Solti.Utils.Eventing.Abstractions.Event.Equals*
+  name: Equals
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_Equals_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.Equals
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equals
+  nameWithType: Event.Equals
 - uid: Solti.Utils.Eventing.Abstractions.Event.EventId
   name: EventId
   href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_EventId
@@ -179,6 +209,54 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.FlowId
   fullName: Solti.Utils.Eventing.Abstractions.Event.FlowId
   nameWithType: Event.FlowId
+- uid: Solti.Utils.Eventing.Abstractions.Event.GetHashCode
+  name: GetHashCode()
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_GetHashCode
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.GetHashCode
+  fullName: Solti.Utils.Eventing.Abstractions.Event.GetHashCode()
+  nameWithType: Event.GetHashCode()
+- uid: Solti.Utils.Eventing.Abstractions.Event.GetHashCode*
+  name: GetHashCode
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_GetHashCode_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.GetHashCode
+  fullName: Solti.Utils.Eventing.Abstractions.Event.GetHashCode
+  nameWithType: Event.GetHashCode
+- uid: Solti.Utils.Eventing.Abstractions.Event.op_Equality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
+  name: Equality(Event, Event)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Equality_Solti_Utils_Eventing_Abstractions_Event_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.op_Equality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equality(Solti.Utils.Eventing.Abstractions.Event, Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: Event.Equality(Event, Event)
+- uid: Solti.Utils.Eventing.Abstractions.Event.op_Equality*
+  name: Equality
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Equality_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.op_Equality
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Equality
+  nameWithType: Event.Equality
+- uid: Solti.Utils.Eventing.Abstractions.Event.op_Inequality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
+  name: Inequality(Event, Event)
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Inequality_Solti_Utils_Eventing_Abstractions_Event_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.op_Inequality(Solti.Utils.Eventing.Abstractions.Event,Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Inequality(Solti.Utils.Eventing.Abstractions.Event, Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: Event.Inequality(Event, Event)
+- uid: Solti.Utils.Eventing.Abstractions.Event.op_Inequality*
+  name: Inequality
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_op_Inequality_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.op_Inequality
+  fullName: Solti.Utils.Eventing.Abstractions.Event.Inequality
+  nameWithType: Event.Inequality
+- uid: Solti.Utils.Eventing.Abstractions.Event.ToString
+  name: ToString()
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_ToString
+  commentId: M:Solti.Utils.Eventing.Abstractions.Event.ToString
+  fullName: Solti.Utils.Eventing.Abstractions.Event.ToString()
+  nameWithType: Event.ToString()
+- uid: Solti.Utils.Eventing.Abstractions.Event.ToString*
+  name: ToString
+  href: Solti.Utils.Eventing.Abstractions.Event.html#Solti_Utils_Eventing_Abstractions_Event_ToString_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.Event.ToString
+  fullName: Solti.Utils.Eventing.Abstractions.Event.ToString
+  nameWithType: Event.ToString
 - uid: Solti.Utils.Eventing.Abstractions.EventAttribute
   name: EventAttribute
   href: Solti.Utils.Eventing.Abstractions.EventAttribute.html
@@ -365,6 +443,18 @@ references:
   commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema
   fullName: Solti.Utils.Eventing.Abstractions.IEventStore.InitSchema
   nameWithType: IEventStore.InitSchema
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.PageSize
+  name: PageSize
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_PageSize
+  commentId: P:Solti.Utils.Eventing.Abstractions.IEventStore.PageSize
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.PageSize
+  nameWithType: IEventStore.PageSize
+- uid: Solti.Utils.Eventing.Abstractions.IEventStore.PageSize*
+  name: PageSize
+  href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_PageSize_
+  commentId: Overload:Solti.Utils.Eventing.Abstractions.IEventStore.PageSize
+  fullName: Solti.Utils.Eventing.Abstractions.IEventStore.PageSize
+  nameWithType: IEventStore.PageSize
 - uid: Solti.Utils.Eventing.Abstractions.IEventStore.QueryEvents(System.String)
   name: QueryEvents(String)
   href: Solti.Utils.Eventing.Abstractions.IEventStore.html#Solti_Utils_Eventing_Abstractions_IEventStore_QueryEvents_System_String_
@@ -882,6 +972,171 @@ references:
   commentId: Overload:Solti.Utils.Eventing.DistributedLock.Release
   fullName: Solti.Utils.Eventing.DistributedLock.Release
   nameWithType: DistributedLock.Release
+- uid: Solti.Utils.Eventing.DynamoDbEventStore
+  name: DynamoDbEventStore
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html
+  commentId: T:Solti.Utils.Eventing.DynamoDbEventStore
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore
+  nameWithType: DynamoDbEventStore
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.#ctor(Amazon.DynamoDBv2.AmazonDynamoDBConfig,System.String)
+  name: DynamoDbEventStore(AmazonDynamoDBConfig, String)
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore__ctor_Amazon_DynamoDBv2_AmazonDynamoDBConfig_System_String_
+  commentId: M:Solti.Utils.Eventing.DynamoDbEventStore.#ctor(Amazon.DynamoDBv2.AmazonDynamoDBConfig,System.String)
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.DynamoDbEventStore(Amazon.DynamoDBv2.AmazonDynamoDBConfig, System.String)
+  nameWithType: DynamoDbEventStore.DynamoDbEventStore(AmazonDynamoDBConfig, String)
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.#ctor(Amazon.DynamoDBv2.IAmazonDynamoDB,System.String)
+  name: DynamoDbEventStore(IAmazonDynamoDB, String)
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore__ctor_Amazon_DynamoDBv2_IAmazonDynamoDB_System_String_
+  commentId: M:Solti.Utils.Eventing.DynamoDbEventStore.#ctor(Amazon.DynamoDBv2.IAmazonDynamoDB,System.String)
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.DynamoDbEventStore(Amazon.DynamoDBv2.IAmazonDynamoDB, System.String)
+  nameWithType: DynamoDbEventStore.DynamoDbEventStore(IAmazonDynamoDB, String)
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.#ctor*
+  name: DynamoDbEventStore
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore__ctor_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.#ctor
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.DynamoDbEventStore
+  nameWithType: DynamoDbEventStore.DynamoDbEventStore
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.DB
+  name: DB
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_DB
+  commentId: P:Solti.Utils.Eventing.DynamoDbEventStore.DB
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.DB
+  nameWithType: DynamoDbEventStore.DB
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.DB*
+  name: DB
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_DB_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.DB
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.DB
+  nameWithType: DynamoDbEventStore.DB
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.Dispose
+  name: Dispose()
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_Dispose
+  commentId: M:Solti.Utils.Eventing.DynamoDbEventStore.Dispose
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.Dispose()
+  nameWithType: DynamoDbEventStore.Dispose()
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.Dispose*
+  name: Dispose
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_Dispose_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.Dispose
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.Dispose
+  nameWithType: DynamoDbEventStore.Dispose
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.Features
+  name: Features
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_Features
+  commentId: P:Solti.Utils.Eventing.DynamoDbEventStore.Features
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.Features
+  nameWithType: DynamoDbEventStore.Features
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.Features*
+  name: Features
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_Features_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.Features
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.Features
+  nameWithType: DynamoDbEventStore.Features
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.InitSchema
+  name: InitSchema()
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_InitSchema
+  commentId: M:Solti.Utils.Eventing.DynamoDbEventStore.InitSchema
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.InitSchema()
+  nameWithType: DynamoDbEventStore.InitSchema()
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.InitSchema*
+  name: InitSchema
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_InitSchema_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.InitSchema
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.InitSchema
+  nameWithType: DynamoDbEventStore.InitSchema
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(Solti.Utils.Eventing.Abstractions.Event)
+  name: MapEvent(Event)
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_MapEvent_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: DynamoDbEventStore.MapEvent(Event)
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(System.Collections.Generic.Dictionary{System.String,Amazon.DynamoDBv2.Model.AttributeValue})
+  name: MapEvent(Dictionary<String, AttributeValue>)
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_MapEvent_System_Collections_Generic_Dictionary_System_String_Amazon_DynamoDBv2_Model_AttributeValue__
+  commentId: M:Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(System.Collections.Generic.Dictionary{System.String,Amazon.DynamoDBv2.Model.AttributeValue})
+  name.vb: MapEvent(Dictionary(Of String, AttributeValue))
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(System.Collections.Generic.Dictionary<System.String, Amazon.DynamoDBv2.Model.AttributeValue>)
+  fullName.vb: Solti.Utils.Eventing.DynamoDbEventStore.MapEvent(System.Collections.Generic.Dictionary(Of System.String, Amazon.DynamoDBv2.Model.AttributeValue))
+  nameWithType: DynamoDbEventStore.MapEvent(Dictionary<String, AttributeValue>)
+  nameWithType.vb: DynamoDbEventStore.MapEvent(Dictionary(Of String, AttributeValue))
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.MapEvent*
+  name: MapEvent
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_MapEvent_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.MapEvent
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.MapEvent
+  nameWithType: DynamoDbEventStore.MapEvent
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.PageSize
+  name: PageSize
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_PageSize
+  commentId: P:Solti.Utils.Eventing.DynamoDbEventStore.PageSize
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.PageSize
+  nameWithType: DynamoDbEventStore.PageSize
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.PageSize*
+  name: PageSize
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_PageSize_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.PageSize
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.PageSize
+  nameWithType: DynamoDbEventStore.PageSize
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.QueryEvents(System.String)
+  name: QueryEvents(String)
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_QueryEvents_System_String_
+  commentId: M:Solti.Utils.Eventing.DynamoDbEventStore.QueryEvents(System.String)
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.QueryEvents(System.String)
+  nameWithType: DynamoDbEventStore.QueryEvents(String)
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.QueryEvents*
+  name: QueryEvents
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_QueryEvents_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.QueryEvents
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.QueryEvents
+  nameWithType: DynamoDbEventStore.QueryEvents
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.SchemaInitialized
+  name: SchemaInitialized
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_SchemaInitialized
+  commentId: P:Solti.Utils.Eventing.DynamoDbEventStore.SchemaInitialized
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.SchemaInitialized
+  nameWithType: DynamoDbEventStore.SchemaInitialized
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.SchemaInitialized*
+  name: SchemaInitialized
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_SchemaInitialized_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.SchemaInitialized
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.SchemaInitialized
+  nameWithType: DynamoDbEventStore.SchemaInitialized
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.SetEvent(Solti.Utils.Eventing.Abstractions.Event)
+  name: SetEvent(Event)
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_SetEvent_Solti_Utils_Eventing_Abstractions_Event_
+  commentId: M:Solti.Utils.Eventing.DynamoDbEventStore.SetEvent(Solti.Utils.Eventing.Abstractions.Event)
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.SetEvent(Solti.Utils.Eventing.Abstractions.Event)
+  nameWithType: DynamoDbEventStore.SetEvent(Event)
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.SetEvent*
+  name: SetEvent
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_SetEvent_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.SetEvent
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.SetEvent
+  nameWithType: DynamoDbEventStore.SetEvent
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.TableName
+  name: TableName
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_TableName
+  commentId: P:Solti.Utils.Eventing.DynamoDbEventStore.TableName
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.TableName
+  nameWithType: DynamoDbEventStore.TableName
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.TableName*
+  name: TableName
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_TableName_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.TableName
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.TableName
+  nameWithType: DynamoDbEventStore.TableName
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.Throughput
+  name: Throughput
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_Throughput
+  commentId: P:Solti.Utils.Eventing.DynamoDbEventStore.Throughput
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.Throughput
+  nameWithType: DynamoDbEventStore.Throughput
+- uid: Solti.Utils.Eventing.DynamoDbEventStore.Throughput*
+  name: Throughput
+  href: Solti.Utils.Eventing.DynamoDbEventStore.html#Solti_Utils_Eventing_DynamoDbEventStore_Throughput_
+  commentId: Overload:Solti.Utils.Eventing.DynamoDbEventStore.Throughput
+  fullName: Solti.Utils.Eventing.DynamoDbEventStore.Throughput
+  nameWithType: DynamoDbEventStore.Throughput
 - uid: Solti.Utils.Eventing.JsonSerializer
   name: JsonSerializer
   href: Solti.Utils.Eventing.JsonSerializer.html
