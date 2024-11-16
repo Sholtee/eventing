@@ -166,7 +166,7 @@ namespace Solti.Utils.Eventing
                 }
 
                 startKey = response.LastEvaluatedKey;
-            } while (startKey?.Count > 0);
+            } while (startKey.Count > 0);
         }
 
         /// <inheritdoc/>

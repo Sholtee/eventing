@@ -41,7 +41,7 @@ namespace Solti.Utils.Eventing.Tests
         }
 
         [Test]
-        public void Dispose_ShouldDisposeInternalConnections()
+        public void Dispose_ShouldDisposeInternalConnections([Values(1, 2)] int disposeInvocations)
         {
             Mock<IConnectionMultiplexer> mockConnection = new(MockBehavior.Strict);
             mockConnection
@@ -49,20 +49,17 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<ISerializer> mockSerializer = new(MockBehavior.Strict);
 
-            new RedisCache("localhost", mockSerializer.Object)
+            RedisCache cache = new("localhost", mockSerializer.Object)
             {
                 ConnectionOverride = mockConnection.Object
-            }.Dispose();
+            };
+
+            for (int i = 0; i < disposeInvocations; i++)
+            {
+                cache.Dispose();
+            }
 
             mockConnection.Verify(c => c.Dispose(), Times.Once);
-        }
-
-        [Test]
-        public void Dispose_MightBeCalledMultipleTimes()
-        {
-            IDistributedCache cache = CreateInstance();
-            cache.Dispose();
-            Assert.DoesNotThrow(cache.Dispose);
         }
 
         [Test]
