@@ -12,15 +12,24 @@ namespace Solti.Utils.Eventing.Tests
 {
     using Abstractions.Tests;
 
-    public sealed class RequireRedisAttribute() : RequireExternalServiceAttribute("redis:7.4.1", 6379)
+    internal interface IHasRedisConnection
+    {
+        IConnectionMultiplexer RedisConnection { get; set; }
+    }
+
+    public sealed class RequireRedisAttribute() : RequireExternalServiceAttribute("redis:7.4.1", 6379, "test_redis")
     {
         private ConnectionMultiplexer FConnection = null!;
 
-        public override bool TryConnect()
+        protected override bool TryConnect(object fixture)
         {
             try
             {
-                FConnection = ConnectionMultiplexer.Connect("localhost,allowAdmin=true"); ;
+                FConnection = ConnectionMultiplexer.Connect("localhost,allowAdmin=true");
+
+                if (fixture is IHasRedisConnection hasRedisConnection)
+                    hasRedisConnection.RedisConnection = FConnection;
+
                 return true;
             }
             catch (Exception e)
@@ -30,13 +39,13 @@ namespace Solti.Utils.Eventing.Tests
             }
         }
 
-        public override void CloseConnection()
+        protected override void CloseConnection()
         {
             FConnection?.Dispose();
             FConnection = null!;
         }
 
-        public override void TearDownTest()
+        protected override void TearDownTest()
         {
             foreach (IServer server in FConnection.GetServers())
             {

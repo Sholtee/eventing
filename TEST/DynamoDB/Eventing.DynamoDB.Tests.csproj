@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    
+    <PropertyGroup>
+        <AssemblyName>Solti.Utils.Eventing.DynamoDB.Tests</AssemblyName>
+        <RootNamespace>Solti.Utils.Eventing.DynamoDB.Tests</RootNamespace>
+        <NoWarn>CA1001;CA1031;CA1062;CA1707;CA2007</NoWarn>
+    </PropertyGroup>
+
+    <Import Project="..\Common.targets" />
+
+    <ItemGroup>
+      <PackageReference Include="System.Linq.Async" Version="6.*" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\SRC\DynamoDB\Eventing.DynamoDB.csproj" />
+      <ProjectReference Include="..\Abstractions\Eventing.Abstractions.Tests.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -12,7 +12,7 @@ namespace Solti.Utils.Eventing.Abstractions
     /// <summary>
     /// Describes an event on database level.
     /// </summary>
-    public sealed class Event
+    public sealed record Event
     {
         /// <summary>
         /// Identifies the flow this event is assigned to
@@ -82,5 +82,10 @@ namespace Solti.Utils.Eventing.Abstractions
         /// Features of this instance.
         /// </summary>
         EventStoreFeatures Features { get; }
+
+        /// <summary>
+        /// Page size to be used when querying events.
+        /// </summary>
+        int PageSize { get; set; }
     }
 }

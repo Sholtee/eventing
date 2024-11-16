@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using StackExchange.Redis;
 
 using static System.String;
 
@@ -21,25 +22,24 @@ namespace Solti.Utils.Eventing.Tests
     using static Internals.EventIds;
     using static Properties.Resources;
 
-    [TestFixture, RequireRedis]
-    public class DistributedLockTests: IDistributedLockTests
+    [TestFixture, RequireRedis, NonParallelizable]
+    public class DistributedLockTests: IDistributedLockTests, IHasRedisConnection
     {
-        private RedisCache FRedisCache = null!;
+        public RedisCache RedisCache { get; set; } = null!;
+
+        public IConnectionMultiplexer RedisConnection { get; set; } = null!;
 
         [SetUp]
-        public void SetupTest()
-        {
-            FRedisCache = new RedisCache("localhost", JsonSerializer.Instance);
-        }
+        public void SetupTest() => RedisCache = new RedisCache(RedisConnection, JsonSerializer.Instance);
 
         [TearDown]
         public void TearDownTest()
         {
-            FRedisCache.Dispose();
-            FRedisCache = null!;
+            RedisCache.Dispose();
+            RedisCache = null!;
         }
 
-        protected override IDistributedLock CreateInstance() => new DistributedLock(FRedisCache, JsonSerializer.Instance);
+        protected override IDistributedLock CreateInstance() => new DistributedLock(RedisCache, JsonSerializer.Instance);
 
         [Test]
         public async Task Test_Flow([Values(10000)] int lockTimeout, [Values(true, false)] bool hasLogger)
@@ -217,7 +217,7 @@ namespace Solti.Utils.Eventing.Tests
                 .InSequence(seq)
                 .Setup(l => l.Log(LogLevel.Warning, Warning.FOREIGN_LOCK_RELEASE, It.Is<It.IsAnyType>((object v, Type _) => v.ToString() == Format(LOG_FOREIGN_LOCK_RELEASE, "key", "unknown")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => @lock.Release("key", "unknown"));
+            InvalidOperationException ex = Assert.ThrowsAsync<InvalidOperationException>(() => @lock.Release("key", "unknown"))!;
             Assert.That(ex.Message, Is.EqualTo(ERR_FOREIGN_LOCK_RELEASE));
 
             mockCache.Verify(c => c.Get("lock_key"), Times.Once);

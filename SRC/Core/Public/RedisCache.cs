@@ -29,6 +29,16 @@ namespace Solti.Utils.Eventing
             public required string Value { get; init; }
             public required long Expiration { get; init; }
         }
+#if DEBUG
+        internal IConnectionMultiplexer ConnectionOverride
+        {
+            set
+            {
+                connection.Dispose();
+                connection = value;
+            }
+        }
+#endif
         #endregion
 
         /// <summary>
