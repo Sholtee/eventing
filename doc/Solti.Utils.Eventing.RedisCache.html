@@ -65,7 +65,7 @@
   </h3>
   <a id="Solti_Utils_Eventing_RedisCache__ctor_" data-uid="Solti.Utils.Eventing.RedisCache.#ctor*"></a>
   <h4 id="Solti_Utils_Eventing_RedisCache__ctor_StackExchange_Redis_IConnectionMultiplexer_Solti_Utils_Eventing_Abstractions_ISerializer_Microsoft_Extensions_Logging_ILogger_Solti_Utils_Eventing_RedisCache__" data-uid="Solti.Utils.Eventing.RedisCache.#ctor(StackExchange.Redis.IConnectionMultiplexer,Solti.Utils.Eventing.Abstractions.ISerializer,Microsoft.Extensions.Logging.ILogger{Solti.Utils.Eventing.RedisCache})">RedisCache(IConnectionMultiplexer, ISerializer, ILogger&lt;RedisCache&gt;)</h4>
-  <div class="markdown level1 summary"><p>Implements the <a class="xref" href="Solti.Utils.Eventing.Abstractions.IDistributedCache.html">IDistributedCache</a> interface over Redis</p>
+  <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="Solti.Utils.Eventing.RedisCache.html">RedisCache</a> instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -131,6 +131,80 @@
       <tr>
         <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span>&lt;<a class="xref" href="Solti.Utils.Eventing.RedisCache.html">RedisCache</a>&gt;</td>
         <td><span class="parametername">logger</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Solti_Utils_Eventing_RedisCache_Connection_" data-uid="Solti.Utils.Eventing.RedisCache.Connection*"></a>
+  <h4 id="Solti_Utils_Eventing_RedisCache_Connection" data-uid="Solti.Utils.Eventing.RedisCache.Connection">Connection</h4>
+  <div class="markdown level1 summary"><p>The underlying connection.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IConnectionMultiplexer Connection { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">StackExchange.Redis.IConnectionMultiplexer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_RedisCache_Logger_" data-uid="Solti.Utils.Eventing.RedisCache.Logger*"></a>
+  <h4 id="Solti_Utils_Eventing_RedisCache_Logger" data-uid="Solti.Utils.Eventing.RedisCache.Logger">Logger</h4>
+  <div class="markdown level1 summary"><p>The underyling logger</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ILogger&lt;RedisCache&gt; Logger { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span>&lt;<a class="xref" href="Solti.Utils.Eventing.RedisCache.html">RedisCache</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Solti_Utils_Eventing_RedisCache_Serializer_" data-uid="Solti.Utils.Eventing.RedisCache.Serializer*"></a>
+  <h4 id="Solti_Utils_Eventing_RedisCache_Serializer" data-uid="Solti.Utils.Eventing.RedisCache.Serializer">Serializer</h4>
+  <div class="markdown level1 summary"><p>The underlying serializer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ISerializer Serializer { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Solti.Utils.Eventing.Abstractions.ISerializer.html">ISerializer</a></td>
         <td></td>
       </tr>
     </tbody>

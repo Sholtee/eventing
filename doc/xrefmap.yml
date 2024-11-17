@@ -1236,6 +1236,18 @@ references:
   commentId: Overload:Solti.Utils.Eventing.RedisCache.#ctor
   fullName: Solti.Utils.Eventing.RedisCache.RedisCache
   nameWithType: RedisCache.RedisCache
+- uid: Solti.Utils.Eventing.RedisCache.Connection
+  name: Connection
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Connection
+  commentId: P:Solti.Utils.Eventing.RedisCache.Connection
+  fullName: Solti.Utils.Eventing.RedisCache.Connection
+  nameWithType: RedisCache.Connection
+- uid: Solti.Utils.Eventing.RedisCache.Connection*
+  name: Connection
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Connection_
+  commentId: Overload:Solti.Utils.Eventing.RedisCache.Connection
+  fullName: Solti.Utils.Eventing.RedisCache.Connection
+  nameWithType: RedisCache.Connection
 - uid: Solti.Utils.Eventing.RedisCache.Dispose
   name: Dispose()
   href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Dispose
@@ -1260,6 +1272,18 @@ references:
   commentId: Overload:Solti.Utils.Eventing.RedisCache.Get
   fullName: Solti.Utils.Eventing.RedisCache.Get
   nameWithType: RedisCache.Get
+- uid: Solti.Utils.Eventing.RedisCache.Logger
+  name: Logger
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Logger
+  commentId: P:Solti.Utils.Eventing.RedisCache.Logger
+  fullName: Solti.Utils.Eventing.RedisCache.Logger
+  nameWithType: RedisCache.Logger
+- uid: Solti.Utils.Eventing.RedisCache.Logger*
+  name: Logger
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Logger_
+  commentId: Overload:Solti.Utils.Eventing.RedisCache.Logger
+  fullName: Solti.Utils.Eventing.RedisCache.Logger
+  nameWithType: RedisCache.Logger
 - uid: Solti.Utils.Eventing.RedisCache.Remove(System.String)
   name: Remove(String)
   href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Remove_System_String_
@@ -1272,6 +1296,18 @@ references:
   commentId: Overload:Solti.Utils.Eventing.RedisCache.Remove
   fullName: Solti.Utils.Eventing.RedisCache.Remove
   nameWithType: RedisCache.Remove
+- uid: Solti.Utils.Eventing.RedisCache.Serializer
+  name: Serializer
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Serializer
+  commentId: P:Solti.Utils.Eventing.RedisCache.Serializer
+  fullName: Solti.Utils.Eventing.RedisCache.Serializer
+  nameWithType: RedisCache.Serializer
+- uid: Solti.Utils.Eventing.RedisCache.Serializer*
+  name: Serializer
+  href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Serializer_
+  commentId: Overload:Solti.Utils.Eventing.RedisCache.Serializer
+  fullName: Solti.Utils.Eventing.RedisCache.Serializer
+  nameWithType: RedisCache.Serializer
 - uid: Solti.Utils.Eventing.RedisCache.Set(System.String,System.String,System.TimeSpan,Solti.Utils.Eventing.Abstractions.DistributedCacheInsertionFlags)
   name: Set(String, String, TimeSpan, DistributedCacheInsertionFlags)
   href: Solti.Utils.Eventing.RedisCache.html#Solti_Utils_Eventing_RedisCache_Set_System_String_System_String_System_TimeSpan_Solti_Utils_Eventing_Abstractions_DistributedCacheInsertionFlags_
