@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <Import Project="..\Common.targets" />
-
-    <ItemGroup>
-      <PackageReference Include="System.Linq.Async" Version="6.*" />
-    </ItemGroup>
     
     <ItemGroup>
       <ProjectReference Include="..\..\SRC\DynamoDB\Eventing.DynamoDB.csproj" />

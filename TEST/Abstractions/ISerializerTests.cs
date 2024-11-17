@@ -76,5 +76,13 @@ namespace Solti.Utils.Eventing.Abstractions.Tests
             object? ret = Serializer.Deserialize<object>(serialized);
             Assert.That(ret, expected is IEnumerable enumerable ? Is.EquivalentTo(enumerable) : Is.EqualTo(expected));
         }
+
+        [Test]
+        public void Deserialize_ShouldThrowOnNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => Serializer.Deserialize(null!, types: Array.Empty<Type>()));
+            Assert.Throws<ArgumentNullException>(() => Serializer.Deserialize("null", types: null!));
+            Assert.Throws<ArgumentNullException>(() => Serializer.Deserialize<object>(null!));
+        }
     }
 }

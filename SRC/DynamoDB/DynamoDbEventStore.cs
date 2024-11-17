@@ -135,6 +135,9 @@ namespace Solti.Utils.Eventing
         /// <inheritdoc/>
         public async IAsyncEnumerable<Event> QueryEvents(string flowId)
         {
+            if (flowId is null)
+                throw new ArgumentNullException(nameof(flowId));
+
             Dictionary<string, Condition> keyCondition = new()
             {
                 {

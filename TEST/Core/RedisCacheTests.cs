@@ -35,8 +35,10 @@ namespace Solti.Utils.Eventing.Tests
             Mock<IConnectionMultiplexer> mockConnection = new(MockBehavior.Strict);
             Mock<ISerializer> mockSerializer = new(MockBehavior.Strict);
 
-            new RedisCache(mockConnection.Object, mockSerializer.Object).Dispose();
+            RedisCache cache = new(mockConnection.Object, mockSerializer.Object);
+            cache.Dispose();
 
+            Assert.That(cache.Connection, Is.Not.Null);
             mockConnection.Verify(c => c.Dispose(), Times.Never);
         }
 
@@ -49,16 +51,16 @@ namespace Solti.Utils.Eventing.Tests
 
             Mock<ISerializer> mockSerializer = new(MockBehavior.Strict);
 
-            RedisCache cache = new("localhost", mockSerializer.Object)
-            {
-                ConnectionOverride = mockConnection.Object
-            };
+            RedisCache cache = new("localhost", mockSerializer.Object);
+            cache.Connection.Dispose();
+            cache.Connection = mockConnection.Object;
 
             for (int i = 0; i < disposeInvocations; i++)
             {
                 cache.Dispose();
             }
 
+            Assert.That(cache.Connection, Is.Null);
             mockConnection.Verify(c => c.Dispose(), Times.Once);
         }
 
@@ -248,6 +250,15 @@ namespace Solti.Utils.Eventing.Tests
             using RedisCache cache = new(mockConnection.Object, JsonSerializer.Instance);
             Assert.ThrowsAsync<ArgumentNullException>(() => cache.Set(null!, "value", TimeSpan.Zero, DistributedCacheInsertionFlags.None));
             Assert.ThrowsAsync<ArgumentNullException>(() => cache.Set("key", null!, TimeSpan.Zero, DistributedCacheInsertionFlags.None));
+        }
+
+        [Test]
+        public void Ctor_ShouldBeNullChecked()
+        {
+            Assert.Throws<ArgumentNullException>(() => new RedisCache(config: null!, new Mock<ISerializer>(MockBehavior.Strict).Object));
+            Assert.Throws<ArgumentNullException>(() => new RedisCache("localhost", serializer: null!));
+            Assert.Throws<ArgumentNullException>(() => new RedisCache(connection: null!, new Mock<ISerializer>(MockBehavior.Strict).Object));
+            Assert.Throws<ArgumentNullException>(() => new RedisCache(new Mock<IConnectionMultiplexer>(MockBehavior.Strict).Object, serializer: null!));
         }
     }
 }

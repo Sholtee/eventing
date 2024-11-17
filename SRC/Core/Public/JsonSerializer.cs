@@ -138,17 +138,17 @@ namespace Solti.Utils.Eventing
             JsonSerializerOptions opts = new(Options);
             opts.Converters.Add(ObjectConverter.Instance);
 
-            return SerializerCore.Deserialize<T>(utf8String, opts);
+            return SerializerCore.Deserialize<T>(utf8String ?? throw new ArgumentNullException(nameof(utf8String)), opts);
         }
 
         /// <inheritdoc/>
         public object?[] Deserialize(string utf8String, IReadOnlyList<Type> types)
         {
             JsonSerializerOptions opts = new(Options);
-            opts.Converters.Add(new MultiTypeArrayConverter(types));
+            opts.Converters.Add(new MultiTypeArrayConverter(types ?? throw new ArgumentNullException(nameof(types))));
             opts.Converters.Add(ObjectConverter.Instance);
 
-            return SerializerCore.Deserialize<object?[]>(utf8String, opts)!;
+            return SerializerCore.Deserialize<object?[]>(utf8String ?? throw new ArgumentNullException(nameof(utf8String)), opts)!;
         }
 
         /// <inheritdoc/>

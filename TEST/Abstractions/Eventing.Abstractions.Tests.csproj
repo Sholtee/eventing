@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="Ductus.FluentDocker" Version="2.*" />
+        <PackageReference Include="System.Linq.Async" Version="6.*" />
     </ItemGroup>
 
     <ItemGroup>

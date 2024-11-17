@@ -4,7 +4,6 @@
 * Author: Denes Solti                                                           *
 ********************************************************************************/
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Amazon.DynamoDBv2;
@@ -15,28 +14,19 @@ using NUnit.Framework;
 namespace Solti.Utils.Eventing.DynamoDB.Tests
 {
     using Abstractions;
+    using Abstractions.Tests;
 
     using static Properties.Resources;
 
     [TestFixture, RequireDynamoDB, NonParallelizable]
-    public class DynamoDbEventStoreTests: IHasDynamoDbConnection
+    public class DynamoDbEventStoreTests: IEventStoreTests, IHasDynamoDbConnection
     {
         public IAmazonDynamoDB DynamoDbConnection { get; set; } = null!;
 
-        [Test]
-        public async Task SchemaInitialized_ShouldReturnIfTheSchemaWasSetUp([Values(null, "testapp")] string? appName)
-        {
-            using DynamoDbEventStore store = new(DynamoDbConnection, appName);
-
-            Assert.That(await store.SchemaInitialized, Is.False);
-
-            Assert.DoesNotThrowAsync(store.InitSchema);
-
-            Assert.That(await store.SchemaInitialized, Is.True);
-        }
+        protected override IEventStore CreateInstance(string? appName) => new DynamoDbEventStore(DynamoDbConnection, appName);
 
         [Test]
-        public async Task SchemaInitialized_ShouldThrowOnInvalidSchema([Values(null, "testapp")] string? appName)
+        public async Task SchemaInitialized_ShouldThrowOnInvalidSchema([ValueSource(nameof(AppNames))] string? appName)
         {
             using DynamoDbEventStore store = new(DynamoDbConnection, appName);
 
@@ -53,30 +43,6 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
         }
 
         [Test]
-        public async Task QueryEvents_ShouldReturnOrderedResult([Values(1, 2, 3, 10)] int pageSize)
-        {
-            using DynamoDbEventStore store = new(DynamoDbConnection);
-
-            await store.InitSchema();
-
-            Event[] events =
-            [
-                new Event { FlowId = "flowId", EventId = "event_3", Arguments = "args_3", CreatedUtc = DateTime.UtcNow.AddSeconds(3) },
-                new Event { FlowId = "flowId", EventId = "event_2", Arguments = "args_2", CreatedUtc = DateTime.UtcNow.AddSeconds(2) },
-                new Event { FlowId = "flowId", EventId = "event_1", Arguments = "args_1", CreatedUtc = DateTime.UtcNow.AddSeconds(1) }
-            ];
-
-            foreach (Event e in events)
-            {
-                await store.SetEvent(e);
-            }
-
-            store.PageSize = pageSize;
-
-            Assert.That(events.Reverse().SequenceEqual(await store.QueryEvents("flowId").ToListAsync()));
-        }
-
-        [Test]
         public void Dispose_ShouldNotDisposeExternalClient()
         {
             Mock<IAmazonDynamoDB> mockDb = new(MockBehavior.Strict);
@@ -89,7 +55,6 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
         [Test]
         public void Dispose_ShouldDisposeInternalClient()
         {
-
             DynamoDbEventStore store = new(config: new AmazonDynamoDBConfig { ServiceURL = "http://localhost:8000" }, appName: null);
             store.Dispose();
 
@@ -101,14 +66,6 @@ namespace Solti.Utils.Eventing.DynamoDB.Tests
         {
             Assert.Throws<ArgumentNullException>(() => new DynamoDbEventStore(config: null!, appName: null));
             Assert.Throws<ArgumentNullException>(() => new DynamoDbEventStore(db: null!, appName: null));
-        }
-
-        [Test]
-        public void SetEvent_ShouldThrowOnNull()
-        {
-            using DynamoDbEventStore store = new(DynamoDbConnection);
-
-            Assert.Throws<ArgumentNullException>(() => store.SetEvent(null!));
         }
 
         [Test]
